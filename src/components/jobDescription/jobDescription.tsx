@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from '@react-native-vector-icons/ionicons';
+import Icon from 'react-native-vector-icons/Ionicons';
  
 export default function JobScreen() {
   return (
@@ -12,8 +12,8 @@ export default function JobScreen() {
         </View>
 
         <View style={styles.topSection}>
-          <Text style={styles.topText}>Vaga</Text>
-          <Text style={styles.topText}>Empresa</Text>
+          <TouchableOpacity style={styles.topText}>Vaga</TouchableOpacity>
+          <TouchableOpacity style={styles.topText}>Empresa</TouchableOpacity> 
         </View>
  
         <View style={styles.infoContainer}>
@@ -71,12 +71,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#1E1E1E',
     padding: 20,
-    borderRadius: 15,
-    borderWidth: 2,
-    borderColor: '#6a00ff',
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: '#6afff',
     shadowColor: '#6a00ff',
     shadowOpacity: 1,
-    shadowRadius: 20,
+    shadowRadius: 30,
     shadowOffset: { width: 0, height: 0 },
   },
   
@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
 
   topText: {
     color: '#fff',
+    fontFamily: 'arial',
     fontSize: 20,
     fontWeight: '300',
     textShadowOffset: { width: 0, height: 0 },
@@ -106,8 +107,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '500', // Fonte mais fina
     textShadowColor: '#6A35FF', // Cor do brilho neon
-    textShadowOffset: { width: 0, height: 0 }, // Direção do neon
-    textShadowRadius: 12, // Tamanho do efeito neon 
+    textShadowOffset: { width: 0, height: 0 }, // Direção da sombra
+    textShadowRadius: 12, // Tamanho do efeito neon ajustado
   },
 
   infoContainer: {
