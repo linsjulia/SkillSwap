@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
- 
+import Icon from '@react-native-vector-icons/ionicons';
+
 export default function JobScreen() {
   return (
     <View style={styles.neonBorder}>
@@ -12,8 +12,12 @@ export default function JobScreen() {
         </View>
 
         <View style={styles.topSection}>
-          <TouchableOpacity style={styles.topText}>Vaga</TouchableOpacity>
-          <TouchableOpacity style={styles.topText}>Empresa</TouchableOpacity> 
+          <TouchableOpacity style={styles.topButton}>
+            <Text style={styles.topText}>Vaga</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.topButton}>
+            <Text style={styles.topText}>Empresa</Text>
+          </TouchableOpacity> 
         </View>
  
         <View style={styles.infoContainer}>
@@ -73,10 +77,10 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 25,
     borderWidth: 1,
-    borderColor: '#6a0fff',
+    borderColor: '#6a00ff',
     shadowColor: '#6a00ff',
-    shadowOpacity: 1,
-    shadowRadius: 30,
+    shadowOpacity: 0.8,
+    shadowRadius: 20,
     shadowOffset: { width: 0, height: 0 },
   },
   
@@ -86,16 +90,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#6a00ff',
     paddingBottom: 6,
-    marginBottom: 1,
+    marginBottom: 10, 
+  },
+
+  topButton: {
+ 
   },
 
   topText: {
     color: '#fff',
-    fontFamily: 'arial',
+    fontFamily: 'Arial',
     fontSize: 20,
     fontWeight: '300',
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 8, 
   },
 
   header: {
@@ -103,12 +109,12 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: '#fff', // Texto branco
+    color: '#fff',
     fontSize: 24,
-    fontWeight: '500', // Fonte mais fina
-    textShadowColor: '#6A35FF', // Cor do brilho neon
-    textShadowOffset: { width: 0, height: 0 }, // Direção da sombra
-    textShadowRadius: 12, // Tamanho do efeito neon ajustado
+    fontWeight: '500',
+    textShadowColor: '#6a00ff',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 12,
   },
 
   infoContainer: {
@@ -122,7 +128,7 @@ const styles = StyleSheet.create({
   },
 
   infoText: {
-    color: '#fff', 
+    color: '#fff',
     marginLeft: 10,
     fontSize: 16,
   },
@@ -130,6 +136,7 @@ const styles = StyleSheet.create({
   description: {
     color: '#fff',
     marginVertical: 20,
+    lineHeight: 24,
   },
  
   requirements: {
@@ -141,10 +148,11 @@ const styles = StyleSheet.create({
   },
   
   resume: {
-    color: '#fff', 
+    color: '#fff',
     textShadowColor: '#6a00ff',
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 8,
+    marginVertical: 10,
   },
 
   button: {
@@ -168,6 +176,6 @@ const styles = StyleSheet.create({
     borderTopColor: '#6a00ff',
     paddingVertical: 10,
     marginTop: 'auto',
+    paddingHorizontal: 10,
   },
 });
- 
