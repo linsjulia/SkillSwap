@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 25,
     borderWidth: 1,
-    borderColor: '#6afff',
+    borderColor: '#6a0fff',
     shadowColor: '#6a00ff',
     shadowOpacity: 1,
     shadowRadius: 30,
