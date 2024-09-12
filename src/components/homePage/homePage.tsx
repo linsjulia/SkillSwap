@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router"; // Importando o componente Tabs do Expo Router
-import { View, Text, Image } from "react-native"; // Importando componentes básicos do React Native
+import { View, Text, Image, Pressable } from "react-native"; // Importando componentes básicos do React Native
 
 // Função para truncar a descrição se ela for muito longa
 function filterDesc(title: string) {
@@ -26,7 +26,7 @@ export function CardWork({ title, nameEnterprise, description }: Work) {
         shadowOpacity: 0.8, // Opacidade da sombra
         shadowRadius: 5, // Raio da sombra
       }}
-      className="bg-indigo-700 max-w-96 h-52 rounded-2xl items-center my-6"
+      className="bg-indigo-700 max-w-96 h-60 rounded-2xl items-center my-6"
     >
       <Text
         style={{
@@ -70,4 +70,16 @@ export function CardWork({ title, nameEnterprise, description }: Work) {
       </Text>
     </View>
   );
+}
+
+export function BotaoVagas(){
+  return(
+    <View>
+      <Pressable className="border bg-indigo-600 border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center" onPress={() => {}}>
+
+      </Pressable>
+
+    </View>
+  );
+
 }
