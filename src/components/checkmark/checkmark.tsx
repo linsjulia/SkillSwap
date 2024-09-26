@@ -1,12 +1,11 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
-import iconOK from 'src/assets/iconOK.png';
 
 export default function ConfirmationScreen() {
   return (
     <View style={styles.container}>
       <Image 
-        source={iconOK}  
+        source={require('../../assents/iconOk.png')}  
         style={styles.icon} 
       />
     </View>
