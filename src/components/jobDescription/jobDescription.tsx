@@ -61,6 +61,7 @@ export default function JobScreen() {
     </View>
   );
 }
+
  
 const styles = StyleSheet.create({
   neonBorder: {
