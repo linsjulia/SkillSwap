@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importando o componente de ícones FontAwesome do Expo vector icons
-import { library } from '@fortawesome/fontawesome-svg-core';
+import FontAwesome from '@expo/vector-icons/FontAwesome'; // Importando o componente de ícones FontAwesome do Expo vector icons
 
 
 
@@ -26,17 +25,17 @@ export default function JobDescription() {
  
         <View style={styles.infoContainer}>
           <View style={styles.infoRow}>
-          <FontAwesomeIcon icon="arrow-alt-right" style={{color: "#f2def7",}} />
+          <FontAwesome name="map"  size={28} color="#f2def7" />
             <Text style={styles.infoText}>São Paulo - SP a 17kms de você</Text>
           </View>
  
           <View style={styles.infoRow}>
-          <FontAwesomeIcon icon="arrow-down-square-triangle" style={{color: "#f2def7",}} />
+          <FontAwesome name="money"  size={28} color="#f2def7" />
             <Text style={styles.infoText}>R$ 2.500 Bruto mensal</Text>
           </View>
  
           <View style={styles.infoRow}>
-          <FontAwesomeIcon icon="airbnb" size="2xs" style={{color: "#B197FC",}} />
+          {/* <FontAwesomeIcon icon="a" size="2xs" style={{color: "#B197FC",}} /> */}
             <Text style={styles.infoText}>Presencial</Text>
           </View>
  
@@ -56,10 +55,11 @@ export default function JobDescription() {
         </View>
  
         <View style={styles.footer}>
-        <FontAwesomeIcon icon="airbnb" size="2xs" style={{color: "#B197FC",}} />
-        <FontAwesomeIcon icon="airbnb" size="2xs" style={{color: "#B197FC",}} />
-        <FontAwesomeIcon icon="airbnb" size="2xs" style={{color: "#B197FC",}} />
-        <FontAwesomeIcon icon="airbnb" size="2xs" style={{color: "#B197FC",}} />
+        <FontAwesome name="arrow-circle-left"  size={28} color="#f2def7" />
+        <FontAwesome name="arrow-circle-left"  size={28} color="#f2def7" />
+        <FontAwesome name="arrow-circle-left"  size={28} color="#f2def7" />
+        <FontAwesome name="arrow-circle-left"  size={28} color="#f2def7" />
+
         </View>
       </View>
     </View>
