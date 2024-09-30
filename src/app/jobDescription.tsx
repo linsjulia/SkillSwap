@@ -55,10 +55,10 @@ export default function JobDescription() {
         </View>
  
         <View style={styles.footer}>
-        <FontAwesome name="arrow-circle-left"  size={28} color="#f2def7" />
-        <FontAwesome name="arrow-circle-left"  size={28} color="#f2def7" />
-        <FontAwesome name="arrow-circle-left"  size={28} color="#f2def7" />
-        <FontAwesome name="arrow-circle-left"  size={28} color="#f2def7" />
+        <FontAwesome name="home"  size={28} color="#f2def7" />
+        <FontAwesome name="search"  size={28} color="#f2def7" />
+        <FontAwesome name="bell"  size={28} color="#f2def7" />
+        <FontAwesome name="user"  size={28} color="#f2def7" />
 
         </View>
       </View>

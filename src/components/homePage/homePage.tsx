@@ -2,6 +2,7 @@ import { router, Tabs } from "expo-router"; // Importando o componente Tabs do E
 import { View, Text, Image, Pressable } from "react-native"; // Importando componentes básicos do React Native
 import { useRouter } from 'expo-router'; 
 import { Router } from "expo-router";
+import { FontAwesome } from "@expo/vector-icons";
 
 // Função para truncar a descrição se ela for muito longa
 function filterDesc(title: string) {
@@ -84,11 +85,22 @@ export function CardWork({ title, nameEnterprise, description }: Work) {
 export function BotaoVagas(){
   return(
     <View>
-      <Pressable className="border bg-indigo-600 border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center" onPress={() => {}}>
+      <View>
+      <Pressable>
+
+        <FontAwesome name="arrow-circle-left" size={40} color="white"></FontAwesome>
 
       </Pressable>
+      </View>
+      <View className="justify-center">
+      <Pressable>
 
+        <FontAwesome name="apple" size={40} color="white"></FontAwesome>
+      </Pressable>
+
+      </View>
     </View>
+    
   );
 
 }
