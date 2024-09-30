@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import FontAwesome from '@expo/vector-icons/FontAwesome'; // Importando o componente de ícones FontAwesome do Expo vector icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importando o componente de ícones FontAwesome do Expo vector icons
+import { library } from '@fortawesome/fontawesome-svg-core';
+
 
 
 
@@ -24,17 +26,17 @@ export default function JobDescription() {
  
         <View style={styles.infoContainer}>
           <View style={styles.infoRow}>
-            <FontAwesome name="location-outline" size={24} color="#6a00ff" />
+          <FontAwesomeIcon icon="arrow-alt-right" style={{color: "#f2def7",}} />
             <Text style={styles.infoText}>São Paulo - SP a 17kms de você</Text>
           </View>
  
           <View style={styles.infoRow}>
-            <FontAwesome name="cash-outline" size={24} color="#6a00ff" />
+          <FontAwesomeIcon icon="arrow-down-square-triangle" style={{color: "#f2def7",}} />
             <Text style={styles.infoText}>R$ 2.500 Bruto mensal</Text>
           </View>
  
           <View style={styles.infoRow}>
-            <FontAwesome name="briefcase-outline" size={24} color="#6a00ff" />
+          <FontAwesomeIcon icon="airbnb" size="2xs" style={{color: "#B197FC",}} />
             <Text style={styles.infoText}>Presencial</Text>
           </View>
  
@@ -54,10 +56,10 @@ export default function JobDescription() {
         </View>
  
         <View style={styles.footer}>
-          <FontAwesome name="briefcase-outline" size={28} color="#6a00ff" />
-          <FontAwesome name="search" size={28} color="#6a00ff" /> 
-          <FontAwesome name="notifications-outline" size={28} color="#6a00ff" />
-          <FontAwesome name="person-outline" size={28} color="#6a00ff" />
+        <FontAwesomeIcon icon="airbnb" size="2xs" style={{color: "#B197FC",}} />
+        <FontAwesomeIcon icon="airbnb" size="2xs" style={{color: "#B197FC",}} />
+        <FontAwesomeIcon icon="airbnb" size="2xs" style={{color: "#B197FC",}} />
+        <FontAwesomeIcon icon="airbnb" size="2xs" style={{color: "#B197FC",}} />
         </View>
       </View>
     </View>
