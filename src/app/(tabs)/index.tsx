@@ -1,14 +1,14 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { BotaoVagas, CardWork } from "../../components/homePage/homePage";
 
 export default function Index() {
   return (
+    
     <View style={styles.neonBorder} >
-      
       <Text
         className=" py-9 text-4xl  relative  text-violet-50"
         style={{ fontFamily: "Inter", fontWeight: "bold" }}
-      >
+        >
         Feed de Vagas
       </Text>
       <View style={styles.container}>
@@ -17,12 +17,12 @@ export default function Index() {
         title="Desenvolvedor FullStack"
         nameEnterprise="Tata Solucoes"
         description="Estamos em busca de desenvolvedores de software habilidosos para se unirem à nossa equipe dinâmica...."
-      />
+        />
       <CardWork
         title="Desenvolvedor FullStack"
         nameEnterprise="Net Solutin"
         description="Estamos em busca de engenheiros de dados habilidosos para se unirem à nossa equipe dinâmica........"
-      />
+        />
       <BotaoVagas/>
       </View>
       </View>

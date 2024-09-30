@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from '@react-native-vector-icons/ionicons';
+import FontAwesome from '@expo/vector-icons/FontAwesome'; // Importando o componente de ícones FontAwesome do Expo vector icons
 
-export default function JobScreen() {
+
+
+export default function JobDescription() {
   return (
     <View style={styles.neonBorder}>
       <View style={styles.container}>
@@ -22,17 +24,17 @@ export default function JobScreen() {
  
         <View style={styles.infoContainer}>
           <View style={styles.infoRow}>
-            <Icon name="location-outline" size={24} color="#6a00ff" />
+            <FontAwesome name="location-outline" size={24} color="#6a00ff" />
             <Text style={styles.infoText}>São Paulo - SP a 17kms de você</Text>
           </View>
  
           <View style={styles.infoRow}>
-            <Icon name="cash-outline" size={24} color="#6a00ff" />
+            <FontAwesome name="cash-outline" size={24} color="#6a00ff" />
             <Text style={styles.infoText}>R$ 2.500 Bruto mensal</Text>
           </View>
  
           <View style={styles.infoRow}>
-            <Icon name="briefcase-outline" size={24} color="#6a00ff" />
+            <FontAwesome name="briefcase-outline" size={24} color="#6a00ff" />
             <Text style={styles.infoText}>Presencial</Text>
           </View>
  
@@ -52,10 +54,10 @@ export default function JobScreen() {
         </View>
  
         <View style={styles.footer}>
-          <Icon name="briefcase-outline" size={28} color="#6a00ff" />
-          <Icon name="search" size={28} color="#6a00ff" /> 
-          <Icon name="notifications-outline" size={28} color="#6a00ff" />
-          <Icon name="person-outline" size={28} color="#6a00ff" />
+          <FontAwesome name="briefcase-outline" size={28} color="#6a00ff" />
+          <FontAwesome name="search" size={28} color="#6a00ff" /> 
+          <FontAwesome name="notifications-outline" size={28} color="#6a00ff" />
+          <FontAwesome name="person-outline" size={28} color="#6a00ff" />
         </View>
       </View>
     </View>

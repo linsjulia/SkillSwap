@@ -1,6 +1,7 @@
-import { Tabs } from "expo-router"; // Importando o componente Tabs do Expo Router
+import { router, Tabs } from "expo-router"; // Importando o componente Tabs do Expo Router
 import { View, Text, Image, Pressable } from "react-native"; // Importando componentes básicos do React Native
 import { useRouter } from 'expo-router'; 
+import { Router } from "expo-router";
 
 // Função para truncar a descrição se ela for muito longa
 function filterDesc(title: string) {
@@ -19,14 +20,13 @@ interface Work {
 
 // Componente que exibe um cartão com informações sobre um trabalho
 export function CardWork({ title, nameEnterprise, description }: Work) {
-  const router = useRouter(); 
 
-  const handlePress = () => {
-    router.push('../jobDescription');
-  };
+  // const handlePress = () => {
+  //   router.push('./jobDescription');
+  // };
 
   return (
-    <Pressable onPress={handlePress}>
+    <Pressable onPress={() => router.push('/jobDescription')}>
     <View
       style={{
         shadowColor: "cyan", // Cor da sombra
