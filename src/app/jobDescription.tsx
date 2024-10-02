@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import FontAwesome from '@expo/vector-icons/FontAwesome'; // Importando o componente de ícones FontAwesome do Expo vector icons
+import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { router, Tabs } from "expo-router";  // Importando o componente de ícones FontAwesome do Expo vector icons
 
 export default function JobDescription() {
   return (
@@ -47,7 +48,9 @@ export default function JobDescription() {
           <Text style={styles.resume}>Resumo</Text>
  
           <TouchableOpacity style={styles.button}>
+          <Pressable onPress={() => router.push('/curriculum')}>
             <Text style={styles.buttonText}>Candidatar-me</Text>
+          </Pressable>
           </TouchableOpacity>
         </View>
  

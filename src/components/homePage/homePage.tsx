@@ -1,7 +1,6 @@
 import { router, Tabs } from "expo-router"; // Importando o componente Tabs do Expo Router
 import { View, Text, Image, Pressable } from "react-native"; // Importando componentes básicos do React Native
 import { useRouter } from 'expo-router'; 
-import { Router } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 
 // Função para truncar a descrição se ela for muito longa
