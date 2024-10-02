@@ -34,16 +34,16 @@ export default function JobPostForm() {
 
       <View style={styles.footer}>
         <TouchableOpacity style={styles.iconButton}>
-          <FontAwesome name="newspaper-o" size={35} color="#6a00ff" /> {/* Jornal */}
+          <FontAwesome name="newspaper-o" size={35} color="#8A2BE2" /> {/* Jornal */}
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconButton}>
-          <FontAwesome name="pencil" size={35} color="#6a00ff" /> {/* Lápis */}
+          <FontAwesome name="pencil" size={35} color="#8A2BE2" /> {/* Lápis */}
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconButton}>
-          <FontAwesome name="file-text" size={35} color="#6a00ff" /> {/* Folha */}
+          <FontAwesome name="file-text" size={35} color="#8A2BE2" /> {/* Folha */}
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconButton}>
-          <FontAwesome name="building" size={35} color="#6a00ff" /> {/* Empresa */}
+          <FontAwesome name="building" size={35} color="#8A2BE2" /> {/* Empresa */}
         </TouchableOpacity>
       </View>
     </View>
@@ -59,12 +59,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   container: {
+    flex: 1,
     backgroundColor: '#1E1E1E',
     padding: 20,
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: '#6a00ff',
-    shadowColor: '#6a00ff',
+    borderColor: '#8A2BE2',
+    shadowColor: '#8A2BE2',
     shadowOpacity: 0.8,
     shadowRadius: 20,
     shadowOffset: { width: 0, height: 0 },
