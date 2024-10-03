@@ -100,7 +100,35 @@ export default function RootLayout() {
           },
         }}
       />
-   
+      <Stack.Screen
+        name="jobDescription"
+        options={{
+          title: "Skill Swap",
+          headerStyle: {
+            backgroundColor: "#212121",
+          },
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontFamily: "Inter",
+            fontWeight: "bold",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="curriculum"
+        options={{
+          title: "Skill Swap",
+          headerStyle: {
+            backgroundColor: "#212121",
+          },
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontFamily: "Inter",
+            fontWeight: "bold",
+          },
+        }}
+      />
+     
     </Stack>
   );
 }
