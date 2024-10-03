@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Pressable } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
+import { router } from "expo-router"; 
 
 interface Formacao {
   nome: string;
@@ -146,8 +147,10 @@ export default function CurriculumScreen() {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+      <TouchableOpacity style={styles.button}>
+      <Pressable onPress={() => router.push('/')}>
         <Text style={styles.buttonText}>Confirmar</Text>
+      </Pressable>
       </TouchableOpacity>
     </ScrollView>
   );
