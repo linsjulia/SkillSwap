@@ -1,7 +1,6 @@
-import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Pressable, ScrollView } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { router } from "expo-router";
+import { router } from "expo-router";  // Importando o componente de ícones FontAwesome do Expo vector icons
 
 export default function JobDescription() {
   return (
