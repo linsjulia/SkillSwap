@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
+import { router } from "expo-router";
 
 export default function ConfirmationScreen() {
   return (
