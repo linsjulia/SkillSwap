@@ -20,11 +20,6 @@ interface Work {
 
 // Componente que exibe um cartão com informações sobre um trabalho
 export function CardWork({ title, nameEnterprise, description }: Work) {
-
-  // const handlePress = () => {
-  //   router.push('./jobDescription');
-  // };
-
   return (
     <Pressable onPress={() => router.push('/jobDescription')}>
     <View

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Pressable, ScrollView } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { router } from "expo-router";  // Importando o componente de ícones FontAwesome do Expo vector icons
+import { router } from "expo-router";
 
 export default function JobDescription() {
   return (
@@ -22,12 +22,12 @@ export default function JobDescription() {
 
         <View style={styles.infoContainer}>
           <View style={styles.infoRow}>
-            <FontAwesome name="map" size={28} color="#f2def7" />
+            <FontAwesome name="map" size={24} color="#f2def7" />
             <Text style={styles.infoText}>São Paulo - SP a 17kms de você</Text>
           </View>
 
           <View style={styles.infoRow}>
-            <FontAwesome name="money" size={28} color="#f2def7" />
+            <FontAwesome name="money" size={24} color="#f2def7" />
             <Text style={styles.infoText}>R$ 2.500 Bruto mensal</Text>
           </View>
 
@@ -53,10 +53,10 @@ export default function JobDescription() {
         </View>
 
         <View style={styles.footer}>
-          <FontAwesome name="home" size={28} color="#f2def7" />
-          <FontAwesome name="search" size={28} color="#f2def7" />
-          <FontAwesome name="bell" size={28} color="#f2def7" />
-          <FontAwesome name="user" size={28} color="#f2def7" />
+          <FontAwesome name="home" size={24} color="#f2def7" />
+          <FontAwesome name="search" size={24} color="#f2def7" />
+          <FontAwesome name="bell" size={24} color="#f2def7" />
+          <FontAwesome name="user" size={24} color="#f2def7" />
         </View>
       </ScrollView>
     </View>
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   topText: {
     color: '#fff',
     fontFamily: 'Arial',
-    fontSize: 20,
+    fontSize: 18, // Reduzido para um tamanho mais responsivo
     fontWeight: '300',
   },
 
