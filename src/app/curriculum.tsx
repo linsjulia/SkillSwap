@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
 
   title: {
     color: '#fff',
-    fontFamily: 'arial',
+    fontFamily: '',
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',

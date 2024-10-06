@@ -58,7 +58,7 @@ export function OthersLogins() {
     <Pressable className="mt-16">
       <Text
         className="text-gray-300 text-center"
-        style={{ fontFamily: "Inter", fontWeight: "700", letterSpacing: 1.3 }}
+        style={{ fontFamily: "", fontWeight: "700", letterSpacing: 1.3 }}
       >
         ou logue com
       </Text>
@@ -95,7 +95,7 @@ export function CreateAccount() {
       >
         <Text
           style={{
-            fontFamily: "Inter", // Família da fonte
+            fontFamily: "", // Família da fonte
             fontWeight: "700", // Peso da fonte
             letterSpacing: 1.3, // Espaçamento entre letras
           }}
@@ -106,7 +106,7 @@ export function CreateAccount() {
         <Text
           className="text-indigo-400 text-center mt-2"
           style={{
-            fontFamily: "Inter", // Família da fonte
+            fontFamily: "", // Família da fonte
             fontWeight: "700", // Peso da fonte
             letterSpacing: 1.3, // Espaçamento entre letras
           }}

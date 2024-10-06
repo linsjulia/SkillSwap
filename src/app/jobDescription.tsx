@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   
   topText: {
     color: '#fff',
-    fontFamily: 'Arial',
+    fontFamily: '',
     fontSize: 18, // Reduzido para um tamanho mais responsivo
     fontWeight: '300',
   },
