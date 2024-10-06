@@ -142,6 +142,20 @@ export default function RootLayout() {
           },
         }}
       />
+      <Stack.Screen
+        name="telaProcuraVagasPJ"
+        options={{
+          title: "Skill Swap",
+          headerStyle: {
+            backgroundColor: "#212121",
+          },
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontFamily: "Inter",
+            fontWeight: "bold",
+          },
+        }}
+      />
     </Stack>
   );
 }

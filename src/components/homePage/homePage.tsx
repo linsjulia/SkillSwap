@@ -1,5 +1,5 @@
 import { router, Tabs } from "expo-router"; // Importando o componente Tabs do Expo Router
-import { View, Text, Image, Pressable } from "react-native"; // Importando componentes básicos do React Native
+import { View, Text, Image, Pressable, StyleSheet } from "react-native"; // Importando componentes básicos do React Native
 import { useRouter } from 'expo-router'; 
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -21,10 +21,10 @@ interface Work {
 // Componente que exibe um cartão com informações sobre um trabalho
 export function CardWork({ title, nameEnterprise, description }: Work) {
   return (
-    <Pressable onPress={() => router.push('/jobDescription')}>
+    <Pressable onPress={() => router.push('/telaProcuraVagasPJ')}>
     <View
       style={{
-        shadowColor: "cyan", // Cor da sombra
+        shadowColor: "white", // Cor da sombra
         shadowOffset: { width: -2, height: 4 }, // Deslocamento da sombra
         shadowOpacity: 0.8, // Opacidade da sombra
         shadowRadius: 5, // Raio da sombra
@@ -37,7 +37,7 @@ export function CardWork({ title, nameEnterprise, description }: Work) {
           fontWeight: 700, // Peso da fonte
           letterSpacing: 1, // Espaçamento entre letras
         }}
-        className="text-center text-white text-2xl mt-3"
+        className="text-center text-white text-xl mt-3"
       >
         {title}
       </Text>
@@ -79,22 +79,25 @@ export function CardWork({ title, nameEnterprise, description }: Work) {
 export function BotaoVagas(){
   return(
     <View>
-      <View>
-      <Pressable>
-
-        <FontAwesome name="arrow-circle-left" size={40} color="white"></FontAwesome>
-
-      </Pressable>
-      </View>
-      <View className="justify-center">
-      <Pressable>
-
-        <FontAwesome name="apple" size={40} color="white"></FontAwesome>
-      </Pressable>
-
+      <View style={styles.navigationArrows}>
+        <FontAwesome name="arrow-left" size={24} color="#6f00ff"></FontAwesome>
+        <FontAwesome name="arrow-right" size={24} color="#6f00ff"></FontAwesome>    
+    
       </View>
     </View>
     
   );
 
 }
+
+const styles = StyleSheet.create({
+  navigationArrows: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '50%',
+    alignSelf: 'center',
+    marginTop: 20,
+    top: -40,
+  },
+ 
+});
