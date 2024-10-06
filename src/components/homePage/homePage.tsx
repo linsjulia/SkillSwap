@@ -21,7 +21,7 @@ interface Work {
 // Componente que exibe um cartão com informações sobre um trabalho
 export function CardWork({ title, nameEnterprise, description }: Work) {
   return (
-    <Pressable onPress={() => router.push('/telaProcuraVagasPJ')}>
+    <Pressable onPress={() => router.push('/jobDescription')}>
     <View
       style={{
         shadowColor: "white", // Cor da sombra
