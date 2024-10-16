@@ -1,23 +1,35 @@
 import { Feather } from "@expo/vector-icons";
-import { TextInput, View } from "react-native";
+import { TextInput, View, Text } from "react-native";
+import { useForm, Controller } from 'react-hook-form';
 
 export interface RequisitosCampoDeTexto{
   placaholder:string
 }
 
-
-
-
 export function InputsText({placaholder}: RequisitosCampoDeTexto){
+  const { control, handleSubmit, formState: {errors} } = useForm({
+    defaultValues:{
+      firstName: '',
+      lastName: ''
+    }
+  });
+
   return (
     <View>
-
-    <TextInput
-
-          placeholderTextColor="white"
-          placeholder={placaholder}
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: {onChange, onBlur, value}}) => (
+            <TextInput
+            placeholderTextColor="white"
+            placeholder={placaholder}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
           
-          className="border  border-indigo-600 text-white color w-96 rounded-full h-14 text-left px-6 my-4"
+            className="border  border-indigo-600 text-white color w-96 rounded-full h-14 text-left px-6 my-4"
           style={{
             fontFamily: "Inter",
             fontWeight: "700",
@@ -28,7 +40,24 @@ export function InputsText({placaholder}: RequisitosCampoDeTexto){
             shadowRadius: 3,
           }}
           ></TextInput>
-          </View>
+     )}
+     name="firstName" 
+   />
+    {errors.firstName && <Text>Isso é obrigatório</Text>}
+        
+        <Controller
+        control={control}
+        rules={{
+          maxLength: 100,
+        }}
+        render={({ field: {onChange, onBlur, value}}) => (
+          
+        
+        
+        )}
+        
+        />
+    </View>
   )
 }
 
