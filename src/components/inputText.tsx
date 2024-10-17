@@ -10,7 +10,7 @@ export function InputsText({placaholder}: RequisitosCampoDeTexto){
   const { control, handleSubmit, formState: {errors} } = useForm({
     defaultValues:{
       firstName: '',
-      lastName: ''
+      
     }
   });
 
@@ -45,30 +45,35 @@ export function InputsText({placaholder}: RequisitosCampoDeTexto){
    />
     {errors.firstName && <Text>Isso é obrigatório</Text>}
         
+        
+    </View>
+  )
+}
+
+export function InputsPassword({placaholder}: RequisitosCampoDeTexto){
+  const { control, handleSubmit, formState: {errors} } = useForm({
+    defaultValues:{
+      lastName: '',
+      
+    }
+  });
+
+  return (
+    <View>
         <Controller
         control={control}
         rules={{
           maxLength: 100,
         }}
         render={({ field: {onChange, onBlur, value}}) => (
-          
-        
-        
-        )}
-        
-        />
-    </View>
-  )
-}
-
-export function InputsPassword({placaholder}: RequisitosCampoDeTexto){
-  return (
-    <View>
-
-    <TextInput
+          <TextInput
           secureTextEntry
           placeholderTextColor="white"
           placeholder={placaholder}
+          onBlur={onBlur}
+          onChangeText={onChange}
+          value={value}
+
           className="border  border-indigo-600 text-white color w-96 rounded-full h-14 text-left px-6 my-4"
           style={{
             fontFamily: "Inter",
@@ -80,6 +85,12 @@ export function InputsPassword({placaholder}: RequisitosCampoDeTexto){
             shadowRadius: 3,
           }}
           ></TextInput>
-          </View>
+        
+        
+        )}
+        name="lastName"   
+        />
+        {errors.lastName && <Text>Isso é obrigatório</Text>}
+    </View>
   )
 }
