@@ -3,7 +3,7 @@ import { Title } from "./Title";
 import { Option } from "./Option";
 import { Switch } from "./Switch";
 import { useState } from "react";
-import { Checkbox } from "../Checkbox";
+import { Checkbox } from "../../Checkbox";
 
 export function Preferences(){
   const [isEnabled,setIsEnabled] = useState(false);

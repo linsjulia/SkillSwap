@@ -1,5 +1,5 @@
-import { InfoProfile, ReadOnlyInput, SaveButton } from "@/src/components/profile/profileComponents";
-import { User } from "@/src/components/profile/User";
+import { InfoProfile, ReadOnlyInput, SaveButton } from "@/src/components/user/profile/profileComponents";
+import { User } from "@/src/components/user/profile/User";
 import { View, Text, Image, ScrollView } from "react-native";
 
 export default function Profile() {
