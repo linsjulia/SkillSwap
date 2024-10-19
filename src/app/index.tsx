@@ -45,7 +45,7 @@ export default function Login() {
           }}
           render={({ field: {  onChange, onBlur, value } }) => (
             <InputsText 
-            placholder="Email:"
+            placaholder="Email:"
             onBlur = {onBlur}
             onChangeText={onChange}
             value={value}

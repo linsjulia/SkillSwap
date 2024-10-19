@@ -38,14 +38,16 @@ const email = selectedTab === CustomTab.Tab1 ? "E-mail:" : "E-mail corporativo:"
         selectedTab={selectedTab} // Passa a aba selecionada
         SetselectedTab={setSelectedTab} // Função para alterar a aba selecionada
         />
-      <InputsText placeholder={nome}/>
-      <InputsText placeholder={documento}/>
-      <InputsText placeholder={contato}/>
-      <InputsText placeholder={data}/>
-      <InputsText placeholder={email}/>
-      <InputsPassword placeholder="Senha:"/>
+      <InputsText placaholder={nome}/>
+      <InputsText placaholder={documento}/>
+      <InputsText placaholder={contato}/>
+      <InputsText placaholder={data}/>
+      <InputsText placaholder={email}/>
+      <InputsPassword placaholder="Senha:"/>
       <Checkbox label="Aceito os termos de uso do aplicativo."/>
-      <RegisterLogin text="Criar conta"/>
+      <RegisterLogin text="Criar conta" onPress={function (): void {
+        throw new Error("Function not implemented.");
+      } }/>
       <LoginAccount/>
 
     </View>
