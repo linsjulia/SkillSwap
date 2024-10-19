@@ -44,7 +44,7 @@ export function CardWork({ title, nameEnterprise, description }: Work) {
 
       <View className="w-30 h-11 flex-row items-center relative right-20">
         <Image
-          source={require('../../assets/tata.png')} // Imagem a ser exibida
+          source={require('../../../assets/tata.png')} // Imagem a ser exibida
           resizeMode="center" // Modo de redimensionamento da imagem
           width={32} // Largura da imagem
           height={32} // Altura da imagem

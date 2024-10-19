@@ -50,7 +50,6 @@ export default function JobDescription() {
             </Pressable>
           </TouchableOpacity>
         </View>
-
         <View style={styles.footer}>
           <FontAwesome name="home" size={24} color="#f2def7" />
           <FontAwesome name="search" size={24} color="#f2def7" />
@@ -60,7 +59,9 @@ export default function JobDescription() {
       </ScrollView>
     </View>
   );
+     
 }
+
 
 const styles = StyleSheet.create({
   neonBorder: {
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#000',
-    padding: 10,
+    padding: 5,
   },
 
   container: {

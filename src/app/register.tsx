@@ -38,12 +38,12 @@ const email = selectedTab === CustomTab.Tab1 ? "E-mail:" : "E-mail corporativo:"
         selectedTab={selectedTab} // Passa a aba selecionada
         SetselectedTab={setSelectedTab} // Função para alterar a aba selecionada
         />
-      <InputsText placaholder={nome}/>
-      <InputsText placaholder={documento}/>
-      <InputsText placaholder={contato}/>
-      <InputsText placaholder={data}/>
-      <InputsText placaholder={email}/>
-      <InputsPassword placaholder="Senha:"/>
+      <InputsText placeholder={nome}/>
+      <InputsText placeholder={documento}/>
+      <InputsText placeholder={contato}/>
+      <InputsText placeholder={data}/>
+      <InputsText placeholder={email}/>
+      <InputsPassword placeholder="Senha:"/>
       <Checkbox label="Aceito os termos de uso do aplicativo."/>
       <RegisterLogin text="Criar conta"/>
       <LoginAccount/>

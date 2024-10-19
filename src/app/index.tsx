@@ -11,8 +11,8 @@ export default function Login() {
     <View className="flex-1 bg-neutral-900">
       <Text className=" py-9 text-4xl ml-12 relative top-7 text-indigo-500" style={{ fontFamily: "",fontWeight: "bold",}} > Login </Text>
       <View className="flex-1 items-center mt-11">
-      <InputsText placaholder="Email:"/>
-      <InputsPassword placaholder="Senha:"/>
+      <InputsText placeholder="Email:"/>
+      <InputsPassword placeholder="Senha:"/>
       <ButtonLogin text="Login"/>
       <ResetPassword/>
       <OthersLogins/>
