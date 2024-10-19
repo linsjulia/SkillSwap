@@ -11,10 +11,10 @@ interface LoginFormData {
 }
 
 export default function Login() {
-  //const [loaded, error] = useFonts({
-   // Inter: require("../../assets/fonts/Inter.ttf"),
+  const [loaded, error] = useFonts({
+   Inter: require("../../assets/fonts/Inter.ttf"),
     
-  //});
+  });
 
   const { control, handleSubmit, formState: { errors }, watch } = useForm<LoginFormData> ({
     defaultValues: {
