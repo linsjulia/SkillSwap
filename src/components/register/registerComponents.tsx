@@ -132,7 +132,7 @@ export function LoginAccount() {
           Ja possui sua conta?
         </Text>
         <Text
-          className="text-teal-400 text-center mt-1 pb-16"
+          className="text-indigo-600 text-center mt-1 pb-16"
           style={{
             fontFamily: "Inter",
             fontWeight: "700", 
@@ -158,10 +158,11 @@ export function RegisterLogin({ text }: TextButton) {
           fontFamily: "Inter",
           fontWeight: "700",
           letterSpacing: 1.5,
-          shadowColor: "cyan",
+          shadowColor: "#6a00ff",
           shadowOffset: { width: -2, height: 4 },
           shadowOpacity: 0.4,
           shadowRadius: 3,
+          
         }}
       >
         {text}

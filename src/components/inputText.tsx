@@ -7,9 +7,10 @@ export interface RequisitosCampoDeTexto{
   onBlur?: () => void; 
   onChangeText?: (text: string) => void;
   value?: string;
+  style?: object;
 }
 
-export function InputsText({placaholder, ... rest}: RequisitosCampoDeTexto){
+export function InputsText({placaholder, style, ... rest}: RequisitosCampoDeTexto){
 
 
   return (
@@ -19,22 +20,21 @@ export function InputsText({placaholder, ... rest}: RequisitosCampoDeTexto){
             placeholder={placaholder}
             {... rest}
             className="border  border-indigo-600 text-white color w-96 rounded-full h-14 text-left px-6 my-4"
-          style={{
-            fontFamily: "Inter",
-            fontWeight: "700",
-            letterSpacing: 1.3,
-            shadowColor: "cyan",
-            shadowOffset: { width: -2, height: 4 },
-            shadowOpacity: 0.4,
-            shadowRadius: 3,
-          }}
+            style={[{ fontFamily: "Inter",
+              fontWeight: "700",
+              letterSpacing: 1.3,
+              shadowColor: "cyan",
+              shadowOffset: { width: -2, height: 4 },
+              shadowOpacity: 0.4,
+              shadowRadius: 3,},  style]} 
+         
           ></TextInput>
         
     </View>
   );
 }
 
-export function InputsPassword({placaholder, ... rest}: RequisitosCampoDeTexto){
+export function InputsPassword({placaholder, style, ... rest}: RequisitosCampoDeTexto){
 
 
   return (
@@ -46,15 +46,14 @@ export function InputsPassword({placaholder, ... rest}: RequisitosCampoDeTexto){
           placeholderTextColor="white"
           placeholder={placaholder}
           className="border  border-indigo-600 text-white color w-96 rounded-full h-14 text-left px-6 my-4"
-          style={{
+          style={[{
             fontFamily: "Inter",
             fontWeight: "700",
             letterSpacing: 1.3,
             shadowColor: "cyan",
             shadowOffset: { width: -2, height: 4 },
             shadowOpacity: 0.4,
-            shadowRadius: 3,
-          }}
+            shadowRadius: 3,}, style]}
           ></TextInput>
   
     </View>
