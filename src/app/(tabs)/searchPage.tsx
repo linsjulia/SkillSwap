@@ -1,4 +1,4 @@
-import { SearchInput } from "@/src/components/searchPage/searchPageComponents";
+import { SearchInput } from "@/src/components/user/searchPage/searchPageComponents";
 import { Text, View } from "react-native";
 
 export default function SearchPage(){

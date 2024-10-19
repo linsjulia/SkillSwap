@@ -9,7 +9,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { TextButton } from "../login/loginComponets";
+import { TextButton } from "../../login/loginComponets";
 
 
 export type TabButtonsType = {

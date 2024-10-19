@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import { BotaoVagas, CardWork } from "../../components/homePage/homePage";
+import { BotaoVagas, CardWork } from "../../components/user/homePage/homePage";
 
 export default function Index() {
   return (
