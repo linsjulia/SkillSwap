@@ -12,13 +12,7 @@ export interface TextButton {
 
 // Componente de botão de login
 export function ButtonLogin({ text }: TextButton) {
-  const { control, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: {
-      firstName: '',
-      lastName: ''
-    }
-  });
-  const onSubmit = data => console.log(data);
+
   
   return (
     <Pressable
