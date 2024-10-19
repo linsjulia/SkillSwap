@@ -34,13 +34,14 @@ export function InputsText({placaholder, ... rest}: RequisitosCampoDeTexto){
   )
 }
 
-export function InputsPassword({placaholder}: RequisitosCampoDeTexto){
+export function InputsPassword({placaholder, ... rest}: RequisitosCampoDeTexto){
 
 
   return (
     <View>
        
           <TextInput
+          {... rest}
           secureTextEntry
           placeholderTextColor="white"
           placeholder={placaholder}

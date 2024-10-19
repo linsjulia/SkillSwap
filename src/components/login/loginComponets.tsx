@@ -8,19 +8,18 @@ import { useForm, Controller } from 'react-hook-form'
 // Definindo a interface para o componente ButtonLogin
 export interface TextButton {
   text: string; // Propriedade de texto do botão
+  onPress: () => void;
 }
 
 // Componente de botão de login
-export function ButtonLogin({ text }: TextButton) {
+export function ButtonLogin({ text, onPress }: TextButton) {
 
   
   return (
     <Pressable
     
       className="text-gray-300 border bg-indigo-600 border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center"
-      onPress={() => {
-        
-        router.replace("/(tabs)")}} // Navegando para a rota "/(tabs)" ao pressionar o botão
+      onPress={onPress}// Navegando para a rota "/(tabs)" ao pressionar o botão
     >
       <Text
         className="text-white text-2xl"
