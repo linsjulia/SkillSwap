@@ -1,7 +1,12 @@
+import app from '../firebaseConfig'; // Ajuste o caminho conforme necessário
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc, Timestamp } from "firebase/firestore";
 
-// tipos para as entradas
+// Inicializa Auth e Firestore
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Tipos para as entradas
 interface CompanyData {
   email: string;
   password: string;
@@ -18,14 +23,10 @@ interface UserData {
   telefone: string;
   dataNascimento: Date;
   cpf: string;
-  senha: string; 
 }
 
-const auth = getAuth();
-const db = getFirestore();
-
 // Registro da empresa
-async function registerCompany({ email, password, nome, endereco, telefone, cnpj }: CompanyData) {
+export async function registerCompany({ email, password, nome, endereco, telefone, cnpj }: CompanyData) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
@@ -46,7 +47,7 @@ async function registerCompany({ email, password, nome, endereco, telefone, cnpj
 }
 
 // Registro do usuário
-async function registerUser({ email, password, nome, telefone, dataNascimento, cpf, senha }: UserData) {
+export async function registerUser({ email, password, nome, telefone, dataNascimento, cpf }: UserData) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
@@ -57,7 +58,7 @@ async function registerUser({ email, password, nome, telefone, dataNascimento, c
       email,
       telefone,
       data_nascimento: dataNascimento,
-      senha,
+      // Senha não deve ser armazenada no Firestore por motivos de segurança
     });
 
     console.log("Usuário registrado com sucesso!");
@@ -65,3 +66,4 @@ async function registerUser({ email, password, nome, telefone, dataNascimento, c
     console.error("Erro ao registrar usuário: ", error);
   }
 }
+

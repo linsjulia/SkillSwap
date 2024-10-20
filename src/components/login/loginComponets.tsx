@@ -1,4 +1,4 @@
-import { Pressable, Text, View, Image, Button } from "react-native"; // Importando componentes do React Native
+import { ScrollView, Pressable, Text, View, Image, Button } from "react-native"; // Importando componentes do React Native
 import { router, useRouter } from "expo-router"; // Importando funções de roteamento do Expo Router
 import React from 'react'; // Importando o React
 import LinearGradient from 'react-native-linear-gradient';
@@ -13,11 +13,9 @@ export interface TextButton {
 
 // Componente de botão de login
 export function ButtonLogin({ text, onPress }: TextButton) {
-
-  
   return (
-    <Pressable
     
+    <Pressable
       className="text-gray-300 border bg-indigo-600 border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center"
       onPress={onPress}// Navegando para a rota "/(tabs)" ao pressionar o botão
     >
@@ -74,6 +72,7 @@ export function OthersLogins() {
 // Componente para exibir imagens de empresas
 export function ImagesEnterprise() {
   return (
+    
     <View className="flex-row gap-10 items-center">
       <Pressable className="mt-3 bg-neutral-800 py-3 px-8 rounded-xl">
         <Image source={require("../../assets/google.png")} />
