@@ -1,4 +1,5 @@
-import { Text , View, StyleSheet } from "react-native";
+import { Text , View, StyleSheet, Alert, ActivityIndicator } from "react-native";
+import { useState } from "react";
 import { useFonts } from "expo-font";
 import { InputsPassword, InputsText } from "../components/inputText";
 import { ButtonLogin, CreateAccount, ImagesEnterprise, OthersLogins, ResetPassword } from "../components/login/loginComponets";
@@ -6,6 +7,8 @@ import { useForm, Controller } from "react-hook-form";
 import { useRouter, router } from "expo-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from 'yup';
+import { auth } from "../firebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 interface LoginFormData {
   email: string;
@@ -17,6 +20,8 @@ export default function Login() {
    Inter: require("../../assets/fonts/Inter.ttf"),
     
   });
+
+  const [loading, setLoading] = useState(false);
 
   const schema = yup.object({
     email: yup.string().required("Informe seu email"),
@@ -35,9 +40,19 @@ export default function Login() {
 
   const router = useRouter();
 
-  const onSubmit = (data: LoginFormData) => {
-    router.replace("/(tabs)");
-    
+  const onSubmit = async (data: LoginFormData) => {
+    setLoading(true);
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
+      const user = userCredential.user;
+      Alert.alert("Login bem-sucedido", `Bem-vindo,  ${user.email}`);
+      router.replace("/(tabs)");
+    } catch (error) {
+      const errorMessage = (error as Error).message;
+      Alert.alert("Erro ao fazer login", errorMessage);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const emailValue = watch("email");
@@ -94,8 +109,9 @@ export default function Login() {
           name='password'
           />
           {errors.password && <Text style={styles.labelError} className="color-red-600">{errors.password?.message}</Text>}
-      
+          {loading && <ActivityIndicator size='large' color="#4c00fff" style={{ marginTop: 20 }} />}
       <ButtonLogin text="Login" onPress={handleSubmit(onSubmit)}/>
+   
 
       <ResetPassword/>
       <OthersLogins/>
