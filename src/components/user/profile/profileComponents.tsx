@@ -77,9 +77,11 @@ export function InfoProfile ({name,email,bday}: ProfileProps){
   )
 }
 
-export function SaveButton({ text }: TextButton) {
+export function SaveButton({ text, onPress }: TextButton) {
   return (
-    <Pressable className="text-gray-300 border bg-indigo-600 border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center">
+    <Pressable
+    onPress={onPress} 
+    className="text-gray-300 border bg-indigo-600 border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center">
       <Text
         className=" text-white text-2xl"
         style={{
@@ -96,4 +98,30 @@ export function SaveButton({ text }: TextButton) {
       </Text>
     </Pressable>
   );
+
+ 
+}
+
+export function ExitButton({ text, onPress }: TextButton) {
+  return (
+    <Pressable
+    onPress={onPress}
+    className="text-gray-300 border bg-indigo-600 border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center"
+    >
+      <Text
+      className=" text-white text-2xl"
+      style={{
+        fontFamily: "Inter",
+        fontWeight: "700",
+        letterSpacing: 1.5,
+        shadowColor: "cyan",
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.4,
+        shadowRadius: 3,
+      }}
+      >
+        {text}
+      </Text>
+    </Pressable>
+  )
 }

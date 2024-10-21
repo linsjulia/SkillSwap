@@ -21,7 +21,7 @@ interface UserData {
   password: string;
   nome: string;
   telefone: string;
-  dataNascimento: Date;
+  dataNascimento: string;
   cpf: string;
 }
 
@@ -31,7 +31,7 @@ export async function registerCompany({ email, password, nome, endereco, telefon
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    await setDoc(doc(db, "empresas", user.uid), {
+    await setDoc(doc(db, "Empresa", user.uid), {
       nome,
       cnpj,
       email,
@@ -52,7 +52,7 @@ export async function registerUser({ email, password, nome, telefone, dataNascim
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    await setDoc(doc(db, "usuarios", user.uid), {
+    await setDoc(doc(db, "Usuário", user.uid), {
       nome,
       cpf,
       email,

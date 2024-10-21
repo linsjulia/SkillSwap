@@ -12,6 +12,8 @@ import Animated, {
 import { TextButton } from "../login/loginComponets";
 
 
+
+
 export type TabButtonsType = {
   title: string; 
 };
@@ -149,9 +151,10 @@ export function LoginAccount() {
 
 
 
-export function RegisterLogin({ text }: TextButton) {
+export function RegisterLogin({ text, onPress }: TextButton) {
+
   return (
-    <Pressable className="text-gray-300 border bg-indigo-600 border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center" onPress= {() => router.replace('/')}>
+    <Pressable className="text-gray-300 border bg-indigo-600 border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center" onPress= {onPress}>
       <Text
         className=" text-white text-2xl"
         style={{
