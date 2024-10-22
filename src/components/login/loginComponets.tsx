@@ -9,6 +9,7 @@ import { useForm, Controller } from 'react-hook-form'
 export interface TextButton {
   text: string; // Propriedade de texto do botão
   onPress: () => void;
+  
 }
 
 // Componente de botão de login

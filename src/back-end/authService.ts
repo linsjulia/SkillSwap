@@ -1,6 +1,8 @@
 import app from '../firebaseConfig'; // Ajuste o caminho conforme necessário
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc, Timestamp } from "firebase/firestore";
+import { Alert } from 'react-native';
+import { router } from "expo-router";
 
 // Inicializa Auth e Firestore
 const auth = getAuth(app);
@@ -60,10 +62,15 @@ export async function registerUser({ email, password, nome, telefone, dataNascim
       data_nascimento: dataNascimento,
       // Senha não deve ser armazenada no Firestore por motivos de segurança
     });
-
+   // router.replace("/(tabs)");
     console.log("Usuário registrado com sucesso!");
   } catch (error) {
-    console.error("Erro ao registrar usuário: ", error);
+      if(error instanceof Error) {
+
+      Alert.alert("Erro ao registrar usuário: ", error.message);
+      } else {
+        Alert.alert("Erro ao registrar o usuário (string)", String(error));
+      }
   }
 }
 

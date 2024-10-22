@@ -40,7 +40,8 @@ export default function Register() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess ] = useState(false);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   // Schema de validação para Pessoa Física
   const schemaPessoaFisica = yup.object({
     email: yup.string().email().required("Campo de texto obrigatório").email("Email inválido"),
@@ -77,6 +78,8 @@ export default function Register() {
   // Função de submissão do formulário para Pessoa Física
   const onSubmitPessoaFisica = async (data: PessoaFisicaFormData) => {
     setLoading(true);
+    setIsSubmitting(true);
+
     try {
       await registerUser({
         email: data.email,
@@ -92,21 +95,23 @@ export default function Register() {
       setTimeout(() => {
         setSuccess(false);
         router.replace("/(tabs)");
+        setIsSubmitting(false);
       }, 3000);
       //router.replace("/(tabs)");
     } catch (error) {
-      Alert.alert("Erro", "Não foi possível criar a conta.");
       setLoading(false);
-    } 
       
-    
-
+    } finally {
+     
+    }
+      
   };
   
 
   // Função de submissão do formulário para Pessoa Jurídica
   const onSubmitPessoaJuridica = async (data: PessoaJuridicaFormData) => {
     setLoading(true);
+    setIsSubmitting(true);
     try {
       await registerCompany({
         email: data.email,
@@ -116,13 +121,20 @@ export default function Register() {
         cnpj: data.cnpj,
         endereco: "", 
       });
-      router.replace("/(tabs)");
-    } catch (error) {
-
-      Alert.alert("Erro", "Não foi possível criar a conta.");
-    } finally {
       setLoading(false);
-    }
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        router.replace('/(tabs)');
+        setIsSubmitting(false);
+        }, 3000);
+      
+    } catch (error) {
+        Alert.alert("Erro", "Não foi possível criar a conta.");
+        setLoading(false);
+    } finally{
+      
+    } 
   };
   
 
@@ -148,10 +160,10 @@ export default function Register() {
           source={require('../../assets/animations/okay.json')} 
           autoPlay
           loop={false} 
-          style={{ width: 200, height: 200 }}
+          style={{ width: 170, height: 170 }}
         />
         </View>
-          ) : null } 
+          ) : null }  
           
           
       
@@ -248,7 +260,9 @@ export default function Register() {
             
 
             <Checkbox label="Aceito os termos de uso do aplicativo." />
-            <RegisterLogin text="Criar conta" onPress={handleSubmitPessoaFisica(onSubmitPessoaFisica)} />
+            <RegisterLogin text="Criar conta" 
+            onPress={handleSubmitPessoaFisica(onSubmitPessoaFisica)} 
+            disabled={isSubmitting} />
             {loading && <ActivityIndicator size="large" color="#6200ff" style={{ marginTop: 20 }} />}
           </>
         )}
@@ -328,7 +342,7 @@ export default function Register() {
           
 
             <Checkbox label="Aceito os termos de uso do aplicativo." />
-            <RegisterLogin text="Criar conta" onPress={handleSubmitPessoaJuridica(onSubmitPessoaJuridica)} />
+            <RegisterLogin disabled={isSubmitting} text="Criar conta" onPress={handleSubmitPessoaJuridica(onSubmitPessoaJuridica)} />
             {loading && <ActivityIndicator size="large" color="#6200ff" style={{ marginTop: 20 }} />} 
             
           </>

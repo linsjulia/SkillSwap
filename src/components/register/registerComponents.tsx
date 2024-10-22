@@ -11,6 +11,11 @@ import Animated, {
 } from "react-native-reanimated";
 import { TextButton } from "../login/loginComponets";
 
+export interface ButtonRegister {
+  text: string; // Propriedade de texto do botão
+  onPress: () => void;
+  disabled: boolean;
+}
 
 
 
@@ -151,10 +156,14 @@ export function LoginAccount() {
 
 
 
-export function RegisterLogin({ text, onPress }: TextButton) {
+export function RegisterLogin({ text, onPress, disabled }: ButtonRegister) {
 
   return (
-    <Pressable className="text-gray-300 border bg-indigo-600 border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center" onPress= {onPress}>
+    <Pressable className="text-gray-300 border bg-indigo-600 border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center"    onPress= {disabled ? undefined : onPress}
+    disabled={disabled}
+    >
+    
+      
       <Text
         className=" text-white text-2xl"
         style={{
