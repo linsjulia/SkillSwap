@@ -130,7 +130,6 @@ export default function Register() {
         }, 3000);
       
     } catch (error) {
-        Alert.alert("Erro", "Não foi possível criar a conta.");
         setLoading(false);
     } finally{
       
