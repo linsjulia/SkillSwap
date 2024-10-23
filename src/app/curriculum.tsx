@@ -147,11 +147,10 @@ export default function CurriculumScreen() {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.button}>
-      <Pressable onPress={() => router.push('/checkmark')}>
+      
+      <Pressable style={styles.button} onPress={() => router.push('/checkmark')}>
         <Text style={styles.buttonText}>Confirmar</Text>
       </Pressable>
-      </TouchableOpacity>
     </ScrollView>
   );
 }

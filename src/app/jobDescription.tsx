@@ -44,12 +44,11 @@ export default function JobDescription() {
           <Text style={styles.requirements}>Exigências</Text>
           <Text style={styles.resume}>Resumo</Text>
 
-          <TouchableOpacity style={styles.button}>
-            <Pressable onPress={() => router.push('/curriculum')}>
+          <Pressable style={styles.button} onPress={() => router.push('/curriculum')}>
               <Text style={styles.buttonText}>Candidatar-me</Text>
-            </Pressable>
-          </TouchableOpacity>
+          </Pressable>
         </View>
+        
         <View style={styles.footer}>
           <FontAwesome name="home" size={24} color="#f2def7" />
           <FontAwesome name="search" size={24} color="#f2def7" />
