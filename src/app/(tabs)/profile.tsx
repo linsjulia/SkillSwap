@@ -11,8 +11,8 @@ export default function Profile() {
         source={require("../../assets/banner.png")}
         className="w-full h-52 -mb-14"
         />
-      <User />
-      <InfoProfile name="Joao Vitor Diamon" email="joaodiamon19@icloud.com" bday="19/06/2006"/>
+      <User/>
+      <InfoProfile name="Usuario" email="Usuario@gmail.com" bday="01/01/01"/>
       <View className="items-center -mt-3 mb-3">
       <SaveButton onPress={() => {}}  text="Salvar alteracoes" />
       <ExitButton onPress={() => {

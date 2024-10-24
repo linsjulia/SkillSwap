@@ -88,10 +88,11 @@ export function SaveButton({ text, onPress }: TextButton) {
           fontFamily: "Inter",
           fontWeight: "700",
           letterSpacing: 1.5,
-          shadowColor: "cyan",
+          shadowColor: "#6a00ff",
           shadowOffset: { width: -2, height: 4 },
           shadowOpacity: 0.4,
           shadowRadius: 3,
+          fontSize: 17,
         }}
       >
         {text}
@@ -114,10 +115,11 @@ export function ExitButton({ text, onPress }: TextButton) {
         fontFamily: "Inter",
         fontWeight: "700",
         letterSpacing: 1.5,
-        shadowColor: "cyan",
+        shadowColor: "#6a00ff",
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.4,
         shadowRadius: 3,
+        fontSize: 17,
       }}
       >
         {text}
