@@ -1,6 +1,7 @@
 import React from 'react'; 
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { router, Tabs } from "expo-router";
 
 export default function JobPostForm() {
   return (
@@ -21,14 +22,14 @@ export default function JobPostForm() {
         <TextInput style={styles.input} placeholder="Resumo" placeholderTextColor="#8a8a8a" />
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.eyeContainer}>
+          <Pressable style={styles.eyeContainer} onPress={() => router.push('/jobDescription')}>
             <FontAwesome name="eye" size={24} color="#6a00ff" />
             <Text style={styles.eyeText}>Visualizar</Text>
-          </TouchableOpacity>
+          </Pressable>
 
-          <TouchableOpacity style={styles.submitButton }>
+          <Pressable style={styles.submitButton} onPress={() => router.push('/checkmark')}>
             <Text style={styles.submitButtonText}>Enviar Vaga</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
 
