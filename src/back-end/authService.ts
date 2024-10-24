@@ -1,4 +1,4 @@
-import app from '../firebaseConfig'; // Ajuste o caminho conforme necessário
+import app from '../firebaseConfig';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc, Timestamp } from "firebase/firestore";
 import { Alert } from 'react-native';
@@ -60,8 +60,8 @@ export async function registerUser({ email, password, nome, telefone, dataNascim
       email,
       telefone,
       data_nascimento: dataNascimento,
-      // Senha não deve ser armazenada no Firestore por motivos de segurança
     });
+    
    // router.replace("/(tabs)");
     console.log("Usuário registrado com sucesso!");
   } catch (error) {

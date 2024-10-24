@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { router, Tabs } from "expo-router";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Pressable } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function ResumeFeed() {
@@ -10,23 +11,29 @@ export default function ResumeFeed() {
           <FontAwesome name="bars" size={24} color="#6a00ff" />
           <Text style={styles.title}>Feed de Currículos</Text>
         </View>
-
+      
         <ScrollView contentContainerStyle={styles.feedContainer}>
-          <TouchableOpacity style={styles.jobButton}>
+          <Pressable style={styles.jobButton}onPress={() => router.push('/curriculumDescription')}>
             <Text style={styles.jobText}>Desenvolvedor de Software</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.jobButton}>
+          </Pressable>
+
+          <Pressable style={styles.jobButton}onPress={() => router.push('/curriculumDescription')}>
             <Text style={styles.jobText}>Engenharia de Dados</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.jobButton}>
+          </Pressable>
+         
+          <Pressable style={styles.jobButton}onPress={() => router.push('/curriculumDescription')}>
             <Text style={styles.jobText}>Segurança da Informação</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.jobButton}>
+          </Pressable>
+         
+          <Pressable style={styles.jobButton}onPress={() => router.push('/curriculumDescription')}>
             <Text style={styles.jobText}>Suporte técnico</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.jobButton}>
+          </Pressable>
+          
+          <Pressable style={styles.jobButton}onPress={() => router.push('/curriculumDescription')}>
             <Text style={styles.jobText}>Programador mobile</Text>
-          </TouchableOpacity>
+          </Pressable>
+          
+          
 
           <View style={styles.arrowContainer}>
             <FontAwesome name="chevron-left" size={28} color="#6a00ff" />
