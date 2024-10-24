@@ -6,7 +6,7 @@ export default function TabLayout() {
   return (
     <Tabs>
       <Tabs.Screen
-        name="index" // Definindo o nome da primeira aba como "index"
+        name="homePage2" // Definindo o nome da primeira aba como "index"
         options={{
           title: "Home", // Definindo o título da aba como "Home"
           headerShown: false, // Escondendo o cabeçalho
@@ -24,9 +24,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="searchPage" // Definindo o nome da segunda aba como "searchPage"
+        name="createVacancy" // Definindo o nome da segunda aba como "searchPage"
         options={{
-          title: "Pesquisa", // Definindo o título da aba como "Pesquisa"
+          title: "Criar vaga", // Definindo o título da aba como "Pesquisa"
           headerShown: false, // Escondendo o cabeçalho
           headerTitleStyle: { color: "#14b8a6" }, // Estilizando a cor do título do cabeçalho
           tabBarLabelStyle: {
@@ -42,9 +42,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="notifications" // Definindo o nome da terceira aba como "notifications"
+        name="myVacancies" // Definindo o nome da terceira aba como "notifications"
         options={{
-          title: "Notificacao", // Definindo o título da aba como "Notificação"
+          title: "Minhas Vagas", // Definindo o título da aba como "Notificação"
           headerShown: false, // Escondendo o cabeçalho
           headerTitleStyle: { color: "#14b8a6" }, // Estilizando a cor do título do cabeçalho
           tabBarLabelStyle: {

@@ -29,7 +29,6 @@ export default function Index() {
       </View>
       
       </View>
-    
   );
 }
 
@@ -55,6 +54,4 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     shadowOffset: { width: 0, height: 0 },
   },
-
-}
-)
+})
