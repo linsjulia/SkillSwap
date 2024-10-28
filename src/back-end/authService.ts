@@ -1,4 +1,4 @@
-import app from '../firebaseConfig'; // Ajuste o caminho conforme necessário
+import app from '../firebaseConfig';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc, Timestamp } from "firebase/firestore";
 import { Alert } from 'react-native';

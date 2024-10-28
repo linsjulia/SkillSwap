@@ -5,14 +5,14 @@ import { router } from "expo-router";
 export default function ConfirmationScreen() {
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push('/jobDescription'); // Altere para a rota desejada
+      router.push('/jobDescription'); 
     }, 2000); // 2000 ms = 2 segundos
 
     return () => clearTimeout(timer); // Limpeza do timer
   }, []);
 
   const handleImagePress = () => {
-    router.push('/jobDescription'); // Navegar ao clicar na imagem
+    router.push('/jobDescription');
   };
 
   return (

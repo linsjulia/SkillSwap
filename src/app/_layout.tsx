@@ -163,6 +163,37 @@ export default function RootLayout() {
           },
         }}
       />
+      <Stack.Screen
+        name="homePage2"
+        options={{
+          title: "Skill Swap",
+          headerStyle: {
+            backgroundColor: "#212121",
+          },
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontFamily: "Inter",
+            fontWeight: "bold",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="curriculumDescription"
+        options={{
+          title: "Skill Swap",
+          headerStyle: {
+            backgroundColor: "#212121",
+          },
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontFamily: "Inter",
+            fontWeight: "bold",
+          },
+        }}
+      />
+      
     </Stack>
+
+    
   );
 }

@@ -7,7 +7,7 @@ export default function JobDescription() {
     <View style={styles.neonBorder}>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>Desenvolvedor de Software</Text>
+          <Text style={styles.title}>Nome</Text>
         </View>
 
         <View style={styles.topSection}>
@@ -44,8 +44,8 @@ export default function JobDescription() {
           <Text style={styles.requirements}>Exigências</Text>
           <Text style={styles.resume}>Resumo</Text>
 
-          <Pressable style={styles.button} onPress={() => router.push('/curriculum')}>
-              <Text style={styles.buttonText}>Candidatar-me</Text>
+          <Pressable style={styles.button} onPress={() => router.push('/checkmark')}>
+              <Text style={styles.buttonText}>Convocar</Text>
           </Pressable>
         </View>
         
