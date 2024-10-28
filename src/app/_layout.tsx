@@ -1,17 +1,7 @@
-import { Stack, Tabs } from "expo-router";
+import { Stack} from "expo-router";
 import "../styles/global.css";
-import {
-  Button,
-  Pressable,
-  Text,
-  TextInput,
-  View,
-  Image,
-  FlatList,
-  StatusBar,
-} from "react-native";
-import { ScreenStack } from "react-native-screens";
-import { NavigationContainer } from "@react-navigation/native";
+import {} from "react-native";
+
 
 export default function RootLayout() {
   return (
@@ -21,7 +11,7 @@ export default function RootLayout() {
         options={{
           title: "Skill Swap",
           headerStyle: {
-            backgroundColor: "#212121",
+            backgroundColor: "#",
           },
           headerTintColor: "white",
           headerTitleStyle: {
@@ -30,8 +20,10 @@ export default function RootLayout() {
           },
         }}
       />
+   
+
       <Stack.Screen
-        name="register"
+        name="(stack)/register"
         options={{
           title: "Skill Swap",
           headerStyle: {
@@ -100,8 +92,23 @@ export default function RootLayout() {
           },
         }}
       />
+         <Stack.Screen
+      name="(stack)/login"
+      options={{
+        title: "Login",
+        headerStyle: {
+          backgroundColor: "#"
+        },
+        headerTintColor: "white",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        }
+        }
+      }
+
+      />
       <Stack.Screen
-        name="jobDescription"
+        name="(stack)/jobDescription"
         options={{
           title: "Skill Swap",
           headerStyle: {
@@ -115,7 +122,7 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
-        name="curriculum"
+        name="(stack)/curriculum"
         options={{
           title: "Skill Swap",
           headerStyle: {
@@ -129,7 +136,7 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
-        name="checkmark"
+        name="(stack)/checkmark"
         options={{
           title: "Skill Swap",
           headerStyle: {
@@ -143,7 +150,7 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
-        name="telaProcuraVagasPJ"
+        name="(stack)/telaProcuraVagasPJ"
         options={{
           title: "Skill Swap",
           headerStyle: {

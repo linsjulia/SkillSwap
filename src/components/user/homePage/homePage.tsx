@@ -28,12 +28,13 @@ export function CardWork({ title, nameEnterprise, description }: Work) {
         shadowOffset: { width: -2, height: 4 }, // Deslocamento da sombra
         shadowOpacity: 0.8, // Opacidade da sombra
         shadowRadius: 5, // Raio da sombra
+        backgroundColor: "#6f00ff",
       }}
-      className="bg-indigo-700 max-w-96 h-60 rounded-2xl items-center my-6"
+      className="max-w-96 h-60 rounded-2xl items-center my-6"
     >
       <Text
         style={{
-          fontFamily: "Inter", // Família da fonte
+         // Família da fonte
           fontWeight: 700, // Peso da fonte
           letterSpacing: 1, // Espaçamento entre letras
         }}
@@ -52,7 +53,7 @@ export function CardWork({ title, nameEnterprise, description }: Work) {
         <Text
           className="text-right text-white text-lg absolute left-52"
           style={{
-            fontFamily: "Inter", // Família da fonte
+        // Família da fonte
             fontWeight: "bold", // Peso da fonte
             letterSpacing: 1, // Espaçamento entre letras
           }}
@@ -64,7 +65,7 @@ export function CardWork({ title, nameEnterprise, description }: Work) {
       <Text
         className="mx-4 text-left text-white text-lg my-4"
         style={{
-          fontFamily: "Inter", // Família da fonte
+     // Família da fonte
           fontWeight: "bold", // Peso da fonte
           letterSpacing: 0.5, // Espaçamento entre letras
         }}

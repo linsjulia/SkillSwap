@@ -1,5 +1,4 @@
 import { CardNotification, TitleNotifications } from "@/src/components/user/notifications/notificationsComponents";
-import { View, Text } from "react-native";
 import { ScrollView } from "react-native";
 
 export default function Notifications(){

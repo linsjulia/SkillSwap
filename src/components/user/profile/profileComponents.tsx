@@ -1,6 +1,8 @@
 import { View, TextInput, Text, Pressable } from "react-native";
 import { RequisitosCampoDeTexto } from "../../inputText";
 import { TextButton } from "../../login/loginComponets";
+import React from "react";
+import { getAuth } from "firebase/auth";
 
 export function ReadOnlyInput({placaholder}: RequisitosCampoDeTexto){
   return (
@@ -103,6 +105,7 @@ export function SaveButton({ text, onPress }: TextButton) {
 }
 
 export function ExitButton({ text, onPress }: TextButton) {
+
   return (
     <Pressable
     onPress={onPress}

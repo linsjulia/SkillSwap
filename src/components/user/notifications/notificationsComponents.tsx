@@ -7,7 +7,7 @@ export function TitleNotifications() {
     <Text
       className="text-2xl mt-5 ml-4 text-white"
       style={{
-        fontFamily: "Inter",
+    
         fontWeight: "700",
         letterSpacing: 1.5,
         textShadowColor: '#0000ff',
@@ -20,7 +20,7 @@ export function TitleNotifications() {
     <Text
       className="text-zinc-200 text-sm mt-6 ml-2 "
       style={{
-        fontFamily: "Inter",
+     
         fontWeight: "700",
         letterSpacing: 1,
       }}
@@ -45,14 +45,14 @@ export function CardNotification({nameEnterprise,content,date}: notificationsPro
     <View className=" w-96 items-left border border-indigo-600 my-4 rounded-xl py-3 justify-center">
     <View className="flex-row items-center gap-1 ml-3 ">
       <Text className="text-indigo-500 "   style={{
-        fontFamily: "Inter",
+
         fontWeight: "700",
         letterSpacing: 1,
       }}>
         {nameEnterprise}
       </Text>
       <Text className="text-white "style={{
-        fontFamily: "Inter",
+   
         fontWeight: "500",
         letterSpacing: 1,
       }}>
@@ -60,7 +60,7 @@ export function CardNotification({nameEnterprise,content,date}: notificationsPro
       </Text>
     </View>
     <Text className="text-white text-left mt-2 ml-3"style={{
-      fontFamily: "Inter",
+ 
       fontWeight: "500",
       letterSpacing: 1,
     }}>{date}</Text>

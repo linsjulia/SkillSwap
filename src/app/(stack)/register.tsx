@@ -1,9 +1,9 @@
 import { View, Text, Alert, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import { useState } from "react";
-import { LoginAccount, RegisterLogin, TabButtonsType, TabsButtons } from "../components/register/registerComponents";
-import { InputsPassword, InputsText } from "../components/inputText";
-import { Checkbox } from "../components/Checkbox";
-import { registerCompany, registerUser } from '../back-end/authService'; 
+import { LoginAccount, RegisterLogin, TabButtonsType, TabsButtons } from "../../components/register/registerComponents";
+import { InputsPassword, InputsText } from "../../components/inputText";
+import { Checkbox } from "../../components/Checkbox";
+import { registerCompany, registerUser } from '../../back-end/authService'; 
 import { useRouter, router } from 'expo-router';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -25,6 +25,7 @@ interface PessoaFisicaFormData {
   telefone: string;
   dataNascimento: string;
   cpf: string;
+  
 }
 
 interface PessoaJuridicaFormData {
@@ -156,7 +157,7 @@ export default function Register() {
          {success ? (
           <View style={styles.overlay}>
         <LottieView
-          source={require('../../assets/animations/okay.json')} 
+          source={require('../../../assets/animations/okay.json')} 
           autoPlay
           loop={false} 
           style={{ width: 170, height: 170 }}

@@ -19,7 +19,7 @@ export default function ConfirmationScreen() {
     <View style={styles.container}>
       <TouchableOpacity onPress={handleImagePress}>
         <Image 
-          source={require('../assets/iconOK.png')} 
+          source={require('../../assets/iconOK.png')} 
           style={styles.icon} 
         />
       </TouchableOpacity>

@@ -25,6 +25,7 @@ interface UserData {
   telefone: string;
   dataNascimento: string;
   cpf: string;
+ 
 }
 
 // Registro da empresa
@@ -60,9 +61,10 @@ export async function registerUser({ email, password, nome, telefone, dataNascim
       email,
       telefone,
       data_nascimento: dataNascimento,
+      
       // Senha não deve ser armazenada no Firestore por motivos de segurança
     });
-   // router.replace("/(tabs)");
+
     console.log("Usuário registrado com sucesso!");
   } catch (error) {
       if(error instanceof Error) {

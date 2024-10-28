@@ -7,7 +7,7 @@ export default function Index() {
       
       <Text
         className=" py-9 text-3xl  relative  text-violet-50"
-        style={{ fontFamily: "", fontWeight: "bold" }}
+        style={{ fontWeight: "bold" }}
       >
         Feed de Vagas
       </Text>
