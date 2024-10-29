@@ -44,7 +44,7 @@ export function ButtonLogin({ text, onPress }: TextButton) {
 // Componente para o link de redefinição de senha
 export function ResetPassword() {
   return (
-    <Pressable>
+    <Pressable onPress={() => router.push('/(stack)/resetPassword')}>
       <Text
         className="text-gray-300 ml-48 mt-5"
         style={{
