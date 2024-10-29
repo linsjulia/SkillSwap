@@ -192,15 +192,14 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
-        name="resetPassword"
+        name="(stack)/resetPassword"
         options={{
           title: "Skill Swap",
           headerStyle: {
-            backgroundColor: "#212121",
+            backgroundColor: "black",
           },
           headerTintColor: "white",
           headerTitleStyle: {
-            fontFamily: "Inter",
             fontWeight: "bold",
           },
         }}

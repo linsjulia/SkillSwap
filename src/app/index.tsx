@@ -10,7 +10,7 @@ export default function Login() {
   useEffect(() => {
     const hideSplashScreenAndRedirect = async () => {
     
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 1000));
       await SplashScreen.hideAsync();
    
       router.replace("/(stack)/login");

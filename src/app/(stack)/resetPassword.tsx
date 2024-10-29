@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
 
   section: {
     marginBottom: 20,
-    padding: 15,
+    padding: 20,
     borderRadius: 15,
     borderWidth: 2,
     borderColor: '#6a00ff',
