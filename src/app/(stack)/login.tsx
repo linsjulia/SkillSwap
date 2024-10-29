@@ -1,4 +1,4 @@
-import { Text , View, StyleSheet, Alert, ActivityIndicator } from "react-native";
+import { Text , View, StyleSheet, Alert, ActivityIndicator, Image, ScrollView } from "react-native";
 import { useState } from "react";
 import { useFonts } from "expo-font";
 import { InputsPassword, InputsText } from "../../components/inputText";
@@ -7,7 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useRouter, router } from "expo-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from 'yup';
-import { auth } from "../../firebaseConfig";
+import { auth } from "../../../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 interface LoginFormData {
@@ -55,8 +55,10 @@ export default function Login() {
   const passwordValue = watch("password");
 
   return (
-    <View className="flex-1 bg-neutral-900">
-      <Text className=" py-9 text-4xl ml-12 relative top-7 text-indigo-500" style={{ fontWeight: "bold",}} > Login </Text>
+    <ScrollView style={{backgroundColor: "black"}} className="flex-1 bg-neutral-900">
+      
+      <Text className=" py-9 text-4xl ml-12 relative top-7 " style={{ fontWeight: "bold", color: "#7c5fff", bottom: 80,}} >Login</Text>
+      
       <View className="flex-1 items-center mt-11">
 
         <Controller 
@@ -106,7 +108,7 @@ export default function Login() {
           />
           {errors.password && <Text style={styles.labelError} className="color-red-600">{errors.password?.message}</Text>}
           {loading && <ActivityIndicator size='large' color="#4c00fff" style={{ marginTop: 20 }} />}
-      <ButtonLogin text="Login" onPress={handleSubmit(onSubmit)}/>
+      <ButtonLogin text="Entrar" onPress={handleSubmit(onSubmit)}/>
    
 
       <ResetPassword/>
@@ -114,7 +116,7 @@ export default function Login() {
       <ImagesEnterprise/>
        <CreateAccount /> 
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

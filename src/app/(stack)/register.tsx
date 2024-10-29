@@ -1,10 +1,10 @@
-import { View, Text, Alert, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import { useState } from "react";
 import { LoginAccount, RegisterLogin, TabButtonsType, TabsButtons } from "../../components/register/registerComponents";
-import { InputsPassword, InputsText } from "../../components/inputText";
+import { InputsText } from "../../components/inputText";
 import { Checkbox } from "../../components/Checkbox";
 import { registerCompany, registerUser } from '../../back-end/authService'; 
-import { useRouter, router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from 'yup';
@@ -42,6 +42,7 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess ] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
   
   // Schema de validação para Pessoa Física
   const schemaPessoaFisica = yup.object({
@@ -146,7 +147,7 @@ export default function Register() {
   return (
     <ScrollView className="bg-neutral-900">
       <View className="items-center">
-        <Text className="text-3xl my-4 text-sky-400" style={{ fontFamily: "Inter", fontWeight: "bold" }}>Crie sua conta</Text>
+        <Text className="text-3xl my-4 text-sky-400" style={{ fontWeight: "bold", color: "#8426ff" }}>Crie sua conta</Text>
         
         <TabsButtons
           buttons={buttons}

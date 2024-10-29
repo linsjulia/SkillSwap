@@ -19,8 +19,10 @@ export function InputsText({placaholder, style, ... rest}: RequisitosCampoDeText
             placeholderTextColor="white"
             placeholder={placaholder}
             {... rest}
-            className="border  border-indigo-600 text-white color w-96 rounded-full h-14 text-left px-6 my-4"
-            style={[{ fontFamily: "Inter",
+            className="border bg-indigo-950 border-indigo-600 text-white color w-96 rounded-full h-14 text-left px-6 my-4"
+            style={[{ 
+              
+              borderColor: "#6f00ff",
               fontWeight: "700",
               letterSpacing: 1.3,
               shadowColor: "cyan",
@@ -45,9 +47,9 @@ export function InputsPassword({placaholder, style, ... rest}: RequisitosCampoDe
           secureTextEntry
           placeholderTextColor="white"
           placeholder={placaholder}
-          className="border  border-indigo-600 text-white color w-96 rounded-full h-14 text-left px-6 my-4"
+          className="border bg-indigo-950 border-indigo-600 text-white color w-96 rounded-full h-14 text-left px-6 my-4"
           style={[{
-            fontFamily: "Inter",
+            borderColor: "#6f00ff",
             fontWeight: "700",
             letterSpacing: 1.3,
             shadowColor: "cyan",

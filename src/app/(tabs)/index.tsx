@@ -1,10 +1,36 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Animated } from "react-native";
 import { BotaoVagas, CardWork } from "../../components/user/homePage/homePage";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { useEffect, useRef } from "react";
 
-export default function Index() {
+
+export default function Home() {
+ 
+  const { mensagem } = useLocalSearchParams(); // isso aqui é parametro da outra pagina passando pra cá
+  const fadeAnim = useRef(new Animated.Value(1)).current; 
+
+
+  // pra deixar a mensagem com animação de fade-out 
+  useEffect(() => {
+    if (mensagem) {
+     
+      Animated.timing(fadeAnim, {
+        toValue: 0, 
+        duration: 5000, 
+        useNativeDriver: true, 
+      }).start();
+    }
+  }, [mensagem]);
+
   return (
     <View style={styles.neonBorder} >
       
+      {mensagem && (
+        <Animated.View style={[styles.overlay, { opacity: fadeAnim }]}>
+          <Text style={styles.messageText}>{mensagem}</Text>
+        </Animated.View>
+      )}
+
       <Text
         className=" py-9 text-3xl  relative  text-violet-50"
         style={{ fontWeight: "bold" }}
@@ -54,6 +80,30 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 20,
     shadowOffset: { width: 0, height: 0 },
+  },
+
+  messageContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 20,
+  },
+
+  overlay: {
+    position: "absolute",
+    top: 20, 
+    left: 0,
+    right: 0,
+    backgroundColor: "#6a00ff",
+    padding: 10,
+    borderRadius: 5,
+    marginHorizontal: 20,
+    alignItems: "center",
+    zIndex: 10, 
+  },
+  
+  messageText: {
+    color: 'white',
   },
 
 }

@@ -1,14 +1,14 @@
 import { Text, SafeAreaView, StyleSheet, Image } from 'react-native';
 
 
-export default function App() {
+export function Splash() {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.paragraph}>
         Skill Swap
       </Text>
     
-      <Image style={styles.imagem} source = {require('./assets/logo.png')}>
+      <Image style={styles.imagem} source = {require('../assets/iconOK.png')}>
 
       </Image>
   

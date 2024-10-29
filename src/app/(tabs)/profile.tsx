@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
 import { getAuth, User, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { auth, firestore } from "@/src/firebaseConfig";
+import { auth, firestore } from "@/firebaseConfig";
 import * as ImagePicker from "expo-image-picker";
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { doc, getFirestore, updateDoc, getDoc } from 'firebase/firestore';
@@ -55,7 +55,7 @@ export default function Profile({nome, email, data_nascimento}:UserProfile) {
     const auth = getAuth();
     try{
       await signOut(auth);
-      router.replace("/(stack)/login");
+      router.replace("/login");
       console.log('Usuário deslogado')
 
     } catch (error) {

@@ -11,7 +11,7 @@ export default function RootLayout() {
         options={{
           title: "Skill Swap",
           headerStyle: {
-            backgroundColor: "#",
+            backgroundColor: "#6f00ff",
           },
           headerTintColor: "white",
           headerTitleStyle: {
@@ -41,7 +41,7 @@ export default function RootLayout() {
         options={{
           title: "Skill Swap",
           headerStyle: {
-            backgroundColor: "#212121",
+            backgroundColor: "#6f00ff",
           },
           headerTintColor: "white",
           headerTitleStyle: {
@@ -97,7 +97,7 @@ export default function RootLayout() {
       options={{
         title: "Login",
         headerStyle: {
-          backgroundColor: "#"
+          backgroundColor: "#6f00ff"
         },
         headerTintColor: "white",
         headerTitleStyle: {

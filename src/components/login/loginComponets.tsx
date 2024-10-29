@@ -4,7 +4,8 @@ import React from 'react'; // Importando o React
 import LinearGradient from 'react-native-linear-gradient';
 import { Route } from "@react-navigation/native"; // Importando o tipo Route do React Navigation
 import { useForm, Controller } from 'react-hook-form'
-
+import auth from '@react-native-firebase/auth';
+import { WebView } from 'react-native-webview';
 // Definindo a interface para o componente ButtonLogin
 export interface TextButton {
   text: string; // Propriedade de texto do botão
@@ -12,18 +13,20 @@ export interface TextButton {
   
 }
 
+
 // Componente de botão de login
 export function ButtonLogin({ text, onPress }: TextButton) {
   return (
     
     <Pressable
-      className="text-gray-300 border bg-indigo-600 border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center"
+      style={{ backgroundColor: "#6f00ff"}}
+      className="text-gray-300 border border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center"
       onPress={onPress}// Navegando para a rota "/(tabs)" ao pressionar o botão
     >
       <Text
         className="text-white text-2xl"
         style={{
-          fontFamily: "Inter", // Família da fonte
+           // Família da fonte
           fontWeight: "700", // Peso da fonte
           letterSpacing: 1.5, // Espaçamento entre letras
           shadowColor: "cyan", // Cor da sombra
@@ -45,7 +48,7 @@ export function ResetPassword() {
       <Text
         className="text-gray-300 ml-48 mt-5"
         style={{
-          fontFamily: "Inter", // Família da fonte
+           // Família da fonte
           fontWeight: "700", // Peso da fonte
           letterSpacing: 1.3, // Espaçamento entre letras
         }}
@@ -62,7 +65,7 @@ export function OthersLogins() {
     <Pressable className="mt-16">
       <Text
         className="text-gray-300 text-center"
-        style={{ fontFamily: "", fontWeight: "700", letterSpacing: 1.3 }}
+        style={{ fontWeight: "700", letterSpacing: 1.3 }}
       >
         ou logue com
       </Text>
@@ -72,6 +75,8 @@ export function OthersLogins() {
 
 // Componente para exibir imagens de empresas
 export function ImagesEnterprise() {
+
+
   return (
     
     <View className="flex-row gap-10 items-center">
@@ -100,7 +105,7 @@ export function CreateAccount() {
       >
         <Text
           style={{
-            fontFamily: "", // Família da fonte
+             // Família da fonte
             fontWeight: "700", // Peso da fonte
             letterSpacing: 1.3, // Espaçamento entre letras
           }}
@@ -111,7 +116,8 @@ export function CreateAccount() {
         <Text
           className="text-indigo-400 text-center mt-2"
           style={{
-            fontFamily: "", // Família da fonte
+            
+            // Família da fonte
             fontWeight: "700", // Peso da fonte
             letterSpacing: 1.3, // Espaçamento entre letras
           }}

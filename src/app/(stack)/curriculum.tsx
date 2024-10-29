@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Pressable } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable, ScrollView } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 import { router } from "expo-router"; 
+import LottieView from 'lottie-react-native';
 
 interface Formacao {
   nome: string;
@@ -31,6 +32,8 @@ export default function CurriculumScreen() {
     horario: ''
   });
 
+  const [messageVisible, setMessageVisible] = useState(false);
+
   const handleChange = (name: keyof Formacao, value: string) => {
     setFormacao({
       ...formacao,
@@ -39,12 +42,20 @@ export default function CurriculumScreen() {
   };
 
   const handleSubmit = () => {
-    console.log(formacao);
+    const mensagem = "Currículo Cadastrado";
+    
+    // navega para página de curriculum com a mensagem como parâmetro
+    router.push({
+      pathname: "/(tabs)",
+      params: { mensagem },
+    });
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Currículo</Text>
+
+  
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Dados Pessoais</Text>
@@ -110,6 +121,8 @@ export default function CurriculumScreen() {
           placeholderTextColor="#888"
           onChangeText={(text) => handleChange('inicioTermino', text)}
         />
+
+
         <Text style={styles.label}>Horário Letivo:</Text>
         <View style={styles.radioContainer}>
           <View style={styles.radioItem}>
@@ -147,8 +160,7 @@ export default function CurriculumScreen() {
         </View>
       </View>
 
-      
-      <Pressable style={styles.button} onPress={() => router.push('/checkmark')}>
+      <Pressable style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Confirmar</Text>
       </Pressable>
     </ScrollView>
@@ -162,10 +174,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
+  
+  
+  messageText: {
+    color: 'white',
+    fontSize: 30,
+  },
 
   title: {
     color: '#fff',
-    fontFamily: '',
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',

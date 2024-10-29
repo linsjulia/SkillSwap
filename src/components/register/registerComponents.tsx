@@ -78,10 +78,10 @@ export function TabsButtons({
       }}
     >
       <Animated.View
-        className="bg-indigo-500 text-white" 
+        className=" text-white" 
         style={[
           animatedStyle,
-          {
+          { backgroundColor: "#6f00ff",
             position: "absolute", 
             borderRadius: 15,
             marginHorizontal: 5,
@@ -102,7 +102,6 @@ export function TabsButtons({
             >
               <Text
                 style={{
-                  fontFamily: "Inter", 
                   fontWeight: "bold", 
                   color: 'white', 
                   alignSelf: "center",
@@ -130,20 +129,23 @@ export function LoginAccount() {
       >
         <Text
           style={{
-            fontFamily: "Inter", 
             fontWeight: "700", 
             letterSpacing: 1.3,
+            top: 13,
           }}
           className="text-gray-300 text-center " 
         >
           Ja possui sua conta?
         </Text>
         <Text
-          className="text-indigo-600 text-center mt-1 pb-16"
+          className="text-white  text-center mt-1 pb-16"
           style={{
-            fontFamily: "Inter",
+            fontSize: 16,
+            color: "white",
             fontWeight: "700", 
             letterSpacing: 1.1, 
+            top: 17,
+            textDecorationLine: "underline",
           }}
         >
           Logue aqui!
@@ -159,7 +161,9 @@ export function LoginAccount() {
 export function RegisterLogin({ text, onPress, disabled }: ButtonRegister) {
 
   return (
-    <Pressable className="text-gray-300 border bg-indigo-600 border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center"    onPress= {disabled ? undefined : onPress}
+    <Pressable
+    style={{backgroundColor: "#6f00ff"}} 
+    className="text-gray-300 border bg-indigo-600 border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center"    onPress= {disabled ? undefined : onPress}
     disabled={disabled}
     >
     

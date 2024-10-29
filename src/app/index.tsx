@@ -1,26 +1,23 @@
-import { useEffect, useState } from 'react';
-import { Stack, router } from 'expo-router';
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth } from '../firebaseConfig'; 
-export default function RootLayout() {
-  const [loading, setLoading] = useState(true);
-  const [User, setUser] = useState<User | null>(null);
+import { useEffect } from "react";
+import { SplashScreen } from "expo-router";
+import { useRouter } from "expo-router";
+
+SplashScreen.preventAutoHideAsync();
+
+export default function Login() {
+  const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        router.replace('/(tabs)'); 
-      } else {
-        router.replace('/(stack)/login'); 
-      }
-      setLoading(false);
-    });
+    const hideSplashScreenAndRedirect = async () => {
+    
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      await SplashScreen.hideAsync();
+   
+      router.replace("/(stack)/login");
+    };
 
-    return unsubscribe;
-  }, []);
+    hideSplashScreenAndRedirect();
+  }, [router]);
 
-  if (loading) return null; 
-
-  return <Stack />;
+  return null; 
 }
