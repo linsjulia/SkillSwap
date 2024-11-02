@@ -8,7 +8,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index" // Definindo o nome da primeira aba como "index"
         options={{
-          title: "Home", // Definindo o título da aba como "Home"
+          title: "", // Definindo o título da aba como "Home"
           headerShown: false, // Escondendo o cabeçalho
           headerTitleStyle: { color: "white" }, // Estilizando a cor do título do cabeçalho
           tabBarLabelStyle: {
@@ -16,8 +16,9 @@ export default function TabLayout() {
             fontSize: 12, // Definindo o tamanho da fonte do rótulo da aba
           },
           tabBarStyle: {
-            backgroundColor: "#212121", // Definindo a cor de fundo da barra de abas
+            backgroundColor: "#1e1e1e", // Definindo a cor de fundo da barra de abas
             borderTopWidth: 0, // Removendo a borda superior
+            
             borderTopColor: 'transparent', // Tornando a cor da borda superior transparente
           },
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color="white" />, // Definindo o ícone da aba como "home" com a cor especificada
@@ -26,7 +27,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="searchPage" // Definindo o nome da segunda aba como "searchPage"
         options={{
-          title: "Pesquisa", // Definindo o título da aba como "Pesquisa"
+          title: "", // Definindo o título da aba como "Pesquisa"
           headerShown: false, // Escondendo o cabeçalho
           headerTitleStyle: { color: "#14b8a6" }, // Estilizando a cor do título do cabeçalho
           tabBarLabelStyle: {
@@ -44,7 +45,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="notifications" // Definindo o nome da terceira aba como "notifications"
         options={{
-          title: "Notificacao", // Definindo o título da aba como "Notificação"
+          title: "", // Definindo o título da aba como "Notificação"
           headerShown: false, // Escondendo o cabeçalho
           headerTitleStyle: { color: "#14b8a6" }, // Estilizando a cor do título do cabeçalho
           tabBarLabelStyle: {
@@ -56,13 +57,13 @@ export default function TabLayout() {
             borderTopWidth: 0, // Removendo a borda superior
             borderTopColor: 'transparent', // Tornando a cor da borda superior transparente
           },
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="bell" color="white"  />, // Definindo o ícone da aba como "bell" com a cor especificada
+          tabBarIcon: ({ color }) => <FontAwesome size={25} name="bell" color="white"  />, // Definindo o ícone da aba como "bell" com a cor especificada
         }}
       />
       <Tabs.Screen
         name="profile" // Definindo o nome da quarta aba como "profile"
         options={{
-          title: "Perfil", // Definindo o título da aba como "Perfil"
+          title: "", // Definindo o título da aba como "Perfil"
           headerShown: false, // Escondendo o cabeçalho
           headerTitleStyle: { color: "#14b8a6" }, // Estilizando a cor do título do cabeçalho
           tabBarLabelStyle: {

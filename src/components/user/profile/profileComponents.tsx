@@ -14,7 +14,6 @@ export function ReadOnlyInput({placaholder}: RequisitosCampoDeTexto){
           placeholder={placaholder}
           className="border  border-indigo-600 text-white color w-96 rounded-full h-14 text-left px-6 my-4"
           style={{
-            fontFamily: "Inter",
             fontWeight: "700",
             letterSpacing: 1.3,
             shadowColor: "cyan",
@@ -38,7 +37,6 @@ export function InfoProfile ({name,email,bday}: ProfileProps){
     <View>
       <Text
         style={{
-          fontFamily: "Inter",
           fontWeight: "700",
           letterSpacing: 1,
         }}
@@ -51,7 +49,6 @@ export function InfoProfile ({name,email,bday}: ProfileProps){
       </View>
       <Text
         style={{
-          fontFamily: "Inter",
           fontWeight: "700",
           letterSpacing: 1,
         }}
@@ -64,7 +61,6 @@ export function InfoProfile ({name,email,bday}: ProfileProps){
       </View>
       <Text
         style={{
-          fontFamily: "Inter",
           fontWeight: "700",
           letterSpacing: 1,
         }}
@@ -87,7 +83,6 @@ export function SaveButton({ text, onPress }: TextButton) {
       <Text
         className=" text-white text-2xl"
         style={{
-          fontFamily: "Inter",
           fontWeight: "700",
           letterSpacing: 1.5,
           shadowColor: "#6a00ff",
@@ -115,7 +110,6 @@ export function ExitButton({ text, onPress }: TextButton) {
       <Text
       className=" text-white text-2xl"
       style={{
-        fontFamily: "Inter",
         fontWeight: "700",
         letterSpacing: 1.5,
         shadowColor: "#6a00ff",

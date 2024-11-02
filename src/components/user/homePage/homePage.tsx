@@ -4,24 +4,31 @@ import { useRouter } from 'expo-router';
 import { FontAwesome } from "@expo/vector-icons";
 
 // Função para truncar a descrição se ela for muito longa
-function filterDesc(title: string) {
-  if (title.length < 18) {
-    return title; // Se o título for menor que 18 caracteres, retorna o título completo
+function filterDesc(title2: string) {
+  if (title2.length < 18) {
+    return title2; // Se o título for menor que 18 caracteres, retorna o título completo
   }
 
-  return `${title.substring(0, 18)}...`; // Se o título for maior ou igual a 18 caracteres, retorna os primeiros 18 caracteres seguidos de "..."
+  return `${title2.substring(0, 18)}...`; // Se o título for maior ou igual a 18 caracteres, retorna os primeiros 18 caracteres seguidos de "..."
 }
 
 interface Work {
-  title: string, // Definindo o tipo para a propriedade title
-  nameEnterprise: string, // Definindo o tipo para a propriedade nameEnterprise
-  description: string // Definindo o tipo para a propriedade description
+  title2: string, // Definindo o tipo para a propriedade title
+  nameEnterprise2: string, // Definindo o tipo para a propriedade nameEnterprise
+  description2: string, // Definindo o tipo para a propriedade description
+
+
 }
 
 // Componente que exibe um cartão com informações sobre um trabalho
-export function CardWork({ title, nameEnterprise, description }: Work) {
+export function CardWork({ title2, nameEnterprise2, description2 }: Work) {
   return (
-    <Pressable onPress={() => router.push('/jobDescription')}>
+   // <Pressable onPress={() => router.push({
+    // pathname: '/(stack)/jobDescription',
+    //  params: { title: title2, description: description2
+    //   }
+   // })
+  //  }>
     <View
       style={{
         shadowColor: "white", // Cor da sombra
@@ -40,7 +47,7 @@ export function CardWork({ title, nameEnterprise, description }: Work) {
         }}
         className="text-center text-white text-xl mt-3"
       >
-        {title}
+        {title2}
       </Text>
 
       <View className="w-30 h-11 flex-row items-center relative right-20">
@@ -58,7 +65,7 @@ export function CardWork({ title, nameEnterprise, description }: Work) {
             letterSpacing: 1, // Espaçamento entre letras
           }}
         >
-          {filterDesc(nameEnterprise)}
+          {filterDesc(nameEnterprise2)}
         </Text>
       </View>
 
@@ -70,10 +77,10 @@ export function CardWork({ title, nameEnterprise, description }: Work) {
           letterSpacing: 0.5, // Espaçamento entre letras
         }}
       >
-        {description}
+        {description2}
       </Text>
     </View>
-    </Pressable>
+
   );
 }
 

@@ -1,13 +1,16 @@
 import { View, Text, StyleSheet, TouchableOpacity, Pressable, ScrollView } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { router } from "expo-router";  // Importando o componente de ícones FontAwesome do Expo vector icons
+import { router, useLocalSearchParams } from "expo-router";  // Importando o componente de ícones FontAwesome do Expo vector icons
+
 
 export default function JobDescription() {
+  const { title, description } = useLocalSearchParams();
+
   return (
     <View style={styles.neonBorder}>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>Desenvolvedor de Software</Text>
+          <Text style={styles.title}>{title || 'Título da vaga'}</Text>
         </View>
 
         <View style={styles.topSection}>
@@ -35,10 +38,7 @@ export default function JobDescription() {
           </View>
 
           <Text style={styles.description}>
-            Estamos em busca de desenvolvedores de software habilidosos para se
-            unirem à nossa equipe dinâmica na vaga que oferecemos. Se você é
-            apaixonado por tecnologia e inovação, este é o lugar ideal para você
-            prosperar profissionalmente.
+           {description || "Descrição da vaga"}
           </Text>
 
           <Text style={styles.requirements}>Exigências</Text>
