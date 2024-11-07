@@ -1,11 +1,9 @@
-import app from '../../firebaseConfig';
+import { app } from '../../firebaseConfig';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc, Timestamp } from "firebase/firestore";
 import { Alert } from 'react-native';
-import { router } from "expo-router";
 
-// Inicializa Auth e Firestore
-const auth = getAuth(app);
+const auth = getAuth();
 const db = getFirestore(app);
 
 // Tipos para as entradas
@@ -25,7 +23,7 @@ interface UserData {
   telefone: string;
   dataNascimento: string;
   cpf: string;
- 
+
 }
 
 // Registro da empresa
@@ -61,18 +59,18 @@ export async function registerUser({ email, password, nome, telefone, dataNascim
       email,
       telefone,
       data_nascimento: dataNascimento,
-      
+
       // Senha não deve ser armazenada no Firestore por motivos de segurança
     });
 
     console.log("Usuário registrado com sucesso!");
   } catch (error) {
-      if(error instanceof Error) {
+    if (error instanceof Error) {
 
       Alert.alert("Erro ao registrar usuário: ", error.message);
-      } else {
-        Alert.alert("Erro ao registrar o usuário (string)", String(error));
-      }
+    } else {
+      Alert.alert("Erro ao registrar o usuário (string)", String(error));
+    }
   }
 }
 
