@@ -1,14 +1,16 @@
 import { Text , View, StyleSheet, Alert, ActivityIndicator, Image, ScrollView } from "react-native";
 import { useState } from "react";
 import { useFonts } from "expo-font";
-import { InputsPassword, InputsText } from "../../components/inputText";
-import { ButtonLogin, CreateAccount, ImagesEnterprise, OthersLogins, ResetPassword } from "../../components/login/loginComponets";
+import { InputsPassword, InputsText } from "../components/inputText";
+import { ButtonLogin, CreateAccount, ImagesEnterprise, OthersLogins, ResetPassword } from "../components/login/loginComponets";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter, router } from "expo-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from 'yup';
-import { auth } from "../../../firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
+import { getFirestore, doc, getDoc, collection   } from "firebase/firestore";
+// import { firestore } from "@/firebaseConfig";
 
 interface LoginFormData {
   email: string;
@@ -18,6 +20,7 @@ interface LoginFormData {
 export default function Login() {
 
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const schema = yup.object({
     email: yup.string().required("Informe seu email"),
@@ -34,22 +37,52 @@ export default function Login() {
     
   });
 
-  const router = useRouter();
+
+    async function verificarColecaoUsuario(user: { uid: string | undefined; }) {
+    const db = getFirestore();
+
+    
+    const userDocRef = doc(collection(db, 'Usuário'), user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (userDoc.exists()) {
+        console.log('Usuário encontrado na coleção Usuário');
+        router.replace("/(tabs)"); 
+    } else {
+    
+        const empresaDocRef = doc(collection(db, 'Empresa'), user.uid);
+        const empresaDoc = await getDoc(empresaDocRef);
+
+        if (empresaDoc.exists()) {
+            console.log('Usuário encontrado na coleção Empresa');
+            router.replace("/empresa/(tabs)/home"); 
+        } else {
+            console.log('Usuário não encontrado em nenhuma coleção');
+            
+        }
+    }
+  }
+
+
 
   const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
-      const user = userCredential.user;
-      Alert.alert("Login bem-sucedido", `Bem-vindo,  ${user.email}`);
-      router.replace("/(tabs)");
+        const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
+        const user = userCredential.user;
+
+        Alert.alert("Login bem-sucedido", `Bem-vindo, ${user.email}`);
+
+        
+        await verificarColecaoUsuario(user);
+
     } catch (error) {
-      const errorMessage = (error as Error).message;
-      Alert.alert("Erro ao fazer login", errorMessage);
+        const errorMessage = (error as Error).message;
+        Alert.alert("Erro ao fazer login", errorMessage);
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  }
+};
 
   const emailValue = watch("email");
   const passwordValue = watch("password");

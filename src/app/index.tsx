@@ -13,7 +13,7 @@ export default function Login() {
       await new Promise(resolve => setTimeout(resolve, 1000));
       await SplashScreen.hideAsync();
    
-      router.replace("/(stack)/login");
+      router.replace("/login");
     };
 
     hideSplashScreenAndRedirect();
