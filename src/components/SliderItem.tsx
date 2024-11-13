@@ -16,6 +16,7 @@ const SliderItem = ({ item }: Props) => {
     return (
         <View className="justify-center">
             <View style={styles.neonBorder}>
+                
                 <View style={styles.container}>
                 <CardWork
             title2={item.title}
@@ -37,15 +38,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#1E1E1E',
         padding: 0,
         width: width,
         gap: 28,
     },
 
     container: {
-        
-        backgroundColor: "#1E1E1E",
         padding: 20,
         borderRadius: 25,
         borderWidth: 1,

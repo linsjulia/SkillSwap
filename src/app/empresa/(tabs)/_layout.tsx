@@ -1,5 +1,7 @@
 import { Tabs } from 'expo-router';
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { Animated, Text, View } from 'react-native';
+import React, { useRef, useEffect } from 'react';
 
 export default function CompanyTabsLayout() {
   return (
@@ -8,10 +10,12 @@ export default function CompanyTabsLayout() {
         headerShown: false,
         title: '',
         tabBarStyle: {
-            backgroundColor: "#1e1e1e", // Definindo a cor de fundo da barra de abas
+            backgroundColor: "#111", // Definindo a cor de fundo da barra de abas
             borderTopWidth: 0, // Removendo a borda superior
             
             borderTopColor: 'transparent', // Tornando a cor da borda superior transparente
+            shadowColor: "transparent"
+
           },
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color="white" />, // Definindo o ícone da aba como "home" com a cor especificada
 
@@ -22,10 +26,11 @@ export default function CompanyTabsLayout() {
         headerShown: false,
         title: '',
         tabBarStyle: {
-            backgroundColor: "#1e1e1e", // Definindo a cor de fundo da barra de abas
+            backgroundColor: "#111", // Definindo a cor de fundo da barra de abas
             borderTopWidth: 0, // Removendo a borda superior
             
             borderTopColor: 'transparent', // Tornando a cor da borda superior transparente
+            shadowColor: "transparent"
           },
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="pencil" color="white" />, // Definindo o ícone da aba como "home" com a cor especificada
 
@@ -34,9 +39,11 @@ export default function CompanyTabsLayout() {
         title: '', 
         headerShown: false,
         tabBarStyle :{
-          backgroundColor: '#1e1e1e',
+          backgroundColor: '#8c00ff',
           borderTopWidth: 0,
           borderTopColor: 'transparent',
+          shadowColor: "transparent"
+     
         },
         tabBarIcon: ({ color }) => <FontAwesome size={28} name='user' color='white'/>
         

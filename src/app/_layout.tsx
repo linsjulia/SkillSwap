@@ -21,7 +21,6 @@ export default function RootLayout() {
         }}
       />
    
-
       <Stack.Screen
         name="(stack)/register"
         options={{
@@ -36,6 +35,7 @@ export default function RootLayout() {
           },
         }}
       />
+
       <Stack.Screen
         name="(tabs)"
         options={{
@@ -50,6 +50,7 @@ export default function RootLayout() {
           },
         }}
       />
+
       <Stack.Screen
         name="(tabs)/searchPage"
         options={{
@@ -64,6 +65,7 @@ export default function RootLayout() {
           },
         }}
       />
+
       <Stack.Screen
         name="(tabs)/notifications"
         options={{
@@ -78,6 +80,7 @@ export default function RootLayout() {
           },
         }}
       />
+
       <Stack.Screen
         name="(tabs)/profile"
         options={{
@@ -92,8 +95,24 @@ export default function RootLayout() {
           },
         }}
       />
-         <Stack.Screen
-      name="(stack)/login"
+
+      <Stack.Screen
+        name="empresa/(tabs)/profile"
+        options={{
+          title: "Skill Swap",
+          headerStyle: {
+            backgroundColor: "#212121",
+          },
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontFamily: "Inter",
+            fontWeight: "bold",
+          },
+        }}
+      />
+
+      <Stack.Screen
+      name="login"
       options={{
         title: "Login",
         headerStyle: {
@@ -121,6 +140,7 @@ export default function RootLayout() {
           },
         }}
       />
+
       <Stack.Screen
         name="(stack)/curriculum"
         options={{
@@ -135,6 +155,7 @@ export default function RootLayout() {
           },
         }}
       />
+
       <Stack.Screen
         name="(stack)/checkmark"
         options={{
@@ -149,6 +170,7 @@ export default function RootLayout() {
           },
         }}
       />
+
       <Stack.Screen
         name="(stack)/telaProcuraVagasPJ"
         options={{
@@ -163,20 +185,7 @@ export default function RootLayout() {
           },
         }}
       />
-      <Stack.Screen
-        name="homePage2"
-        options={{
-          title: "Skill Swap",
-          headerStyle: {
-            backgroundColor: "#212121",
-          },
-          headerTintColor: "white",
-          headerTitleStyle: {
-            fontFamily: "Inter",
-            fontWeight: "bold",
-          },
-        }}
-      />
+ 
       <Stack.Screen
         name="curriculumDescription"
         options={{
@@ -191,6 +200,23 @@ export default function RootLayout() {
           },
         }}
       />
+
+        
+      <Stack.Screen
+        name="(stack)/settings"
+        options={{
+          title: "Skill Swap",
+          headerStyle: {
+            backgroundColor: "black",
+          },
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+         
+        }}
+      />
+
       <Stack.Screen
         name="(stack)/resetPassword"
         options={{
@@ -204,6 +230,37 @@ export default function RootLayout() {
           },
         }}
       />
+
+      <Stack.Screen
+        name="empresa/(tabs)"
+        options={{
+          title: "Skill Swap",
+          headerStyle: {
+            backgroundColor: "black",
+          },
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name="empresa/(tabs)/home"
+        options={{
+          title: "Skill Swap",
+          
+          headerStyle: {
+            backgroundColor: "black",
+          },
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+         
+        }}
+      />
+
       
       
     </Stack>

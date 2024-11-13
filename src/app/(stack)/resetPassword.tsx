@@ -21,7 +21,7 @@ export default function ResetPasswordScreen() {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.section}>
 
-        <Pressable onPress={() => router.back()} style={styles.backIcon}>
+      <Pressable onPress={() => router.back()} style={styles.backIcon}>
           <Ionicons name="arrow-back" size={24} color="#fff" />
         </Pressable>
 
@@ -143,12 +143,13 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     textAlign: 'center',
-    marginTop: 15,
+    top: 18,
     textDecorationLine: 'underline',
   },
 
   buttonContainer: {
-    marginTop: 20,
+    marginTop: 30,
+    height: 150,
     alignItems: 'center',
   },
 });

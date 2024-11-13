@@ -3,7 +3,7 @@ import { useState } from "react";
 import { LoginAccount, RegisterLogin, TabButtonsType, TabsButtons } from "../../components/register/registerComponents";
 import { InputsText } from "../../components/inputText";
 import { Checkbox } from "../../components/Checkbox";
-import { registerCompany, registerUser } from '../../back-end/authService'; 
+import { registerCompany, registerUser } from '../../services/authService'; 
 import { useRouter } from 'expo-router';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";

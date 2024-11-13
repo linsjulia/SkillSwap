@@ -3,7 +3,7 @@ import { ScrollView } from "react-native";
 
 export default function Notifications(){
   return (
-    <ScrollView className="h-full bg-neutral-900">
+    <ScrollView className="h-full" style={{ backgroundColor: '#111'}}>
     <TitleNotifications/>
     <CardNotification nameEnterprise="Tata Solucao:" content="Dispensou seu curriculo" date="20 minutos atras"/>
     <CardNotification nameEnterprise="Net Solucao:" content="Passou no processo seletivo" date="50 minutos atras"/>

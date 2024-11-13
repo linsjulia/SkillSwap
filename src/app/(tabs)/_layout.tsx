@@ -16,9 +16,8 @@ export default function TabLayout() {
             fontSize: 12, // Definindo o tamanho da fonte do rótulo da aba
           },
           tabBarStyle: {
-            backgroundColor: "#1e1e1e", // Definindo a cor de fundo da barra de abas
+            backgroundColor: "#111", // Definindo a cor de fundo da barra de abas
             borderTopWidth: 0, // Removendo a borda superior
-            
             borderTopColor: 'transparent', // Tornando a cor da borda superior transparente
           },
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color="white" />, // Definindo o ícone da aba como "home" com a cor especificada
@@ -35,7 +34,7 @@ export default function TabLayout() {
             fontSize: 12, // Definindo o tamanho da fonte do rótulo da aba
           },
           tabBarStyle: {
-            backgroundColor: "#212121", // Definindo a cor de fundo da barra de abas
+            backgroundColor: "#111", // Definindo a cor de fundo da barra de abas
             borderTopWidth: 0, // Removendo a borda superior
             borderTopColor: 'transparent', // Tornando a cor da borda superior transparente
           },
@@ -53,7 +52,7 @@ export default function TabLayout() {
             fontSize: 12, // Definindo o tamanho da fonte do rótulo da aba
           },
           tabBarStyle: {
-            backgroundColor: "#212121", // Definindo a cor de fundo da barra de abas
+            backgroundColor: "#111", // Definindo a cor de fundo da barra de abas
             borderTopWidth: 0, // Removendo a borda superior
             borderTopColor: 'transparent', // Tornando a cor da borda superior transparente
           },
@@ -69,11 +68,13 @@ export default function TabLayout() {
           tabBarLabelStyle: {
             color: 'white', // Estilizando a cor do rótulo da aba
             fontSize: 12, // Definindo o tamanho da fonte do rótulo da aba
+            
           },
           tabBarStyle: {
-            backgroundColor: "#212121", // Definindo a cor de fundo da barra de abas
+            backgroundColor: "#8c00ff", // Definindo a cor de fundo da barra de abas
             borderTopWidth: 0, // Removendo a borda superior
             borderTopColor: 'transparent', // Tornando a cor da borda superior transparente
+            shadowColor: 'transparent'
           },
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="user-circle" color="white" />, // Definindo o ícone da aba como "user-circle" com a cor especificada
         }}

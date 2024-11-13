@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 
 export default function SearchPage(){
   return(
-    <View className="bg-zinc-900 h-full items-center">
+    <View className="h-full items-center" style={{ backgroundColor: '#111'}}>
     <SearchInput/>
     </View>
   )

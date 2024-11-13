@@ -116,7 +116,7 @@ export function CreateAccount() {
         <Text
           className="text-indigo-400 text-center mt-2"
           style={{
-            
+            textDecorationLine: 'underline',
             // Família da fonte
             fontWeight: "700", // Peso da fonte
             letterSpacing: 1.3, // Espaçamento entre letras
