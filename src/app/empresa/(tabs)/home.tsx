@@ -1,90 +1,121 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { getFirestore, collection, query, where, getDocs, doc } from 'firebase/firestore';
+import { auth } from '@/firebaseConfig'; // Certifique-se de que está correto
+import { useRouter } from 'expo-router';
 
-export default function FeedScreen() {
+const VagasEmpresa: React.FC = () => {
+  const router = useRouter(); // Hook para navegação
+  const [vagas, setVagas] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchVagas = async () => {
+    setIsLoading(true);
+    const firestore = getFirestore();
+    const empresaId = auth.currentUser ? auth.currentUser.uid : null;
+  
+    if (!empresaId) {
+      setError('Você precisa estar logado como empresa para visualizar suas vagas.');
+      setIsLoading(false);
+      return;
+    }
+  
+    try {
+      // Cria a referência para o documento da empresa
+      const empresaRef = doc(firestore, 'Empresa', empresaId);  // Aqui, 'Empresas' é o nome da coleção e 'empresaId' é o ID da empresa.
+  
+      // Consulta usando a referência da empresa
+      const vagasRef = collection(firestore, 'Vagas');
+      const q = query(vagasRef, where('empresa_ID', '==', empresaRef)); // Passa a referência para a consulta
+  
+      const querySnapshot = await getDocs(q);
+  
+      if (!querySnapshot.empty) {
+        const vagasData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setVagas(vagasData);
+      } else {
+        setError('Nenhuma vaga encontrada para esta empresa.');
+      }
+    } catch (err) {
+      setError('Erro ao carregar as vagas.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    fetchVagas();
+  }, []);
+
+  const renderItem = ({ item }: { item: any }) => (
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() =>
+        router.push({
+          pathname: '/(stack)/CandidatosVaga',
+          params: { vagaId: item.id, titulo: item.Titulo },
+        })
+      }
+    >
+      <Text style={styles.titulo}>{item.Titulo}</Text>
+      <Text style={styles.descricao}></Text>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Feed de Currículos</Text>
-      
-      <View style={styles.feedContainer}>
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <TouchableOpacity style={styles.item}>
-            <Text style={styles.itemText}>Desenvolvedor de Software</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.item}>
-            <Text style={styles.itemText}>Engenharia de Dados</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.item}>
-            <Text style={styles.itemText}>Segurança da Informação</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.item}>
-            <Text style={styles.itemText}>Suporte técnico</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.item}>
-            <Text style={styles.itemText}>Programador mobile</Text>
-          </TouchableOpacity>
-        </ScrollView>
-        
-        <View style={styles.navigation}>
-          <Text style={styles.navButton}>{"<<"}</Text>
-          <Text style={styles.navButton}>{">>"}</Text>
-        </View>
-      </View>
+      <Text style={{ color: "white", marginBottom: 30, textAlign: 'center', fontSize: 19,}}>Feed de Currículos</Text>
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#fff" />
+      ) : error ? (
+        <Text style={styles.errorText}>{error}</Text>
+      ) : (
+        <FlatList
+          data={vagas}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          contentContainerStyle={styles.list}
+        />
+      )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111',
-    alignItems: 'center',
-    paddingTop: 50,
-  },
-  title: {
-    fontSize: 24,
-    color: '#E0E0E0',
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textShadowColor: '#7226ff',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 4,
-  },
-  feedContainer: {
-    width: '90%',
-    backgroundColor: '#111',
-    borderRadius: 15,
-    paddingVertical: 30,
-    paddingHorizontal: 10,
+    backgroundColor: '#000',
+    padding: 20,
     borderWidth: 1,
-    borderColor: '#5900ff',
-    top: 20,
-
+    borderColor: "#6200ff"
   },
-  scrollContainer: {
-    alignItems: 'center',
+  list: {
+    marginTop: 10,
   },
-  item: {
-    width: '90%',
-    backgroundColor: '#6a00ff',
-    paddingVertical: 15,
-    borderRadius: 10,
-    marginBottom: 20,
-    alignItems: 'center',
-    gap: 20,
+  card: {
+    backgroundColor: '#7600fd',
+    padding: 15,
+    marginBottom: 10,
+    borderRadius: 8,
   },
-  itemText: {
-    color: '#FFFFFF',
-    fontSize: 16,
+  titulo: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#fff',
   },
-  navigation: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 15,
+  descricao: {
+    fontSize: 14,
+    color: '#aaa',
   },
-  navButton: {
-    fontSize: 24,
-    color: '#7700ff',
-    paddingHorizontal: 20,
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
+
+export default VagasEmpresa;

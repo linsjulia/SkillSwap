@@ -1,0 +1,100 @@
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { useLocalSearchParams } from 'expo-router'; // Use o hook correto
+import { db } from '../../../firebaseConfig';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+
+interface Vaga {
+  id: string;
+  Título: string;
+  Categoria: string;
+  Descrição: string;
+}
+
+const JobListByCategory = () => {
+  // Agora estamos pegando os parâmetros da URL
+  const { category } = useLocalSearchParams();  // Aqui é o uso correto para pegar a categoria
+
+  const [jobs, setJobs] = useState<Vaga[]>([]);
+
+  useEffect(() => {
+    if (!category) return; // Se não houver categoria, não faz nada
+
+    const fetchJobsByCategory = async () => {
+      const q = query(collection(db, 'Vagas'), where('Categoria', '==', category));
+
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const jobList: Vaga[] = [];
+        querySnapshot.forEach((doc) => {
+          jobList.push({ id: doc.id, ...doc.data() } as Vaga);
+        });
+        setJobs(jobList);
+      });
+
+      return () => unsubscribe();
+    };
+
+    fetchJobsByCategory();
+  }, [category]);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.headerText}>Vagas em {category}</Text>
+      {jobs.length > 0 ? (
+        <FlatList
+          data={jobs}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.jobItem}>
+              <Text style={styles.jobTitle}>{item.Título}</Text>
+              <Text style={styles.jobCategory}>{item.Categoria}</Text>
+              <Text style={styles.jobDescription}>{item.Descrição}</Text>
+            </View>
+          )}
+        />
+      ) : (
+        <Text style={styles.noJobsText}>Nenhuma vaga encontrada para esta categoria.</Text>
+      )}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000',
+    padding: 16,
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 20,
+  },
+  jobItem: {
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#fff',
+    marginBottom: 12,
+  },
+  jobTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  jobCategory: {
+    fontSize: 14,
+    color: '#ccc',
+  },
+  jobDescription: {
+    fontSize: 14,
+    color: '#ddd',
+  },
+  noJobsText: {
+    color: '#fff',
+    textAlign: 'center',
+    marginTop: 20,
+  },
+});
+
+export default JobListByCategory;

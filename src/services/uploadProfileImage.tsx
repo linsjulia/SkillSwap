@@ -2,7 +2,7 @@
 import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, updateDoc, setDoc, getDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import * as ImagePicker from 'expo-image-picker';
+  import * as ImagePicker from 'expo-image-picker';
 
 export async function selectAndUploadProfileImage() {
   try {
@@ -51,28 +51,54 @@ export async function selectAndUploadProfileImage() {
 
     // Atualizar a URL da imagem de perfil no Firestore
     const db = getFirestore();
-
-  
-    const userType = user.displayName === "Empresa" ? "Empresa" : "Usuário"; 
+    
     // Referência ao documento do usuário
-    const userDocRef = doc(db, userType, user.uid);
+    const userDocRef = doc(db, "Usuário", user.uid); // Tentando encontrar o usuário na coleção "Usuarios"
 
-    // Verificar se o documento do usuário já contém o campo 'profileImageUrl'
+    // Verificar se o documento do usuário existe na coleção "Usuarios" (pode ser "Empresas" ou "Usuarios")
     const userDoc = await getDoc(userDocRef);
-    if (!userDoc.exists()) {
-      // Se o documento não existir, criá-lo com o campo 'profileImageUrl'
-      await setDoc(userDocRef, { profileImageUrl: downloadURL }, { merge: true });
-      console.log('campo profileImageUrl criado!')
+    let userType = '';
+    
+    if (userDoc.exists()) {
+      userType = "Usuário"; // Se encontrar na coleção "Usuarios"
     } else {
-      // Se o documento já existir, apenas atualizar o campo
-      await updateDoc(userDocRef, { profileImageUrl: downloadURL });
-      console.log('campo profileImageUrl já existe')
+      // Caso não encontre, verifica se o usuário está na coleção "Empresas"
+      const empresaDocRef = doc(db, "Empresa", user.uid);
+      const empresaDoc = await getDoc(empresaDocRef);
+
+      if (empresaDoc.exists()) {
+        userType = "Empresa"; // Se encontrar na coleção "Empresas"
+      } else {
+        alert("Usuário não encontrado no banco de dados.");
+        return;
+      }
     }
 
-    alert("Foto de perfil atualizada com sucesso!");
-    console.log('foto de perfil atualizada')
+    // Referência ao documento do tipo de usuário correto
+    const userTypeDocRef = doc(db, userType, user.uid);
+
+    // Verificar se o campo 'profileImageUrl' já existe
+    const userTypeDoc = await getDoc(userTypeDocRef);
+    if (userTypeDoc.exists()) {
+      const data = userTypeDoc.data();
+      if (!data.profileImageUrl) {
+        // Se o campo 'profileImageUrl' não existir, cria o campo e atualiza
+        await updateDoc(userTypeDocRef, { profileImageUrl: downloadURL });
+        console.log("Campo 'profileImageUrl' criado e foto de perfil atualizada com sucesso!");
+      } else {
+        // Se o campo já existir, apenas atualiza com a nova imagem
+        await updateDoc(userTypeDocRef, { profileImageUrl: downloadURL });
+        alert("Foto de perfil atualizada com sucesso!");
+      }
+    } else {
+      // Se o documento não existir, cria o documento e adiciona o campo 'profileImageUrl'
+      await setDoc(userTypeDocRef, { profileImageUrl: downloadURL });
+      alert("Documento criado e foto de perfil salva com sucesso!");
+    }
+
     return downloadURL;
   } catch (error) {
     console.error("Erro ao atualizar a foto de perfil:", error);
+    alert("Ocorreu um erro ao atualizar a foto de perfil. Tente novamente.");
   }
 }

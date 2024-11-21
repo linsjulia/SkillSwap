@@ -71,7 +71,7 @@ export default function TabLayout() {
             
           },
           tabBarStyle: {
-            backgroundColor: "#8c00ff", // Definindo a cor de fundo da barra de abas
+            backgroundColor: "black", // Definindo a cor de fundo da barra de abas
             borderTopWidth: 0, // Removendo a borda superior
             borderTopColor: 'transparent', // Tornando a cor da borda superior transparente
             shadowColor: 'transparent'

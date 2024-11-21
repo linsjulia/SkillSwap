@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useVerificarColecaoUser } from '../../services/verificarColecaoUser';
 import { signOutUser } from '@/src/services/signOut';
@@ -13,9 +13,17 @@ const SettingsScreen = () => {
   
   const handleGoBack = () => {
     if (userType === 'Empresa') {
-      router.replace('/empresa/(tabs)/profile');
+      router.push('/empresa/(tabs)/profile');
     } else if (userType === 'Usuário') {
-      router.replace('/(tabs)/profile');
+      router.push('/(tabs)/profile');
+    }
+  };
+
+  const handleGoProfile = () => {
+    if (userType === 'Empresa') {
+      router.push('/(stack)/editProfilePJ');
+    } else if (userType === 'Usuário') {
+      router.push('/(stack)/editProfile');
     }
   };
 
@@ -23,9 +31,7 @@ const SettingsScreen = () => {
     <View style={styles.container}>
 
       <Text style={styles.title}>Settings</Text>
-      <TouchableOpacity onPress={handleGoBack} style={styles.backIcon}>
-        <Ionicons name="arrow-back" size={24} color="#fff" />
-      </TouchableOpacity>
+      
 
       <TextInput
         style={styles.searchInput}
@@ -33,11 +39,11 @@ const SettingsScreen = () => {
         placeholderTextColor="#bebebe"
       />
 
- 
+      <Pressable onPress={handleGoBack}>
       <View style={styles.profileCard}>
         {userData ? (
           <>
-  
+           
             <ProfileImage userData={userData} style={styles.profileImage} />
             <View style={styles.profileInfo}>
               <Text style={styles.profileName}>{userData.nome || 'Nome não disponível'}</Text>
@@ -51,14 +57,16 @@ const SettingsScreen = () => {
           </View>
         )}
       </View>
+        </Pressable>
 
+    
      
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.editProfileButton}>
-          <Text style={styles.editProfileText}>Edit Profile</Text>
+        <TouchableOpacity style={styles.editProfileButton} onPress={handleGoProfile}>
+          <Text style={styles.editProfileText}>Editar perfil</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.logoutButton} onPress={signOutUser}>
-          <Text style={styles.logoutText}>Log out</Text>
+          <Text style={styles.logoutText}>Deslogar</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -110,13 +118,15 @@ const styles = StyleSheet.create({
     left: 20,
   },
   profileName: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: 'bold',
     color: '#fff',
+    left: 15,
   },
   profileEmail: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#fff',
+    left: 15,
   },
   loadingContainer: {
     flexDirection: 'column',

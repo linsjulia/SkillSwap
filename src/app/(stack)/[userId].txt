@@ -1,0 +1,57 @@
+import { useRouter, useLocalSearchParams, useGlobalSearchParams } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+
+const ProfileScreen = () => {
+  const { userId } = useLocalSearchParams(); // Pega o parâmetro da URL
+  const [userProfile, setUserProfile] = useState<any | null>(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const firestore = getFirestore();
+      try {
+        const userDocRef = doc(firestore, 'Usuário', userId as string); // Garante que userId é uma string
+        const docSnap = await getDoc(userDocRef);
+        if (docSnap.exists()) {
+          setUserProfile(docSnap.data());
+        }
+      } catch (error) {
+        console.error('Erro ao carregar o perfil:', error);
+      }
+    };
+
+    if (userId) {
+      fetchProfile();
+    }
+  }, [userId]);
+
+  return (
+    <ScrollView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>{userProfile?.nome}</Text>
+        {/* Exibe mais informações do usuário */}
+      </View>
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000',
+    padding: 20,
+  },
+  header: {
+    padding: 20,
+    backgroundColor: '#333',
+    marginBottom: 20,
+  },
+  title: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+});
+
+export default ProfileScreen;

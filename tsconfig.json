@@ -15,5 +15,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "index.js", "src/app/index.tsx", "src/services/verificarColecaoUser.js", "src/app/(stack)/settings.js", "src/services/verificarColecaoUser.tsx", "src/components/ProfileImage.js"  ]
+, "index.js", "src/app/index.tsx", "src/services/verificarColecaoUser.js", "src/app/(stack)/settings.js", "src/services/verificarColecaoUser.tsx", "src/components/ProfileImage.js", "src/app/(stack)/curriculum.tsxx", "src/components/candidatosList.tsx", "src/components/Slider.tsx"  ]
 }

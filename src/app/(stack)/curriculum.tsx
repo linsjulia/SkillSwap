@@ -45,7 +45,7 @@ export default function CurriculumScreen() {
     const mensagem = "Currículo Cadastrado";
     
     // navega para página de curriculum com a mensagem como parâmetro
-    router.push({
+    router.replace({
       pathname: "/(tabs)",
       params: { mensagem },
     });

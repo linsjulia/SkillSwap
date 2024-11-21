@@ -33,28 +33,37 @@ export default function Login() {
     }
   });
 
-    async function verificarColecaoUsuario(user: { uid: string | undefined; }) {
+  async function verificarColecaoUsuario(user: { uid: string | undefined }) {
+    if (!user || !user.uid) {
+      console.error("UID do usuário não encontrado");
+      return;
+    }
   
-    const userDocRef = doc(collection(db, 'Usuário'), user.uid);
-    const userDoc = await getDoc(userDocRef);
-
-    if (userDoc.exists()) {
-      console.log('Usuário encontrado na coleção Usuário');
-      router.replace("/(tabs)");
-    } else {
+    try {
+      const userDocRef = doc(collection(db, 'Usuário'), user.uid);
+      const userDoc = await getDoc(userDocRef);
+  
+      if (userDoc.exists()) {
+        console.log('Usuário encontrado na coleção Usuário');
+        router.replace("/(tabs)");
+        return;
+      }
+  
       const empresaDocRef = doc(collection(db, 'Empresa'), user.uid);
       const empresaDoc = await getDoc(empresaDocRef);
-
+  
       if (empresaDoc.exists()) {
         console.log('Usuário encontrado na coleção Empresa');
         router.replace("/empresa/(tabs)/home");
-      } else {
-        console.log('Usuário não encontrado em nenhuma coleção');
+        return;
       }
+  
+      console.log('Usuário não encontrado em nenhuma coleção');
+    } catch (error) {
+      console.error("Erro ao verificar coleção do usuário:", error);
     }
-
-    return;
   }
+  
 
 
   const onSubmit = async (data: LoginFormData) => {
@@ -62,10 +71,8 @@ export default function Login() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
       const user = userCredential.user;
-      await verificarColecaoUsuario(user);
+      await verificarColecaoUsuario(user); // Passando o usuário autenticado
       Alert.alert("Login bem-sucedido", `Bem-vindo, ${user.email}`);
-  
-
     } catch (error) {
       const errorMessage = (error as Error).message;
       Alert.alert("Erro ao fazer login", errorMessage);
@@ -73,6 +80,7 @@ export default function Login() {
       setLoading(false);
     }
   };
+  
 
   const emailValue = watch("email");
   const passwordValue = watch("password");

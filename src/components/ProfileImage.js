@@ -1,4 +1,4 @@
-// components/ProfileImage.js
+
 import React from 'react';
 import { Image, StyleSheet, View, Text } from 'react-native';
 
@@ -18,12 +18,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   profileImage: {
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
     borderRadius: 50,
     borderWidth: 2,
     borderColor: '#00ffd5',
     top: 10,
+    left: 15,
   },
   profileImageNotFound: {
     width: 100,

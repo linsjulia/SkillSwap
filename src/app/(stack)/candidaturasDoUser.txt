@@ -1,0 +1,145 @@
+// import React, { useEffect, useState } from 'react';
+// import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+// import { getFirestore, collection, query, where, getDocs, doc, getDoc, DocumentReference } from 'firebase/firestore';
+// import { auth } from '@/firebaseConfig'; // Supondo que você tenha a configuração do Firebase
+// import CandidatosList from '../../components/candidatosList'; // Componente para exibição dos candidatos
+
+// interface Vaga {
+//   Titulo: string; // Nome da vaga
+//   empresa_ID: string; // ID da empresa
+// }
+
+// interface Empresa {
+//   nome: string; // Nome da empresa
+// }
+
+// interface Candidatura {
+//   id: string;
+//   nomeVaga: string;
+//   nomeEmpresa: string;
+//   status: string;
+// }
+
+// const Candidaturas: React.FC = () => {
+//   const [candidaturas, setCandidaturas] = useState<Candidatura[]>([]);
+//   const [isLoading, setIsLoading] = useState<boolean>(true);
+//   const [error, setError] = useState<string | null>(null);
+
+//   // Função para buscar candidaturas do Firestore
+//   const fetchCandidaturas = async () => {
+//     setIsLoading(true);
+//     const firestore = getFirestore();
+//     const userId = auth.currentUser ? auth.currentUser.uid : null;
+
+//     if (!userId) {
+//       setError('Você precisa estar logado para visualizar suas candidaturas');
+//       setIsLoading(false);
+//       return;
+//     }
+
+//     try {
+//       const candidaturaRef = collection(firestore, 'Candidatura');
+//       const userRef = doc(firestore, 'Usuário', userId);
+
+//       console.log('Consulta: Buscando candidaturas para o usuário', userId);
+
+//       // Criando a consulta para buscar as candidaturas do usuário
+//       const q = query(candidaturaRef, where('Id_Usuario', '==', userRef));
+//       const querySnapshot = await getDocs(q);
+
+//       if (!querySnapshot.empty) {
+//         const candidaturasData: Candidatura[] = [];
+
+//         // Para cada candidatura encontrada, buscaremos os detalhes da vaga e da empresa
+//         for (const docSnap of querySnapshot.docs) {
+//           const candidatura = docSnap.data();
+//           const vagaRef = candidatura.Id_Vagas; // A referência de vaga já deve ser um DocumentReference
+
+//           // Verifique se a vagaRef é realmente uma referência
+//           if (!(vagaRef instanceof DocumentReference)) {
+//             console.error('Erro: vagaRef não é uma referência válida:', vagaRef);
+//             continue;
+//           }
+
+//           // Buscando os detalhes da vaga
+//           const vagaSnap = await getDoc(vagaRef);
+//           const vagaData: Vaga = vagaSnap.data() as Vaga;
+
+//           const empresaRef = vagaData?.empresa_ID ? doc(firestore, 'Empresa', vagaData?.empresa_ID) : null; // Criando a referência de empresa
+
+//           // Verifique se empresaRef é uma referência válida
+//           if (empresaRef && !(empresaRef instanceof DocumentReference)) {
+//             console.error('Erro: empresaRef não é uma referência válida:', empresaRef);
+//             continue;
+//           }
+
+//           let empresaData: Empresa = { nome: 'Empresa desconhecida' };
+//           if (empresaRef) {
+//             const empresaSnap = await getDoc(empresaRef);
+//             empresaData = empresaSnap.data() as Empresa;
+//           }
+
+//           // Adicionando os dados da candidatura, vaga e empresa ao array
+//           candidaturasData.push({
+//             id: docSnap.id,
+//             nomeVaga: vagaData?.Titulo, // Nome da vaga
+//             nomeEmpresa: empresaData?.nome, // Nome da empresa
+//             status: candidatura?.Status, // Status da candidatura
+//           });
+//         }
+
+//         setCandidaturas(candidaturasData);
+//         console.log('Candidaturas encontradas:', candidaturasData);
+//       } else {
+//         setError('Você não se candidatou a nenhuma vaga ainda');
+//         console.log('Nenhuma candidatura encontrada para o usuário');
+//       }
+//     } catch (error) {
+//       console.error('Erro ao carregar as candidaturas:', error);
+//       setError('Erro ao carregar as candidaturas');
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+
+//   // Chama a função de buscar candidaturas ao carregar o componente
+//   useEffect(() => {
+//     fetchCandidaturas();
+//   }, []);
+
+//   return (
+//     <View style={styles.container}>
+//       {isLoading ? (
+//         <ActivityIndicator size="large" color="#fff" />
+//       ) : error ? (
+//         <Text style={styles.errorText}>{error}</Text>
+//       ) : (
+//         <>
+//           <Text style={styles.headerText}>Suas Candidaturas</Text>
+//           <CandidatosList candidatos={candidaturas} />
+//         </>
+//       )}
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#000',
+//     padding: 20,
+//   },
+//   headerText: {
+//     fontSize: 24,
+//     fontWeight: 'bold',
+//     color: '#fff',
+//     marginBottom: 20,
+//   },
+//   errorText: {
+//     color: 'red',
+//     textAlign: 'center',
+//     marginTop: 20,
+//   },
+// });
+
+// export default Candidaturas;

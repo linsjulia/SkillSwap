@@ -11,9 +11,9 @@ interface CompanyData {
   email: string;
   password: string;
   nome: string;
-  endereco: string;
   telefone: string;
   cnpj: string;
+  localizacao: string;
 }
 
 interface UserData {
@@ -23,11 +23,12 @@ interface UserData {
   telefone: string;
   dataNascimento: string;
   cpf: string;
+  localizacao: string;
 
 }
 
 // Registro da empresa
-export async function registerCompany({ email, password, nome, endereco, telefone, cnpj }: CompanyData) {
+export async function registerCompany({ email, password, nome, telefone, cnpj, localizacao }: CompanyData) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
@@ -37,7 +38,7 @@ export async function registerCompany({ email, password, nome, endereco, telefon
       cnpj,
       email,
       telefone,
-      endereco,
+      localizacao,
       data_fundacao: Timestamp.now(),
     });
 
@@ -48,7 +49,7 @@ export async function registerCompany({ email, password, nome, endereco, telefon
 }
 
 // Registro do usuário
-export async function registerUser({ email, password, nome, telefone, dataNascimento, cpf }: UserData) {
+export async function registerUser({ email, password, nome, telefone, dataNascimento, cpf, localizacao }: UserData) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
@@ -58,6 +59,7 @@ export async function registerUser({ email, password, nome, telefone, dataNascim
       cpf,
       email,
       telefone,
+      localizacao,
       data_nascimento: dataNascimento,
 
       // Senha não deve ser armazenada no Firestore por motivos de segurança

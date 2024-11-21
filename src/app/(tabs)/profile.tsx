@@ -1,77 +1,30 @@
-import { ExitButton, InfoProfile, ReadOnlyInput, SaveButton } from "@/src/components/user/profile/profileComponents";
-import { UserLogo } from "@/src/components/user/profile/User";
-import { router } from "expo-router";
-import { View, Text, Image, ScrollView, StyleSheet, TextInput, TouchableOpacity, Pressable, ActivityIndicator } from "react-native";
-import { getAuth, User, signOut } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { auth } from "@/firebaseConfig";
-import * as ImagePicker from "expo-image-picker";
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { doc, getFirestore, updateDoc, getDoc } from 'firebase/firestore';
-import Icon from "react-native-vector-icons/Ionicons";
-import { selectAndUploadProfileImage } from "@/src/services/uploadProfileImage";
-import { selectAndUploadBannerImage } from "@/src/services/updateBannerImage";
+import { auth } from '@/firebaseConfig';
+import { router } from 'expo-router';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Pressable } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { LinearGradient } from 'expo-linear-gradient'; 
+import { User } from '@/src/components/enterprise/profile/User';
+
 export interface UserProfile {
   nome: string;
   email: string;
   data_nascimento: string;
-  profileImageURL?: string; 
+  profileImageUrl?: string; 
   site: string;
+  portfolio?: { url: string; description: string };
+  area_atuacao: string;
 }
 
-interface LoadingOverlayProps {
-  visible: boolean; // Define o tipo como boolean
-}
 
-export default function Profile({nome, email, data_nascimento}:UserProfile) {
+export default function ProfileScreen() {
+  const [UserProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [ profileImageUrl, setProfileImageUrl ] = useState<string | null>(null);
   const [bannerImageUrl, setBannerImageUrl] = useState<string | null>(null);
-  const [UserProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(false);
   const firestore = getFirestore();
-  const [loadingData, setLoadingData] = useState(true);
-  const [loadingBanner, setLoadingBanner] = useState(false);
-  const [loadingProfileImage, setLoadingProfileImage] = useState(false);
 
-  
-  useEffect(() => {
-    const fetchUserProfileBannerImage = async () => {
-      setLoadingData(true)
-      const auth = getAuth();
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const db = getFirestore();
-      const userDocRef = doc(db, 'Usuário', user.uid);
-      const userDoc = await getDoc(userDocRef);
-
-      if (userDoc.exists()) {
-        setProfileImageUrl(userDoc.data()?.profileImageUrl || null);
-        setBannerImageUrl(userDoc.data()?.bannerImageUrl || null);
-      }
-      setLoadingData(false)
-    };
-
-    fetchUserProfileBannerImage();
-  }, []);
-
-  const handleProfileImageUpdate = async () => {
-    setLoadingProfileImage(true);
-    const newImageUrl = await selectAndUploadProfileImage();
-    if (newImageUrl) {
-      setProfileImageUrl(newImageUrl);
-    }
-    setLoadingProfileImage(false);
-  };
-
-  const handleBannerUpdate = async () => {
-    setLoadingBanner(true);
-    const newBannerUrl = await selectAndUploadBannerImage();
-    if (newBannerUrl) {
-      setBannerImageUrl(newBannerUrl);
-    }
-    setLoadingBanner(false);
-  };
+  // puxar os dados do usuário
 
   const getUserProfile = async (setUserProfile: React.Dispatch<React.SetStateAction<UserProfile | null>>) => {
     const userId = auth.currentUser?.uid;
@@ -95,198 +48,197 @@ export default function Profile({nome, email, data_nascimento}:UserProfile) {
     getUserProfile(setUserProfile);
   }, []);
 
-  if (!UserProfile) return <ActivityIndicator size="large" color="#894aff" />;
+  useEffect(() => {
+    const fetchUserProfileBannerImage = async () => {
+   
+     
+      const user = auth.currentUser;
+      if (!user) return;
 
-  const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ visible }) => {
-    if (!visible) return null; // Retorna null se não for visível
-  
-    return (
-      <View style={styles.overlayLoading}>
-        <ActivityIndicator size="large" color="#fff" />
-      </View>
-    );
-  };
-  
+      const db = getFirestore();
+      const userDocRef = doc(db, 'Usuário', user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        setProfileImageUrl(userDoc.data()?.profileImageUrl || null);
+        setBannerImageUrl(userDoc.data()?.bannerImageUrl || null);
+      }
+    
+    };
+
+    fetchUserProfileBannerImage();
+  }, []);
+
 
   return (
-
-    <View style={styles.container}>
-      <LoadingOverlay visible={loadingData || loadingBanner || loadingProfileImage}/> 
-    
-    <Image
-      source={bannerImageUrl ? { uri: bannerImageUrl } : require('../../assets/banner.png')}
-      style={{ height: 80, padding: 0,  }}
-      />
-
-    <Pressable style={styles.overlay} onPress={handleBannerUpdate}>
-      <Icon name="pencil" size={30} color='#fff' />
-    </Pressable>
-
-    <View style={{ display: 'flex', flexDirection: 'row', gap: 300, left: 13, top: 30, }}>
-    <Pressable onPress={handleProfileImageUpdate}>
-      <Icon name="pencil" size={30} color='#fff'></Icon>
-    </Pressable>
-        
-
-    <Pressable onPress={() => {router.replace('/(stack)/settings')}}>
-        <Icon name="settings-outline" size={26} color="#fff"/>
-      </Pressable>
-    </View>
-    {/* Profile Information */}
-    <View style={styles.profileContainer}>
-    {profileImageUrl ? (
-      <Image
-        source={{ uri: profileImageUrl }}
-        style={styles.profileImage}
-      /> ) : (
-        <Text></Text>
-      )}
-
-      <Text style={styles.nameText}>{UserProfile.nome}</Text>
-      <Text style={styles.roleText}>Candidato</Text>
-    </View>
-
-    {/* Form */}
-    <View style={styles.formContainer}>
-      <Text style={styles.label}>Email</Text>
-      <View style={styles.inputContainer}>
-        <Icon name="mail-outline" size={20} color="#ffffff" style={styles.icon}/>
-        <TextInput
-          style={styles.input}
-          placeholder="Your Email"
-          value={UserProfile.email}
-          editable={false}
+    <ScrollView contentContainerStyle={styles.container}>
+     
+     
+        <Image 
+        source={bannerImageUrl ? {uri: bannerImageUrl} : require('../../assets/banner.png')}
+        style={{ height: 100, padding: 0}}
+        ></Image>
+        <View style={styles.header}>
+        <Image
+          source={profileImageUrl ? {uri: profileImageUrl} : require('../../assets/user.png')}
+          style={styles.profileImage}
         />
+        <Text style={styles.name}>{UserProfile?.nome}</Text>
+        </View>
+       
+        <Pressable
+          style={styles.settingsIcon}
+          onPress={() => {
+            router.replace('/(stack)/settings');
+          }}
+        >
+          <Icon name="settings-outline" size={26} color="#fff" />
+        </Pressable>
+     
+
+      <View style={styles.infoContainer}>
+        <Text style={styles.label}>Área de Atuação</Text>
+        <Text style={styles.value}>{UserProfile?.area_atuacao}</Text>
+
+        <Text style={styles.label}>Contato</Text>
+        <Text style={[styles.value, styles.link]}>{UserProfile?.email}</Text>
+
+        <Text style={styles.label}>Localização</Text>
+        <Text style={styles.value}>São Paulo</Text>
+
+        <TouchableOpacity style={styles.button}>
+        <LinearGradient
+        colors={['#9900ff', '#5900ff', '#0084ff']}
+        style={styles.gradient}>
+        <Text style={styles.buttonText}>Currículo</Text>
+        </LinearGradient>
+        </TouchableOpacity>
+        </View>
+
+      {/* Resumo */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Resumo</Text>
+        <Text style={styles.sectionContent}>
+          Meu objetivo é criar soluções digitais que impressionem visualmente, funcionem
+          perfeitamente e proporcionem a melhor experiência ao usuário. Estou sempre disposto a
+          aprender, enfrentar desafios e evoluir como profissional...
+          <Text style={styles.link}> Ver mais</Text>
+        </Text>
       </View>
 
-      <Text style={styles.label}>Website</Text>
-      <View style={styles.inputContainer}>
-        <Icon name="link-outline" size={20} color="#ffffff" style={styles.icon}/>
-        <TextInput
-          style={styles.input}
-          placeholder=""
-          value={UserProfile.site}
-          editable={false}
-        />
+      {/* Portfólio */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Portfólio</Text>
+        <View style={styles.portfolioBox} />
       </View>
-
-      <Text style={styles.label}>Data de nascimento</Text>
-      <View style={styles.inputContainer}>
-        <Icon name="calendar-outline" size={20} color="#ffffff" style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder=""
-          value=""
-          editable={false}
-        />
-      </View>
-    </View>
- 
-  </View>
-);
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#111',
-    
+    flexGrow: 1,
+    backgroundColor: '#000', 
   },
-  overlay: {
-    position: 'absolute',
-    zIndex: 10, 
-    top: 0, 
-    left: 339, 
-    right: 0, 
-    bottom: 530, 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-  },
-
-  icon: {
-    left: 16,
-    top: 2,
-  },
-
-  // header: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   paddingHorizontal: 20,
-  //   marginBottom: 20,
-  // },
-  headerText: {
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  profileContainer: {
+  header: {
+    bottom: 30,
+    paddingVertical: 0,
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 0,
+    position: 'relative', 
   },
   profileImage: {
     width: 100,
     height: 100,
-    borderRadius: 50,
-    bottom: 55,
-    backgroundColor: '#111',
+    borderRadius: 55,
+    marginBottom: 18,
     borderWidth: 1,
-    borderColor: '#00a2ff',
-  },
-  nameText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    bottom: 40,
-  },
-  roleText: {
-    fontSize: 16,
-    color: '#fff',
-    bottom: 33,
-  },
-  formContainer: {
-    backgroundColor: '#8c00ff',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    padding: 30,
-    borderRadius: 0,
-    height: 395,
-    bottom: 27,
-  },
-  label: {
-    fontSize: 15,
-    color: '#ffffff',
-    marginBottom: 5,
-    fontWeight: 'bold',
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#380077',
-    borderRadius: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#464646',
-    marginBottom: 20,
-    paddingBottom: 4,
-    color: 'white',
-    padding: 0,
-  },
-  input: {
-    flex: 1,
-    marginLeft: 20,
-    fontSize: 16,
-    color: '#ffffff',
-    padding: 10,
-    height: 40,
-    top: 1,
+    borderColor: "#00a2ff"
     
   },
+  name: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFF',
+  },
+  settingsIcon: {
+    position: 'absolute',
+    top: 10, 
+    right: 10, 
+  },
+  infoContainer: {
+    backgroundColor: '#12133f', 
+    padding: 30,
+    height: 350,
+    marginHorizontal: 24,
+    borderRadius: 10,
+    marginBottom: 50,
+    borderWidth: 1,
+    borderColor: '#5900ff'
 
-  overlayLoading: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFF',
+    marginBottom: 5,
+  },
+  value: {
+    fontSize: 16,
+    color: '#BBB',
+    marginBottom: 15,
+  },
+  link: {
+    color: '#8400ff',
+    textDecorationLine: 'underline',
+  },
+  button: {
+    
+    paddingVertical: 32,
     alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1,
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  section: {
+    marginHorizontal: 20,
+    marginBottom: 20,
+    marginTop: 10
+ 
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFF',
+    marginBottom: 10,
+    textAlign: "center"
+  },
+  sectionContent: {
+    fontSize: 16,
+    color: '#ffffff',
+    backgroundColor: "#12133f",
+    borderWidth: 1,
+    borderColor: '#5900ff',
+    padding: 20,
+    borderRadius: 10,
+    margin: 10
   },
   
+  portfolioBox: {
+    backgroundColor: '#12133f', 
+    height: 180,
+    margin: 10,
+    borderRadius: 10,
+    marginBottom: 30
+  },
+  gradient: {
+    paddingVertical: 15,
+    paddingHorizontal: 65,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

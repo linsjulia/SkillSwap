@@ -14,12 +14,14 @@
       "backgroundColor": "black"
     },
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "newArchEnabled": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logoSkillSwap.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "newArchEnabled": true
         
       },
       "package": "com.skillswap.app"

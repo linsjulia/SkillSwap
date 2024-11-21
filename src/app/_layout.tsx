@@ -41,7 +41,7 @@ export default function RootLayout() {
         options={{
           title: "Skill Swap",
           headerStyle: {
-            backgroundColor: "#6f00ff",
+            backgroundColor: "#111",
           },
           headerTintColor: "white",
           headerTitleStyle: {
@@ -56,9 +56,9 @@ export default function RootLayout() {
         options={{
           title: "Skill Swap",
           headerStyle: {
-            backgroundColor: "#212121",
+            backgroundColor: "#111",
           },
-          headerTintColor: "white",
+          headerTintColor: "#111",
           headerTitleStyle: {
             fontFamily: "Inter",
             fontWeight: "bold",
@@ -114,7 +114,7 @@ export default function RootLayout() {
       <Stack.Screen
       name="login"
       options={{
-        title: "Login",
+        title: "Skill Swap",
         headerStyle: {
           backgroundColor: "#6f00ff"
         },
@@ -131,7 +131,7 @@ export default function RootLayout() {
         options={{
           title: "Skill Swap",
           headerStyle: {
-            backgroundColor: "#212121",
+            backgroundColor: "#6f00ff",
           },
           headerTintColor: "white",
           headerTitleStyle: {
@@ -186,6 +186,8 @@ export default function RootLayout() {
         }}
       />
  
+
+
       <Stack.Screen
         name="curriculumDescription"
         options={{
@@ -216,6 +218,7 @@ export default function RootLayout() {
          
         }}
       />
+
 
       <Stack.Screen
         name="(stack)/resetPassword"
@@ -261,8 +264,93 @@ export default function RootLayout() {
         }}
       />
 
+      <Stack.Screen
+        name="(stack)/CandidatosVaga"
+        options={{
+          title: 'Skill Swap',
+          headerStyle: {
+            backgroundColor: 'black'
+          },
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold'
+          }
+        }}
+      />
+
+        <Stack.Screen
+          name="(stack)/editProfile"
+          options={{
+            title: "Skill Swap",
+            headerStyle:{
+              backgroundColor: 'black'
+            },
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontWeight: 'bold'
+            }
+          }}
+        />
       
+      <Stack.Screen
+      name="(stack)/vagasCategory"
+      options={{
+        title: "Skill Swap",
+        headerStyle:{
+          backgroundColor: "black"
+        },
+        headerTintColor: "white",
+        headerTitleStyle: {
+          fontWeight: "bold"
+        }
+      }}
+      />
+
+      <Stack.Screen
+      name="(stack)/ApplicationConfirmationScreen"
+      options={{
+        title: "Skill Swap",
+        headerStyle:{
+          backgroundColor: "black"
+        },
+        headerTintColor: "white",
+        headerTitleStyle: {
+          fontWeight: "bold"
+        }
+      }}
+      />
       
+      <Stack.Screen
+      name="(stack)/candidaturasDoUser"
+      options={{
+        title: "Skill Swap",
+        headerStyle:{
+          backgroundColor: "black"
+        },
+        headerTintColor: "white",
+        headerTitleStyle: {
+          fontWeight: "bold"
+        }
+      }}
+      />
+
+    
+
+      <Stack.Screen
+      name="(stack)/editProfilePJ"
+      options={{
+        title: "Skill Swap",
+        headerStyle:{
+          backgroundColor: "black"
+        },
+        headerTintColor: "white",
+        headerTitleStyle: {
+          fontWeight: "bold"
+        }
+      }}
+      />
+      
+    
     </Stack>
 
     

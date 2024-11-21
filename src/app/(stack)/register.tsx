@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import { useState } from "react";
 import { LoginAccount, RegisterLogin, TabButtonsType, TabsButtons } from "../../components/register/registerComponents";
-import { InputsText } from "../../components/inputText";
+import { InputsPassword, InputsText } from "../../components/inputText";
 import { Checkbox } from "../../components/Checkbox";
 import { registerCompany, registerUser } from '../../services/authService'; 
 import { useRouter } from 'expo-router';
@@ -25,6 +25,7 @@ interface PessoaFisicaFormData {
   telefone: string;
   dataNascimento: string;
   cpf: string;
+  localizacao: string;
   
 }
 
@@ -34,6 +35,7 @@ interface PessoaJuridicaFormData {
   nomeEmpresa: string;
   telefone: string;
   cnpj: string;
+  localizacao: string;
 }
 
 export default function Register() {
@@ -54,6 +56,7 @@ export default function Register() {
     telefone: yup.string().required("Campo de texto obrigatório"),
     dataNascimento: yup.string().required("Campo de texto obrigatório"),
     cpf: yup.string().required("Campo de texto obrigatório"),
+    localizacao: yup.string().required("Campo de texto obrigatório"),
   });
 
   // Schema de validação para Pessoa Jurídica
@@ -65,6 +68,7 @@ export default function Register() {
     nomeEmpresa: yup.string().required("Campo de texto obrigatório"),
     telefone: yup.string().required("Campo de texto obrigatório"),
     cnpj: yup.string().required("Campo de texto obrigatório"),
+    localizacao: yup.string().required("Campo de texto obrigatório"),
   });
 
   // Formulário para Pessoa Física
@@ -90,6 +94,7 @@ export default function Register() {
         telefone: data.telefone,
         dataNascimento: data.dataNascimento,
         cpf: data.cpf,
+        localizacao: data.localizacao,
         
       });
       setLoading(false);
@@ -121,13 +126,14 @@ export default function Register() {
         nome: data.nomeEmpresa,  
         telefone: data.telefone,
         cnpj: data.cnpj,
-        endereco: "", 
+        localizacao: data.localizacao,
+
       });
       setLoading(false);
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
-        router.replace('/(tabs)');
+        router.replace('/empresa/(tabs)/home');
         setIsSubmitting(false);
         }, 3000);
       
@@ -186,7 +192,7 @@ export default function Register() {
             />
             {errorsPessoaFisica.nome && <Text style={styles.labelError}>{errorsPessoaFisica.nome.message}</Text>}
 
-            {/* Restante dos campos para Pessoa Física */}
+         
               <Controller
                 control={controlPessoaFisica}
                 render={({ field: { onChange, onBlur, value} }) => (
@@ -230,6 +236,21 @@ export default function Register() {
             />
             {errorsPessoaFisica.dataNascimento && <Text style={styles.labelError}>{errorsPessoaFisica.dataNascimento.message}</Text>}
 
+    
+            <Controller
+              control={controlPessoaFisica}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <InputsText 
+                  placaholder="Localização:" 
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name="localizacao"
+            />
+            {errorsPessoaFisica.localizacao && <Text style={styles.labelError}>{errorsPessoaFisica.localizacao.message}</Text>}
+
             <Controller
               control={controlPessoaFisica}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -247,7 +268,7 @@ export default function Register() {
             <Controller
               control={controlPessoaFisica}
               render={({ field: { onChange, onBlur, value } }) => (
-                <InputsText 
+                <InputsPassword
                   placaholder="Senha: " 
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -317,6 +338,20 @@ export default function Register() {
               control={controlPessoaJuridica}
               render={({ field: { onChange, onBlur, value } }) => (
                 <InputsText 
+                  placaholder="Localização:" 
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name="localizacao"
+            />
+            {errorsPessoaJuridica.localizacao && <Text style={styles.labelError}>{errorsPessoaJuridica.localizacao.message}</Text>}
+
+            <Controller
+              control={controlPessoaJuridica}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <InputsText 
                   placaholder="E-mail: " 
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -330,7 +365,7 @@ export default function Register() {
             <Controller
               control={controlPessoaJuridica}
               render={({ field: { onChange, onBlur, value } }) => (
-                <InputsText 
+                <InputsPassword
                   placaholder="Senha: " 
                   onBlur={onBlur}
                   onChangeText={onChange}

@@ -39,7 +39,7 @@ export default function CompanyTabsLayout() {
         title: '', 
         headerShown: false,
         tabBarStyle :{
-          backgroundColor: '#8c00ff',
+          backgroundColor: 'black',
           borderTopWidth: 0,
           borderTopColor: 'transparent',
           shadowColor: "transparent"
