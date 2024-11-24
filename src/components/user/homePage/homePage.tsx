@@ -32,14 +32,10 @@ interface Work {
   nameEnterprise2: string, // Definindo o tipo para a propriedade nameEnterprise
   description2: string, // Definindo o tipo para a propriedade description
   image2: string,
-
 }
 
 // Componente que exibe um cartão com informações sobre um trabalho
 export function CardWork({ title2, nameEnterprise2, description2 }: Work) {
-
-  
-
   return (
    // <Pressable onPress={() => router.push({
     // pathname: '/(stack)/jobDescription',
