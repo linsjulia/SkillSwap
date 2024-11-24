@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, StyleSheet, Pressable, ScrollView, Platform } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { db, setDoc, addDoc, collection, doc, getDoc } from '../../../firebaseConfig';
 import { getAuth } from 'firebase/auth';
-import React from 'react';
+import { Picker } from '@react-native-picker/picker';
+import { RadioButton } from 'react-native-paper';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 interface Formacao {
-  portfolio: string;
-  experiencia: string;
   nome: string;
   endereco: string;
   dataNascimento: string;
@@ -18,9 +18,11 @@ interface Formacao {
   nivelEscolaridade: string;
   inicioTermino: string;
   horario: string;
+  experiencia: string;
+  portfolio: string;
 }
 
-export default function CurriculumScreen() { 
+export default function CurriculumScreen() {
   const router = useRouter();
   const { vagaId, userId } = useLocalSearchParams();
 
@@ -39,6 +41,7 @@ export default function CurriculumScreen() {
     portfolio: ''
   });
 
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
 
@@ -92,7 +95,7 @@ export default function CurriculumScreen() {
     setIsLoading(true);
 
     const requiredFields: (keyof Formacao)[] = [
-      'nome', 'endereco', 'dataNascimento', 'estadoCivil', 
+      'nome', 'endereco', 'dataNascimento', 'estadoCivil',
       'sexo', 'nivelEscolaridade', 'instituicao', 'curso', 'inicioTermino'
     ];
 
@@ -146,9 +149,22 @@ export default function CurriculumScreen() {
     }
   };
 
+  const openDatePicker = () => {
+    setShowDatePicker(true);
+  };
+
+  const onDateChange = (event: any, selectedDate?: Date) => {
+    setShowDatePicker(false);
+    if (selectedDate) {
+      const formattedDate = selectedDate.toISOString().split('T')[0];
+      handleChange('dataNascimento', formattedDate);
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Currículo</Text>
+
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Dados Pessoais</Text>
         <TextInput
@@ -165,13 +181,20 @@ export default function CurriculumScreen() {
           value={formacao.endereco}
           onChangeText={(text) => handleChange('endereco', text)}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Data de Nascimento"
-          placeholderTextColor="#888"
-          value={formacao.dataNascimento}
-          onChangeText={(text) => handleChange('dataNascimento', text)}
-        />
+        <Pressable onPress={openDatePicker}>
+          <Text style={[styles.input, { color: formacao.dataNascimento ? '#000' : '#888' }]}>
+            {formacao.dataNascimento || 'Selecionar Data de Nascimento'}
+          </Text>
+        </Pressable>
+        {showDatePicker && (
+          <DateTimePicker
+            value={formacao.dataNascimento ? new Date(formacao.dataNascimento) : new Date()}
+            mode="date"
+            display={Platform.OS === 'ios' ? 'inline' : 'default'}
+            onChange={onDateChange}
+            maximumDate={new Date()}
+          />
+        )}
         <TextInput
           style={styles.input}
           placeholder="Estado Civil"
@@ -186,6 +209,18 @@ export default function CurriculumScreen() {
           value={formacao.sexo}
           onChangeText={(text) => handleChange('sexo', text)}
         />
+        <Text style={styles.sectionTitle}>Formação Acadêmica</Text>
+        <Text style={styles.label}>Nível de Escolaridade:</Text>
+        <Picker
+          selectedValue={formacao.nivelEscolaridade}
+          style={styles.input}
+          onValueChange={(itemValue: string) => handleChange('nivelEscolaridade', itemValue)}
+        >
+          <Picker.Item label="Selecione" value="" />
+          <Picker.Item label="Ensino Médio" value="Ensino Médio" />
+          <Picker.Item label="Ensino Superior" value="Ensino Superior" />
+          <Picker.Item label="Pós-Graduação" value="Pós-Graduação" />
+        </Picker>
         <TextInput
           style={styles.input}
           placeholder="Instituição"
@@ -202,43 +237,28 @@ export default function CurriculumScreen() {
         />
         <TextInput
           style={styles.input}
-          placeholder="Nível de Escolaridade"
-          placeholderTextColor="#888"
-          value={formacao.nivelEscolaridade}
-          onChangeText={(text) => handleChange('nivelEscolaridade', text)}
-        />
-        <TextInput
-          style={styles.input}
           placeholder="Período de Início e Término"
           placeholderTextColor="#888"
           value={formacao.inicioTermino}
           onChangeText={(text) => handleChange('inicioTermino', text)}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Horário Letivo"
-          placeholderTextColor="#888"
-          value={formacao.horario}
-          onChangeText={(text) => handleChange('horario', text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Experiência"
-          placeholderTextColor="#888"
-          value={formacao.experiencia}
-          onChangeText={(text) => handleChange('experiencia', text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Portfolio (Link)"
-          placeholderTextColor="#888"
-          value={formacao.portfolio}
-          onChangeText={(text) => handleChange('portfolio', text)}
-        />
+        <Text style={styles.label}>Horário Letivo:</Text>
+        <View style={styles.radioGroup}>
+          {['Matutino', 'Vespertino', 'Noturno', 'A distância'].map((value) => (
+            <RadioButton.Group
+              key={value}
+              onValueChange={(newValue: string) => handleChange('horario', newValue)}
+              value={formacao.horario}
+            >
+              <RadioButton value={value} />
+              <Text style={styles.radioLabel}>{value}</Text>
+            </RadioButton.Group>
+          ))}
+        </View>
       </View>
 
-      <Pressable style={styles.button} onPress={handleSubmit} disabled={isLoading}>
-        <Text style={styles.buttonText}>Confirmar</Text>
+      <Pressable style={styles.button} onPress={handleSubmit}>
+        <Text style={styles.buttonText}>{isLoading ? 'Enviando...' : 'Salvar e Enviar'}</Text>
       </Pressable>
     </ScrollView>
   );
@@ -251,19 +271,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
-  title: {
+  title: { 
     color: '#fff',
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
+    marginTop: 10,
     marginBottom: 20,
     textShadowColor: '#6a00ff',
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 20,
   },
-  section: {
+  section: { 
     marginBottom: 20,
-    padding: 15,
+    padding: 20,
     borderRadius: 15,
     borderWidth: 2,
     borderColor: '#6a00ff',
@@ -272,16 +293,18 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     shadowOffset: { width: 0, height: 0 },
   },
-  sectionTitle: {
+  sectionTitle: { 
     color: '#fff',
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 20,
     textShadowColor: '#6a00ff',
     textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 10,
+    textShadowRadius: 20,
   },
-  input: {
+  input: { 
     backgroundColor: '#333',
     color: '#fff',
     padding: 10,
@@ -289,17 +312,38 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderWidth: 1,
     borderColor: '#6a00ff',
+    
   },
-  button: {
+  label: { 
+    color: '#fff',
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#6a00ff',
+  },
+  radioGroup: { 
+    flexDirection: 'row', 
+    flexWrap: 'wrap',
+    color: '#fff'
+  
+  },
+  radioLabel: { 
+    marginLeft: 0, 
+    marginRight: 10,
+    color: '#fff'
+  },
+  button: { 
     backgroundColor: '#6a00ff',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 20, 
   },
   buttonText: {
     color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: 'bold', 
   },
+ 
 });
