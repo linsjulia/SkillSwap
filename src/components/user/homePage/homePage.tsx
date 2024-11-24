@@ -82,6 +82,7 @@ export function CardWork({ title2, nameEnterprise2, description2 }: Work) {
             bottom: 8,
           }}
         />
+        
         <Text
           className="text-right text-white text-lg absolute left-52"
           style={{
