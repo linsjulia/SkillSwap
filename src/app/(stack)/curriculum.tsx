@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, Pressable, ScrollView } from 'react-native';
-import { RadioButton } from 'react-native-paper';
-import { Picker } from '@react-native-picker/picker';
-import { router } from "expo-router"; 
-import LottieView from 'lottie-react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { db, setDoc, addDoc, collection, doc, getDoc } from '../../../firebaseConfig';
+import { getAuth } from 'firebase/auth';
+import React from 'react';
 
 interface Formacao {
+  portfolio: string;
+  experiencia: string;
   nome: string;
   endereco: string;
   dataNascimento: string;
@@ -19,6 +21,9 @@ interface Formacao {
 }
 
 export default function CurriculumScreen() { 
+  const router = useRouter();
+  const { vagaId, userId } = useLocalSearchParams();
+
   const [formacao, setFormacao] = useState<Formacao>({
     nome: '',
     endereco: '',
@@ -29,10 +34,52 @@ export default function CurriculumScreen() {
     curso: '',
     nivelEscolaridade: '',
     inicioTermino: '',
-    horario: ''
+    horario: '',
+    experiencia: '',
+    portfolio: ''
   });
 
+  const [isLoading, setIsLoading] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
+
+  const auth = getAuth();
+
+  useEffect(() => {
+    if (!userId || !vagaId) {
+      alert('Parâmetros de usuário ou vaga ausentes.');
+      router.push('/');
+      return;
+    }
+
+    const loadCurriculum = async () => {
+      try {
+        const userCurriculumRef = doc(db, 'Curriculo', userId as string);
+        const userCurriculumSnapshot = await getDoc(userCurriculumRef);
+
+        if (userCurriculumSnapshot.exists()) {
+          const data = userCurriculumSnapshot.data();
+          setFormacao({
+            nome: data.Nome || '',
+            endereco: data.Endereco || '',
+            dataNascimento: data.DataNascimento || '',
+            estadoCivil: data.EstadoCivil || '',
+            sexo: data.Sexo || '',
+            instituicao: data.Formacao[1] || '',
+            curso: data.Formacao[2] || '',
+            nivelEscolaridade: data.Formacao[0] || '',
+            inicioTermino: data.Formacao[3] || '',
+            horario: data.HorarioLetivo || '',
+            experiencia: data.Experiencia || '',
+            portfolio: data.PdfLink || ''
+          });
+        }
+      } catch (error) {
+        console.error('Erro ao carregar currículo:', error);
+      }
+    };
+
+    loadCurriculum();
+  }, [userId, vagaId]);
 
   const handleChange = (name: keyof Formacao, value: string) => {
     setFormacao({
@@ -41,126 +88,156 @@ export default function CurriculumScreen() {
     });
   };
 
-  const handleSubmit = () => {
-    const mensagem = "Currículo Cadastrado";
-    
-    // navega para página de curriculum com a mensagem como parâmetro
-    router.replace({
-      pathname: "/(tabs)",
-      params: { mensagem },
-    });
+  const handleSubmit = async () => {
+    setIsLoading(true);
+
+    const requiredFields: (keyof Formacao)[] = [
+      'nome', 'endereco', 'dataNascimento', 'estadoCivil', 
+      'sexo', 'nivelEscolaridade', 'instituicao', 'curso', 'inicioTermino'
+    ];
+
+    for (const field of requiredFields) {
+      if (!formacao[field]) {
+        alert(`Por favor, preencha o campo: ${field}`);
+        setIsLoading(false);
+        return;
+      }
+    }
+
+    try {
+      const curriculumData = {
+        Data_Atualizacao: new Date().toISOString(),
+        Experiencia: formacao.experiencia || '',
+        Formacao: [formacao.nivelEscolaridade, formacao.instituicao, formacao.curso, formacao.inicioTermino],
+        Id_Usuario: userId,
+        DataNascimento: formacao.dataNascimento,
+        Endereco: formacao.endereco,
+        EstadoCivil: formacao.estadoCivil,
+        HorarioLetivo: formacao.horario,
+        Nome: formacao.nome,
+        PdfLink: formacao.portfolio || '',
+        Sexo: formacao.sexo
+      };
+
+      const userCurriculumRef = doc(db, "Curriculo", userId as string);
+      const userCurriculumSnapshot = await getDoc(userCurriculumRef);
+
+      if (userCurriculumSnapshot.exists()) {
+        await setDoc(userCurriculumRef, curriculumData, { merge: true });
+      } else {
+        await setDoc(userCurriculumRef, curriculumData);
+      }
+
+      const candidaturaData = {
+        Id_Usuario: userId,
+        Id_Vaga: vagaId,
+        DataCandidatura: new Date().toISOString()
+      };
+
+      await addDoc(collection(db, "Candidatura"), candidaturaData);
+
+      setMessageVisible(true);
+      setTimeout(() => router.push(`/(tabs)`), 2000);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Erro ao enviar currículo:", error);
+      alert("Erro ao enviar os dados. Tente novamente.");
+      setIsLoading(false);
+    }
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Currículo</Text>
-
-  
-
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Dados Pessoais</Text>
         <TextInput
           style={styles.input}
           placeholder="Nome"
           placeholderTextColor="#888"
+          value={formacao.nome}
           onChangeText={(text) => handleChange('nome', text)}
         />
         <TextInput
           style={styles.input}
           placeholder="Endereço"
           placeholderTextColor="#888"
+          value={formacao.endereco}
           onChangeText={(text) => handleChange('endereco', text)}
         />
         <TextInput
           style={styles.input}
           placeholder="Data de Nascimento"
           placeholderTextColor="#888"
+          value={formacao.dataNascimento}
           onChangeText={(text) => handleChange('dataNascimento', text)}
         />
         <TextInput
           style={styles.input}
           placeholder="Estado Civil"
           placeholderTextColor="#888"
+          value={formacao.estadoCivil}
           onChangeText={(text) => handleChange('estadoCivil', text)}
         />
         <TextInput
           style={styles.input}
           placeholder="Sexo"
           placeholderTextColor="#888"
+          value={formacao.sexo}
           onChangeText={(text) => handleChange('sexo', text)}
         />
-  
-        <Text style={styles.sectionTitle}>Formação Acadêmica</Text>
         <TextInput
           style={styles.input}
           placeholder="Instituição"
           placeholderTextColor="#888"
+          value={formacao.instituicao}
           onChangeText={(text) => handleChange('instituicao', text)}
         />
         <TextInput
           style={styles.input}
           placeholder="Curso"
           placeholderTextColor="#888"
+          value={formacao.curso}
           onChangeText={(text) => handleChange('curso', text)}
         />
-        <Text style={styles.label}>Nível de Escolaridade:</Text>
-        <Picker
-          selectedValue={formacao.nivelEscolaridade}
-          style={styles.picker}
-          onValueChange={(itemValue) => handleChange('nivelEscolaridade', itemValue)}
-        >
-          <Picker.Item label="Selecione" value="" />
-          <Picker.Item label="Ensino Médio" value="Ensino Médio" />
-          <Picker.Item label="Ensino Superior" value="Ensino Superior" />
-          <Picker.Item label="Pós-Graduação" value="Pós-Graduação" />
-        </Picker>
-        <Text style={styles.label}>Início e Término do Curso:</Text>
         <TextInput
           style={styles.input}
-          placeholder="Início e Término"
+          placeholder="Nível de Escolaridade"
           placeholderTextColor="#888"
+          value={formacao.nivelEscolaridade}
+          onChangeText={(text) => handleChange('nivelEscolaridade', text)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Período de Início e Término"
+          placeholderTextColor="#888"
+          value={formacao.inicioTermino}
           onChangeText={(text) => handleChange('inicioTermino', text)}
         />
-
-
-        <Text style={styles.label}>Horário Letivo:</Text>
-        <View style={styles.radioContainer}>
-          <View style={styles.radioItem}>
-            <RadioButton
-              value="Matutino"
-              status={formacao.horario === 'Matutino' ? 'checked' : 'unchecked'}
-              onPress={() => handleChange('horario', 'Matutino')}
-            />
-            <Text style={styles.radioText}>Matutino</Text>
-          </View>
-          <View style={styles.radioItem}>
-            <RadioButton
-              value="Vespertino"
-              status={formacao.horario === 'Vespertino' ? 'checked' : 'unchecked'}
-              onPress={() => handleChange('horario', 'Vespertino')}
-            />
-            <Text style={styles.radioText}>Vespertino</Text>
-          </View>
-          <View style={styles.radioItem}>
-            <RadioButton
-              value="Noturno"
-              status={formacao.horario === 'Noturno' ? 'checked' : 'unchecked'}
-              onPress={() => handleChange('horario', 'Noturno')}
-            />
-            <Text style={styles.radioText}>Noturno</Text>
-          </View>
-          <View style={styles.radioItem}>
-            <RadioButton
-              value="A distância"
-              status={formacao.horario === 'A distância' ? 'checked' : 'unchecked'}
-              onPress={() => handleChange('horario', 'A distância')}
-            />
-            <Text style={styles.radioText}>A distância</Text>
-          </View>
-        </View>
+        <TextInput
+          style={styles.input}
+          placeholder="Horário Letivo"
+          placeholderTextColor="#888"
+          value={formacao.horario}
+          onChangeText={(text) => handleChange('horario', text)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Experiência"
+          placeholderTextColor="#888"
+          value={formacao.experiencia}
+          onChangeText={(text) => handleChange('experiencia', text)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Portfolio (Link)"
+          placeholderTextColor="#888"
+          value={formacao.portfolio}
+          onChangeText={(text) => handleChange('portfolio', text)}
+        />
       </View>
 
-      <Pressable style={styles.button} onPress={handleSubmit}>
+      <Pressable style={styles.button} onPress={handleSubmit} disabled={isLoading}>
         <Text style={styles.buttonText}>Confirmar</Text>
       </Pressable>
     </ScrollView>
@@ -174,13 +251,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
-  
-  
-  messageText: {
-    color: 'white',
-    fontSize: 30,
-  },
-
   title: {
     color: '#fff',
     fontSize: 28,
@@ -191,7 +261,6 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 20,
   },
-
   section: {
     marginBottom: 20,
     padding: 15,
@@ -203,7 +272,6 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     shadowOffset: { width: 0, height: 0 },
   },
-
   sectionTitle: {
     color: '#fff',
     fontSize: 18,
@@ -213,7 +281,6 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 10,
   },
-
   input: {
     backgroundColor: '#333',
     color: '#fff',
@@ -223,37 +290,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#6a00ff',
   },
-
-  picker: {
-    backgroundColor: '#333',
-    color: '#fff',
-    borderRadius: 10,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: '#6a00ff',
-  },
-
-  label: {
-    color: '#fff',
-    fontSize: 16,
-    marginBottom: 10,
-  },
-
-  radioContainer: {
-    marginTop: 10,
-  },
-
-  radioItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-
-  radioText: {
-    color: '#fff',
-    marginLeft: 8,
-  },
-
   button: {
     backgroundColor: '#6a00ff',
     padding: 15,
@@ -261,10 +297,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
   },
-
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });
