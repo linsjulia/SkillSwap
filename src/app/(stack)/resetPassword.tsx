@@ -1,19 +1,28 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { router } from "expo-router";
+import { auth, sendPasswordResetEmail } from "../../../firebaseConfig"; 
+import { useRouter } from 'expo-router';
 
 export default function ResetPasswordScreen() {
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const router = useRouter();
 
-  const handleResetPassword = () => {
-    if (newPassword === confirmPassword) {
-      console.log("Senha redefinida com sucesso:", newPassword);
-      router.push('/checkmark');
-    } else {
-      console.log("As senhas não coincidem");
+  // Função para lidar com a redefinição de senha
+  const handleResetPassword = async (): Promise<void> => {
+    if (!email) {
+      Alert.alert('Erro', 'Por favor, insira um e-mail válido.');
+      return;
+    }
+
+    try {
+      // Enviar o link de redefinição de senha para o e-mail
+      await sendPasswordResetEmail(auth, email);
+      Alert.alert('Sucesso', 'Um e-mail de redefinição foi enviado. Verifique sua caixa de entrada.');
+      router.push('/login');
+    } catch (error) {
+      console.error('Erro ao redefinir a senha', error);
+      Alert.alert('Erro', 'Erro ao redefinir a senha. Verifique o e-mail inserido.');
     }
   };
 
@@ -21,43 +30,20 @@ export default function ResetPasswordScreen() {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.section}>
 
-      <Pressable onPress={() => router.back()} style={styles.backIcon}>
+        <Pressable onPress={() => router.back()} style={styles.backIcon}>
           <Ionicons name="arrow-back" size={24} color="#fff" />
         </Pressable>
 
         <Text style={styles.title}>Redefinição de Senha</Text>
-        
-        {/* Espaço entre o título*/}
+
         <View style={styles.spacing} />
 
-        {/* Campo para Senha Antiga */}
         <TextInput
           style={styles.input}
-          placeholder="Senha antiga"
+          placeholder="Digite seu e-mail"
           placeholderTextColor="#888"
-          secureTextEntry
-          value={oldPassword}
-          onChangeText={setOldPassword}
-        />
-        
-        {/* Campo para Nova Senha */}
-        <TextInput
-          style={styles.input}
-          placeholder="Nova senha"
-          placeholderTextColor="#888"
-          secureTextEntry
-          value={newPassword}
-          onChangeText={setNewPassword}
-        />
-        
-        {/* Campo para Confirmar Nova Senha */}
-        <TextInput
-          style={styles.input}
-          placeholder="Confirme a nova senha"
-          placeholderTextColor="#888"
-          secureTextEntry
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
+          value={email}
+          onChangeText={setEmail}
         />
 
         <View style={styles.buttonContainer}>
@@ -80,29 +66,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
-
   backIcon: {
     position: 'absolute',
     top: 15,
     left: 15,
   },
-
   title: {
     color: '#fff',
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 60, 
+    marginTop: 60,
     marginBottom: 20,
     textShadowColor: '#6a00ff',
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 20,
   },
-
   spacing: {
-    height: 50, 
+    height: 50,
   },
-
   section: {
     marginBottom: 20,
     padding: 20,
@@ -114,7 +96,6 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     shadowOffset: { width: 0, height: 0 },
   },
-
   input: {
     backgroundColor: '#333',
     color: '#fff',
@@ -124,7 +105,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#6a00ff',
   },
-
   button: {
     backgroundColor: '#6a00ff',
     padding: 15,
@@ -132,13 +112,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
   },
-
   buttonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
   },
-
   otherOptionText: {
     color: '#fff',
     fontSize: 16,
@@ -146,7 +124,6 @@ const styles = StyleSheet.create({
     top: 18,
     textDecorationLine: 'underline',
   },
-
   buttonContainer: {
     marginTop: 30,
     height: 150,
