@@ -4,6 +4,7 @@ import { Option } from "./Option";
 import { Switch } from "./Switch";
 import { useState } from "react";
 import { Checkbox } from "../../Checkbox";
+import React from "react";
 
 export function Preferences(){
   const [isEnabled,setIsEnabled] = useState(false);

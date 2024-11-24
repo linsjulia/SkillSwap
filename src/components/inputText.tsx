@@ -2,6 +2,7 @@ import { Feather, Ionicons } from "@expo/vector-icons";
 import { TextInput, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useForm, Controller } from 'react-hook-form';
 import { useState } from "react";
+import React from "react";
 
 export interface RequisitosCampoDeTexto{
   placaholder:string

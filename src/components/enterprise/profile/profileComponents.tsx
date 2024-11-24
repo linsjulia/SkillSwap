@@ -1,6 +1,7 @@
 import { View, TextInput, Text, Pressable } from "react-native";
 import { RequisitosCampoDeTexto } from "../../inputText";
 import { TextButton } from "../../login/loginComponets";
+import React from "react";
 
 export function ReadOnlyInput({placaholder}: RequisitosCampoDeTexto){
   return (

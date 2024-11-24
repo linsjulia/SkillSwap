@@ -1,4 +1,5 @@
 import { Colors } from '@/constants/Colors';
+import React from 'react';
 import { Switch as NativeSwitch,  } from 'react-native';
 
 function Switch({

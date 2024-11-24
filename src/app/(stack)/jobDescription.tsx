@@ -1,11 +1,9 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { auth } from '@/firebaseConfig';
-import { addDoc, collection, doc, getDocs, getFirestore, query, where } from 'firebase/firestore';
-
 
 interface JobDetailsScreenParams {
   vagaId?: string;
@@ -41,82 +39,41 @@ export default function JobDetailsScreen() {
   const requirements = typeof requirementsParam === 'string'
     ? JSON.parse(requirementsParam)
     : Array.isArray(requirementsParam)
-      ? requirementsParam
-      : [];
+    ? requirementsParam
+    : [];
 
   const benefits = typeof benefitsParam === 'string'
     ? JSON.parse(benefitsParam)
     : Array.isArray(benefitsParam)
-      ? benefitsParam
-      : [];
-
-  console.log('Image URL in JobDescription:', image);
+    ? benefitsParam
+    : [];
 
   const handleApply = async () => {
     setIsLoading(true);  
-    const firestore = getFirestore();
     const userId = auth.currentUser ? auth.currentUser.uid : null;
-  
+
     if (!userId) {
       alert('Você precisa estar logado para se candidatar!');
       setIsLoading(false); 
       return;
     }
-  
-    
+
     const vagaIdString = Array.isArray(vagaId) ? vagaId[0] : vagaId || '';
-  
+
     if (!vagaIdString) {
       alert('ID da vaga inválido!');
       setIsLoading(false);  
       return;
     }
-  
-    const userRef = doc(firestore, 'Usuário', userId);
-    const vagaRef = doc(firestore, 'Vagas', vagaIdString);
-  
-    const candidaturaRef = collection(firestore, 'Candidatura');
-  
-    try {
-      
-      const q = query(
-        candidaturaRef,
-        where('Id_Usuario', '==', userRef),
-        where('Id_Vagas', '==', vagaRef)
-      );
-      
-      const querySnapshot = await getDocs(q);
-  
-     
-      if (!querySnapshot.empty) {
-        alert('Você já se aplicou para esta vaga!');
-        setIsLoading(false);  
-        return;
-      }
-  
-      await addDoc(candidaturaRef, {
-        Id_Usuario: userRef,  
-        Id_Vagas: vagaRef,    
-        Status: 'Pendente',   
-      });
-  
-      
-      console.log('Aplicação feita com sucesso!');
-      router.replace("/(stack)/ApplicationConfirmationScreen"); 
-  
-    } catch (error) {
-      console.error('Erro ao se aplicar para a vaga: ', error);
-      alert('Erro ao se aplicar para a vaga');
-    } finally {
-      setIsLoading(false); 
-    }
+
+    router.push(`/curriculum?vagaId=${vagaIdString}&userId=${userId}`);
+    setIsLoading(false); 
   };
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.containerBorder}>
         <View style={styles.header}>
-         
           <View style={styles.headerText}>
             <Text style={styles.title}>{title || 'Título da vaga'}</Text>
             <Text style={styles.subtitle}>{nameEnterprise || 'Nome da empresa'}</Text>
@@ -126,20 +83,13 @@ export default function JobDetailsScreen() {
 
         <View style={styles.jobInfo}>
           <View style={styles.infoContainer}>
-            <Icon name="briefcase" size={18} color="white" style={{ top: 10, left: 15 }} />
+            <Icon name="briefcase" size={18} color="white" style={{ top: 10, right: 5 }} />
             <Text style={styles.infoText}>{workForm}</Text>
-          </View>
-          <View style={styles.infoContainerSalary}>
-            <Icon name="cash" size={18} color="white" style={{ top: 0 }} />
+            <Icon name="cash" size={18} color="white" style={{top: 1, right: 5}} />
             <Text style={styles.salary}>{salary}</Text>
           </View>
         </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Descrição do trabalho:</Text>
-          <Text style={styles.description}>{description}</Text>
-        </View>
-
+        
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Benefícios:</Text>
           <View>
@@ -151,6 +101,11 @@ export default function JobDetailsScreen() {
               <Text style={styles.listItem}>Nenhum benefício especificado</Text>
             )}
           </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Descrição do trabalho:</Text>
+          <Text style={styles.description}>{description}</Text>
         </View>
 
         <Text style={styles.sectionTitle}>Exigências:</Text>
@@ -172,23 +127,16 @@ export default function JobDetailsScreen() {
               colors={['#aa29ff', '#0099ff']}
               style={styles.gradient}
             >
-              <Text style={styles.applyButtonText}>Aplicar</Text>
+              <Text style={styles.applyButtonText}>Candidatar-me</Text>
             </LinearGradient>
           </TouchableOpacity>
         </View>
-        {isLoading && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#6f00ff" />
-            <Text style={styles.loadingText}>Aplicando...</Text>
-          </View>
-        )}
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-
   loadingContainer: {
     marginTop: 20,
     alignItems: 'center',
@@ -198,7 +146,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
-
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -222,12 +169,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 16,
-  },
-  icon: {
-    width: 60,
-    height: 60,
-    borderRadius: 20,
-    marginRight: 20,
   },
   headerText: {
     flex: 1,
@@ -254,14 +195,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     flexBasis: '45%',
     marginVertical: 4,
-    backgroundColor: '#6200ee',
     padding: 10,
-    borderRadius: 10,
-  },
-  infoContainerSalary: {
-    marginVertical: 10,
-    backgroundColor: '#6200ee',
-    padding: 15,
     borderRadius: 10,
   },
   infoText: {
@@ -277,6 +211,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffff',
     textAlign: 'center',
+    top: -20, 
+    left: 30
   },
   section: {
     marginVertical: 16,
@@ -310,38 +246,27 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
     marginVertical: 5,
-    padding: 14,
-    borderRadius: 10,
-    backgroundColor: '#6200ee',
-    textAlign: 'center',
-  },
-  gradient: {
-    paddingVertical: 15,
-    paddingHorizontal: 105,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    padding: 12,
-    marginRight: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    padding: 6,
   },
   listItemRequirement: {
     color: '#fff',
     fontSize: 14,
     marginVertical: 5,
-    padding: 14,
-    borderRadius: 10,
+    padding: 6,
   },
   sectionRequirements: {
     backgroundColor: '#271653',
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#000000',
-    top: 37,
+    top: 3,
+  },
+  gradient: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 25,
+    width: '100%',
+    padding: 12,
   },
 });

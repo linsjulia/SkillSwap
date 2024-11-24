@@ -10,6 +10,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { TextButton } from "../login/loginComponets";
+import React from "react";
 
 export interface ButtonRegister {
   text: string; // Propriedade de texto do botão

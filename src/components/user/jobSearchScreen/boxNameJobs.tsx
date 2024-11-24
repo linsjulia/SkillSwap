@@ -1,3 +1,4 @@
+import React from 'react';
 import { Text, SafeAreaView, View, StyleSheet, Pressable } from 'react-native';
 
 export default function Box() {

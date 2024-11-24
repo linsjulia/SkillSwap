@@ -5,6 +5,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebaseConfig"; // Certifique-se de importar o Firestore
 import { ActivityIndicator, View } from "react-native";
 import { doc, getDoc, getFirestore } from "firebase/firestore"; // Importa as funções necessárias para acessar documentos no Firestore
+import React from "react";
 
 SplashScreen.preventAutoHideAsync();
 

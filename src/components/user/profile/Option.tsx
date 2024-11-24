@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { View, Text , TextProps} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons"
+import React from "react";
 
 interface OptionProps{
 children:ReactNode

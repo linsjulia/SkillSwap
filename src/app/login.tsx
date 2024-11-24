@@ -10,6 +10,7 @@ import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { InputsPassword, InputsText } from "../components/inputText";
 import { ButtonLogin, CreateAccount, ImagesEnterprise, OthersLogins, ResetPassword } from "../components/login/loginComponets";
 import { getFirestore, doc, getDoc, collection } from "firebase/firestore";
+import React from "react";
 
 interface LoginFormData {
   email: string;

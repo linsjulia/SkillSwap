@@ -1,5 +1,6 @@
 import { View, Text } from "react-native";
 import { Avatar, AvatarFallback, AvatarImage } from "./Avatar";
+import React from "react";
 
 interface NameText {
   title: string, // Definindo o tipo para a propriedade title

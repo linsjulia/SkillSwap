@@ -9,6 +9,7 @@ import { selectAndUploadProfileImage } from "@/src/services/uploadProfileImage";
 import { selectAndUploadBannerImage } from "@/src/services/updateBannerImage";
 import { Picker } from "@react-native-picker/picker";
 import { useForm } from "react-hook-form";
+import React from "react";
 
 
 export interface UserProfile {
@@ -270,7 +271,7 @@ export default function ProfileEmpresa({ nome, email, area_atuacao, website, loc
         <Icon name="briefcase-outline" size={20} color="#ffffff" style={styles.icon} />
         <Picker
         selectedValue={newAreaAtuacao}
-        onValueChange={(itemValue) => setNewAreaAtuacao(itemValue)}
+        onValueChange={(itemValue: React.SetStateAction<string>) => setNewAreaAtuacao(itemValue)}
         style={styles.picker}
         
         >

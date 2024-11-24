@@ -2,6 +2,7 @@ import { router, Tabs } from "expo-router"; // Importando o componente Tabs do E
 import { View, Text, Image, Pressable, StyleSheet } from "react-native"; // Importando componentes básicos do React Native
 import { useRouter } from 'expo-router'; 
 import { FontAwesome } from "@expo/vector-icons";
+import React from "react";
 
 function filterDesc(nameEnterprise2: string | undefined) {
   if (!nameEnterprise2) {
