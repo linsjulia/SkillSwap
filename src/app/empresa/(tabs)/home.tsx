@@ -1,34 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { getFirestore, collection, query, where, getDocs, doc } from 'firebase/firestore';
-import { auth } from '@/firebaseConfig'; // Certifique-se de que está correto
+import { auth } from '@/firebaseConfig';
 import { useRouter } from 'expo-router';
 
 const VagasEmpresa: React.FC = () => {
-  const router = useRouter(); // Hook para navegação
+  const router = useRouter(); 
   const [vagas, setVagas] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+
   const fetchVagas = async () => {
     setIsLoading(true);
     const firestore = getFirestore();
-    const empresaId = auth.currentUser ? auth.currentUser.uid : null;
+    const EmpresaID = auth.currentUser ? auth.currentUser.uid : null;
   
-    if (!empresaId) {
+    if (!EmpresaID) {
       setError('Você precisa estar logado como empresa para visualizar suas vagas.');
       setIsLoading(false);
       return;
     }
   
     try {
-      // Cria a referência para o documento da empresa
-      const empresaRef = doc(firestore, 'Empresa', empresaId);  // Aqui, 'Empresas' é o nome da coleção e 'empresaId' é o ID da empresa.
-  
-      // Consulta usando a referência da empresa
       const vagasRef = collection(firestore, 'Vagas');
-      const q = query(vagasRef, where('empresa_ID', '==', empresaRef)); // Passa a referência para a consulta
-  
+      const q = query(vagasRef, where("EmpresaID", "==", EmpresaID));
       const querySnapshot = await getDocs(q);
   
       if (!querySnapshot.empty) {
