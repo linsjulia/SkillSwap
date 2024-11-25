@@ -52,9 +52,10 @@ const CandidatosVaga: React.FC = () => {
     fetchCandidatos();
   }, [vagaId]);
 
-  function handleCardPress(id: any): void {
-    throw new Error('Function not implemented.');
-  }
+  const handleCardPress = (userId: string) => {
+    router.push(`/(stack)/profileUser?userId=${userId}`);
+  };
+
 
   return (
     <View style={styles.container}>
@@ -70,7 +71,7 @@ const CandidatosVaga: React.FC = () => {
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.card}
-              onPress={() => handleCardPress(item.id)}
+              onPress={() => handleCardPress(item.id)} 
             >
               <Text style={styles.nome}>{item.nome}</Text>
               <Text style={styles.email}>{item.email}</Text>
