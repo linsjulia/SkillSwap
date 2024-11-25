@@ -7,13 +7,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export interface UserProfile {
-  nome: string;
-  email: string;
-  data_nascimento: string;
-  profileImageUrl?: string; 
-  site: string;
-  portfolio?: { url: string; description: string };
-  area_atuacao: string;
+  Nome: string;
+  Email: string;
+  Data_nascimento: string;
+  ProfileImageUrl?: string; 
+  Site: string;
+  Portfolio?: { url: string; description: string };
+  Area_atuacao: string;
 }
 
 export default function ProfileScreen() {
@@ -27,13 +27,13 @@ export default function ProfileScreen() {
     if (!userId) return;
 
     try {
-      const docRef = doc(firestore, 'Usuário', userId);
+      const docRef = doc(firestore, 'Usuário', );
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
         setUserProfile(docSnap.data() as UserProfile);
       } else {
-        console.log("Nenhum documento encontrado");
+        console.log("nenhum documento");
       }
     } catch (error) {
       console.error("Erro ao buscar os dados do usuário", error);
@@ -62,34 +62,26 @@ export default function ProfileScreen() {
     fetchUserProfileBannerImage();
   }, []);
 
-  if (!UserProfile) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.loadingText}>Carregando dados do perfil...</Text>
-      </View>
-    );
-  }
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image 
         source={bannerImageUrl ? { uri: bannerImageUrl } : require('../../assets/banner.png')}
-        style={styles.bannerImage}
+        style={{ height: 100, padding: 0 }}
       />
       <View style={styles.header}>
         <Image
           source={profileImageUrl ? { uri: profileImageUrl } : require('../../assets/user.png')}
           style={styles.profileImage}
         />
-        <Text style={styles.name}>{UserProfile.nome}</Text>
+        <Text style={styles.name}>{UserProfile?.Nome}</Text>
       </View>
 
       <View style={styles.infoContainer}>
         <Text style={styles.label}>Área de Atuação</Text>
-        <Text style={styles.value}>{UserProfile.area_atuacao}</Text>
+        <Text style={styles.value}>{UserProfile?.Area_atuacao}</Text>
 
         <Text style={styles.label}>Contato</Text>
-        <Text style={[styles.value, styles.link]}>{UserProfile.email}</Text>
+        <Text style={[styles.value, styles.link]}>{UserProfile?.Email}</Text>
 
         <Text style={styles.label}>Localização</Text>
         <Text style={styles.value}>São Paulo</Text>
@@ -128,18 +120,12 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: '#000', 
   },
-  loadingText: {
-    color: '#fff',
-    textAlign: 'center',
-    marginTop: 20,
-  },
-  bannerImage: {
-    height: 100,
-    width: '100%',
-  },
   header: {
-    paddingVertical: 20,
+    bottom: 30,
+    paddingVertical: 0,
     alignItems: 'center',
+    marginBottom: 0,
+    position: 'relative', 
   },
   profileImage: {
     width: 100,
@@ -147,12 +133,17 @@ const styles = StyleSheet.create({
     borderRadius: 55,
     marginBottom: 18,
     borderWidth: 1,
-    borderColor: "#00a2ff",
+    borderColor: "#00a2ff"
   },
   name: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#FFF',
+  },
+  settingsIcon: {
+    position: 'absolute',
+    top: 10, 
+    right: 10, 
   },
   infoContainer: {
     backgroundColor: '#12133f', 
@@ -162,7 +153,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 50,
     borderWidth: 1,
-    borderColor: '#5900ff',
+    borderColor: '#5900ff'
   },
   label: {
     fontSize: 16,
