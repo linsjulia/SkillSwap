@@ -107,13 +107,21 @@ export default function ProfileScreen() {
 
       <View style={styles.infoContainer}>
         <Text style={styles.label}>Área de Atuação</Text>
-        <Text style={styles.value}>{UserProfile?.area_atuacao}</Text>
+        <Text style={styles.value}>{UserProfile?.area_atuacao || "Não disponível"}</Text>
 
         <Text style={styles.label}>Contato</Text>
         <Text style={[styles.value, styles.link]}>{UserProfile?.email}</Text>
 
         <Text style={styles.label}>Localização</Text>
         <Text style={styles.value}>São Paulo</Text>
+
+       
+        <Text style={styles.label}>Resumo</Text>
+        <Text style={styles.value}>
+          {UserProfile?.resumo || "Resumo não disponível"}
+          
+        </Text>
+      </View>
 
         <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
         <LinearGradient
@@ -122,16 +130,10 @@ export default function ProfileScreen() {
         <Text style={styles.buttonText}>Visite nosso site!</Text>
         </LinearGradient>
         </TouchableOpacity>
-        </View>
+
 
       {/* Resumo */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Resumo</Text>
-        <Text style={styles.sectionContent}>
-          {UserProfile?.resumo}
-          
-        </Text>
-      </View>
+      
 
     
     </ScrollView>
@@ -222,9 +224,6 @@ const styles = StyleSheet.create({
   sectionContent: {
     fontSize: 16,
     color: '#ffffff',
-    backgroundColor: "#12133f",
-    borderWidth: 1,
-    borderColor: '#5900ff',
     padding: 20,
     borderRadius: 10,
     margin: 10

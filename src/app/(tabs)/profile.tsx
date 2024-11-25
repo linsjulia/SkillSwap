@@ -14,6 +14,7 @@ export interface UserProfile {
   site: string;
   portfolio?: { url: string; description: string };
   area_atuacao: string;
+  resumo?: string;
 }
 
 export default function ProfileScreen() {
@@ -97,9 +98,7 @@ export default function ProfileScreen() {
 
         <Text style={styles.label}>Resumo</Text>
         <Text style={styles.value}>
-          Meu objetivo é criar soluções digitais que impressionem visualmente, funcionem
-          perfeitamente e proporcionem a melhor experiência ao usuário. Estou sempre disposto a
-          aprender, enfrentar desafios e evoluir como profissional...
+          {UserProfile?.resumo || "Resumo não disponível"}
           <Text style={styles.link}> Ver mais</Text>
         </Text>
 

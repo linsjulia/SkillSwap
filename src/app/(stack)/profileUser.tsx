@@ -1,36 +1,43 @@
 import { auth } from '@/firebaseConfig';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
+import {  } from 'expo-router'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { User } from '@/src/components/enterprise/profile/User';
 
 export interface UserProfile {
-  Nome: string;
-  Email: string;
-  Data_nascimento: string;
+  nome: string;
+  email: string;
+  data_nascimento: string;
   ProfileImageUrl?: string; 
-  Site: string;
-  Portfolio?: { url: string; description: string };
-  Area_atuacao: string;
+  site: string;
+  portfolio?: { url: string; description: string };
+  area_atuacao: string;
 }
 
 export default function ProfileScreen() {
   const [UserProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [bannerImageUrl, setBannerImageUrl] = useState<string | null>(null);
+  // const { userId } = useLocalSearchParams() as { userId: string;} 
+  const [ userId, setUserId ] = useState('');
+
   const firestore = getFirestore();
 
   const getUserProfile = async (setUserProfile: React.Dispatch<React.SetStateAction<UserProfile | null>>) => {
-    const userId = auth.currentUser?.uid;
+  
+    // const userId3 = auth.currentUser?.uid;
     if (!userId) return;
 
     try {
       const docRef = doc(firestore, 'Usuário', userId);
       const docSnap = await getDoc(docRef);
-
       if (docSnap.exists()) {
+        console.log(docSnap.data())
         setUserProfile(docSnap.data() as UserProfile);
       } else {
         console.log("nenhum documento");
@@ -60,6 +67,18 @@ export default function ProfileScreen() {
     };
 
     fetchUserProfileBannerImage();
+    const fetchUserID = async () => {
+      const UserID =  await AsyncStorage.getItem('IdUsuario');
+      console.log(UserID)
+        if (UserID) {
+          setUserId(UserID);
+        } else {
+          console.log("Erro")
+        }
+    }
+    console.log(userId);
+    fetchUserID();
+
   }, []);
 
   return (
@@ -73,15 +92,15 @@ export default function ProfileScreen() {
           source={profileImageUrl ? { uri: profileImageUrl } : require('../../assets/user.png')}
           style={styles.profileImage}
         />
-        <Text style={styles.name}>{UserProfile?.Nome}</Text>
+        <Text style={styles.name}>{UserProfile?.nome}</Text>
       </View>
 
       <View style={styles.infoContainer}>
         <Text style={styles.label}>Área de Atuação</Text>
-        <Text style={styles.value}>{UserProfile?.Area_atuacao}</Text>
+        <Text style={styles.value}>{UserProfile?.area_atuacao}</Text>
 
         <Text style={styles.label}>Contato</Text>
-        <Text style={[styles.value, styles.link]}>{UserProfile?.Email}</Text>
+        <Text style={[styles.value, styles.link]}>{UserProfile?.email}</Text>
 
         <Text style={styles.label}>Localização</Text>
         <Text style={styles.value}>São Paulo</Text>
@@ -96,11 +115,11 @@ export default function ProfileScreen() {
 
         <TouchableOpacity 
           style={styles.button}
-          onPress={() => {
-            const userId = auth.currentUser?.uid;
-            if (userId) {
-              router.push(`/(stack)/userCurriculum?userId=${userId}`);
-            }
+          onPress={function opa(){
+              const userId = auth.currentUser?.uid;
+              if (userId) {
+                router.push(`/(stack)/userCurriculum?userId=${userId}`);
+              }
           }}
         >
           <LinearGradient
@@ -113,6 +132,7 @@ export default function ProfileScreen() {
       </View>
     </ScrollView>
   );
+
 }
 
 const styles = StyleSheet.create({

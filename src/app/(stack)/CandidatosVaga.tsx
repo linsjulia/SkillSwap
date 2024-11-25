@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { getFirestore, collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
-import { useLocalSearchParams, router } from 'expo-router'; 
+import { useLocalSearchParams, router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+interface users {
+  id:string,
+  nome: string,
+  email: string;
+}
 
 const CandidatosVaga: React.FC = () => {
-  const { vagaId, titulo } = useLocalSearchParams() as { vagaId: string; titulo: string }; 
+  const { vagaId, titulo } = useLocalSearchParams() as { vagaId: string; titulo: string };
+
+  const [userDI, setUserDI] = useState('');
+  const [idCandidatura, setidCandidatura] = useState('');
   const [candidatos, setCandidatos] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,20 +22,23 @@ const CandidatosVaga: React.FC = () => {
   const fetchCandidatos = async () => {
     setIsLoading(true);
     const firestore = getFirestore();
-  
+
     try {
+      console.log('Iniciando consulta Firestore...');
       const candidaturaRef = collection(firestore, 'Candidatura');
-      const q = query(candidaturaRef, where('Id_Vaga', '==', vagaId)); 
+      const q = query(candidaturaRef, where('Id_Vaga', '==', vagaId));
+
       const querySnapshot = await getDocs(q);
-  
+      console.log('Consulta realizada com sucesso', querySnapshot);
+
       if (!querySnapshot.empty) {
         const candidatosData: any[] = [];
-  
         for (const docSnap of querySnapshot.docs) {
           const candidatura = docSnap.data();
-          const userRef = doc(firestore, 'Usuário', candidatura.Id_Usuario); 
+          const userRef = doc(firestore, 'Usuário', candidatura.Id_Usuario);
+          setUserDI(candidatura.Id_Usuario)
           const userDoc = await getDoc(userRef);
-  
+
           if (userDoc.exists()) {
             const userData = userDoc.data() || {};
             candidatosData.push({
@@ -33,15 +46,16 @@ const CandidatosVaga: React.FC = () => {
               nome: userData?.nome || "Nome não disponível",
               email: userData?.email || "Email não disponível",
             });
+
+            setidCandidatura(docSnap.id);
           }
         }
-        
         setCandidatos(candidatosData);
       } else {
         setError('Nenhum candidato encontrado para esta vaga.');
       }
     } catch (err) {
-      console.error(err); 
+      console.error('Erro ao buscar candidatos:', err);
       setError('Erro ao carregar os candidatos.');
     } finally {
       setIsLoading(false);
@@ -53,9 +67,15 @@ const CandidatosVaga: React.FC = () => {
   }, [vagaId]);
 
   const handleCardPress = (userId: string) => {
-    router.push(`/(stack)/profileUser?userId=${userId}`);
+    AsyncStorage.setItem('IdUsuario', userDI)
+      .then(() => {
+        console.log('IdUsuario armazenado:', userId);
+        router.push(`/profileUser?Id_Usuario=${userId}`);
+      })
+      .catch((error) => {
+        console.error('Erro ao salvar no AsyncStorage:', error);
+      });
   };
-
 
   return (
     <View style={styles.container}>
@@ -67,18 +87,17 @@ const CandidatosVaga: React.FC = () => {
       ) : (
         <FlatList
           data={candidatos}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
+          key={idCandidatura}
+          renderItem={( items : users ) => (
             <TouchableOpacity
               style={styles.card}
-              onPress={() => handleCardPress(item.id)} 
+              onPress={() => handleCardPress(userDI)}
             >
-              <Text style={styles.nome}>{item.nome}</Text>
-              <Text style={styles.email}>{item.email}</Text>
+              <Text style={styles.nome}>{items.nome}</Text>
+              <Text style={styles.email}>{items.email}</Text>
             </TouchableOpacity>
           )}
-          contentContainerStyle={styles.list}
-        />
+          contentContainerStyle={styles.list}/>
       )}
     </View>
   );
@@ -95,7 +114,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     marginBottom: 50,
-    marginTop: 20
+    marginTop: 20,
   },
   card: {
     backgroundColor: '#6500c4',
