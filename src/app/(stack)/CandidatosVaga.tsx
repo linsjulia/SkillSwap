@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { getFirestore, collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
-import { Href, router, useLocalSearchParams } from 'expo-router'; 
+import { useLocalSearchParams, router } from 'expo-router'; 
 
 const CandidatosVaga: React.FC = () => {
   const { vagaId, titulo } = useLocalSearchParams() as { vagaId: string; titulo: string }; 
@@ -14,12 +14,8 @@ const CandidatosVaga: React.FC = () => {
     const firestore = getFirestore();
   
     try {
-
-      const vagaRef = doc(firestore, 'Vagas', vagaId);
-  
-
       const candidaturaRef = collection(firestore, 'Candidatura');
-      const q = query(candidaturaRef, where('Id_Vagas', '==', vagaRef));
+      const q = query(candidaturaRef, where('Id_Vaga', '==', vagaId)); 
       const querySnapshot = await getDocs(q);
   
       if (!querySnapshot.empty) {
@@ -27,20 +23,19 @@ const CandidatosVaga: React.FC = () => {
   
         for (const docSnap of querySnapshot.docs) {
           const candidatura = docSnap.data();
-  
-          // Obtém a referência do usuário a partir de Id_Usuario
-          const userRef = candidatura.Id_Usuario; 
+          const userRef = doc(firestore, 'Usuário', candidatura.Id_Usuario); 
           const userDoc = await getDoc(userRef);
   
           if (userDoc.exists()) {
             const userData = userDoc.data() || {};
             candidatosData.push({
               id: docSnap.id,
-              ...userData,
+              nome: userData?.nome || "Nome não disponível",
+              email: userData?.email || "Email não disponível",
             });
           }
         }
-  
+        
         setCandidatos(candidatosData);
       } else {
         setError('Nenhum candidato encontrado para esta vaga.');
@@ -57,47 +52,42 @@ const CandidatosVaga: React.FC = () => {
     fetchCandidatos();
   }, [vagaId]);
 
-
-  // const handleCardPress = (userId: string) => {
-  //   const path: Href<string> = `/profile/${userId}`; // Aqui você força a tipagem para string
-  //   router.push(path); // Passa a URL corretamente tipada
-  // };
+  function handleCardPress(id: any): void {
+    throw new Error('Function not implemented.');
+  }
 
   return (
     <View style={styles.container}>
-    <Text style={styles.headerText}>Candidatos para: {titulo}</Text>
-    {isLoading ? (
-      <ActivityIndicator size="large" color="#fff" />
-    ) : error ? (
-      <Text style={styles.errorText}>{error}</Text>
-    ) : (
-      <FlatList
-        data={candidatos}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View
-            style={styles.card}
-
-          >
-            <Text style={styles.nome}>{item.nome}</Text>
-            <Text style={styles.email}>{item.email}</Text>
-          </View>
-        )}
-        contentContainerStyle={styles.list}
-      />
-    )}
-  </View>
-);
+      <Text style={styles.headerText}>Candidatos para: {titulo}</Text>
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#fff" />
+      ) : error ? (
+        <Text style={styles.errorText}>{error}</Text>
+      ) : (
+        <FlatList
+          data={candidatos}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.card}
+              onPress={() => handleCardPress(item.id)}
+            >
+              <Text style={styles.nome}>{item.nome}</Text>
+              <Text style={styles.email}>{item.email}</Text>
+            </TouchableOpacity>
+          )}
+          contentContainerStyle={styles.list}
+        />
+      )}
+    </View>
+  );
 };
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
     padding: 20,
-    // borderWidth: 1,
-    // borderColor: "#6200ff"
   },
   headerText: {
     fontSize: 20,
@@ -127,8 +117,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   list: {
-    // Adicione um estilo aqui para `list`
-    paddingBottom: 20, // Exemplo de espaçamento inferior
+    paddingBottom: 20,
   },
 });
 
