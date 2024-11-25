@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, initializeAuth, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail } from "firebase/auth";
-import { getFirestore, query, doc, setDoc, addDoc, collection, getDoc } from "firebase/firestore";
+import { getFirestore, query, doc, setDoc, addDoc, collection, getDoc,updateDoc, arrayUnion, Timestamp, where, getDocs, deleteDoc, } from "firebase/firestore";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 
 // Your web app's Firebase configuration
@@ -25,4 +25,4 @@ const auth = initializeAuth(app, {
 });
 
 export default app;
-export { auth, sendPasswordResetEmail, query, doc, setDoc, addDoc, collection, getDoc, browserLocalPersistence, browserSessionPersistence,  };
+export { auth, sendPasswordResetEmail, query, doc, setDoc, addDoc, collection, getDoc, browserLocalPersistence, browserSessionPersistence, updateDoc, arrayUnion, Timestamp, where, getDocs, deleteDoc,  };

@@ -4,8 +4,7 @@ import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { LinearGradient } from 'expo-linear-gradient'; 
-import { User } from '@/src/components/enterprise/profile/User';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export interface UserProfile {
   nome: string;
@@ -17,14 +16,11 @@ export interface UserProfile {
   area_atuacao: string;
 }
 
-
 export default function ProfileScreen() {
   const [UserProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const [ profileImageUrl, setProfileImageUrl ] = useState<string | null>(null);
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [bannerImageUrl, setBannerImageUrl] = useState<string | null>(null);
   const firestore = getFirestore();
-
-  // puxar os dados do usuário
 
   const getUserProfile = async (setUserProfile: React.Dispatch<React.SetStateAction<UserProfile | null>>) => {
     const userId = auth.currentUser?.uid;
@@ -50,8 +46,6 @@ export default function ProfileScreen() {
 
   useEffect(() => {
     const fetchUserProfileBannerImage = async () => {
-   
-     
       const user = auth.currentUser;
       if (!user) return;
 
@@ -63,38 +57,33 @@ export default function ProfileScreen() {
         setProfileImageUrl(userDoc.data()?.profileImageUrl || null);
         setBannerImageUrl(userDoc.data()?.bannerImageUrl || null);
       }
-    
     };
 
     fetchUserProfileBannerImage();
   }, []);
 
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
-     
-     
-        <Image 
-        source={bannerImageUrl ? {uri: bannerImageUrl} : require('../../assets/banner.png')}
-        style={{ height: 100, padding: 0}}
-        ></Image>
-        <View style={styles.header}>
+      <Image 
+        source={bannerImageUrl ? { uri: bannerImageUrl } : require('../../assets/banner.png')}
+        style={{ height: 100, padding: 0 }}
+      />
+      <View style={styles.header}>
         <Image
-          source={profileImageUrl ? {uri: profileImageUrl} : require('../../assets/user.png')}
+          source={profileImageUrl ? { uri: profileImageUrl } : require('../../assets/user.png')}
           style={styles.profileImage}
         />
         <Text style={styles.name}>{UserProfile?.nome}</Text>
-        </View>
-       
-        <Pressable
-          style={styles.settingsIcon}
-          onPress={() => {
-            router.replace('/(stack)/settings');
-          }}
-        >
-          <Icon name="settings-outline" size={26} color="#fff" />
-        </Pressable>
-     
+      </View>
+
+      <Pressable
+        style={styles.settingsIcon}
+        onPress={() => {
+          router.replace('/(stack)/settings');
+        }}
+      >
+        <Icon name="settings-outline" size={26} color="#fff" />
+      </Pressable>
 
       <View style={styles.infoContainer}>
         <Text style={styles.label}>Área de Atuação</Text>
@@ -106,30 +95,31 @@ export default function ProfileScreen() {
         <Text style={styles.label}>Localização</Text>
         <Text style={styles.value}>São Paulo</Text>
 
-        <TouchableOpacity style={styles.button}>
-        <LinearGradient
-        colors={['#9900ff', '#5900ff', '#0084ff']}
-        style={styles.gradient}>
-        <Text style={styles.buttonText}>Currículo</Text>
-        </LinearGradient>
-        </TouchableOpacity>
-        </View>
-
-      {/* Resumo */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Resumo</Text>
-        <Text style={styles.sectionContent}>
+        <Text style={styles.label}>Resumo</Text>
+        <Text style={styles.value}>
           Meu objetivo é criar soluções digitais que impressionem visualmente, funcionem
           perfeitamente e proporcionem a melhor experiência ao usuário. Estou sempre disposto a
           aprender, enfrentar desafios e evoluir como profissional...
           <Text style={styles.link}> Ver mais</Text>
         </Text>
-      </View>
 
-      {/* Portfólio */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Portfólio</Text>
-        <View style={styles.portfolioBox} />
+        <TouchableOpacity 
+          style={styles.button}
+          onPress={() => {
+            const userId = auth.currentUser?.uid;
+            if (userId) {
+              // Corrigindo a navegação para passar o userId corretamente
+              router.push(`/(stack)/userCurriculum?userId=${userId}`);
+            }
+          }}
+        >
+          <LinearGradient
+            colors={['#9900ff', '#5900ff', '#0084ff']}
+            style={styles.gradient}
+          >
+            <Text style={styles.buttonText}>Currículo</Text>
+          </LinearGradient>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -154,7 +144,6 @@ const styles = StyleSheet.create({
     marginBottom: 18,
     borderWidth: 1,
     borderColor: "#00a2ff"
-    
   },
   name: {
     fontSize: 18,
@@ -169,13 +158,12 @@ const styles = StyleSheet.create({
   infoContainer: {
     backgroundColor: '#12133f', 
     padding: 30,
-    height: 350,
+    height: 500,
     marginHorizontal: 24,
     borderRadius: 10,
     marginBottom: 50,
     borderWidth: 1,
     borderColor: '#5900ff'
-
   },
   label: {
     fontSize: 16,
@@ -193,7 +181,6 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   button: {
-    
     paddingVertical: 32,
     alignItems: 'center',
     borderRadius: 8,
@@ -202,37 +189,6 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontWeight: 'bold',
     fontSize: 16,
-  },
-  section: {
-    marginHorizontal: 20,
-    marginBottom: 20,
-    marginTop: 10
- 
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FFF',
-    marginBottom: 10,
-    textAlign: "center"
-  },
-  sectionContent: {
-    fontSize: 16,
-    color: '#ffffff',
-    backgroundColor: "#12133f",
-    borderWidth: 1,
-    borderColor: '#5900ff',
-    padding: 20,
-    borderRadius: 10,
-    margin: 10
-  },
-  
-  portfolioBox: {
-    backgroundColor: '#12133f', 
-    height: 180,
-    margin: 10,
-    borderRadius: 10,
-    marginBottom: 30
   },
   gradient: {
     paddingVertical: 15,

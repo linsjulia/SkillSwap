@@ -186,11 +186,9 @@ export default function RootLayout() {
           },
         }}
       />
- 
-
 
       <Stack.Screen
-        name="curriculumDescription"
+        name="(stack)/curriculumDescription"
         options={{
           title: "Skill Swap",
           headerStyle: {
@@ -335,8 +333,6 @@ export default function RootLayout() {
       }}
       />
 
-    
-
       <Stack.Screen
       name="(stack)/editProfilePJ"
       options={{
@@ -349,6 +345,21 @@ export default function RootLayout() {
           fontWeight: "bold"
         }
       }}
+      />
+
+      <Stack.Screen
+        name="(stack)/userCurriculum"
+        options={{
+          title: "Skill Swap",
+          headerStyle: {
+            backgroundColor: "#212121",
+          },
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontFamily: "Inter",
+            fontWeight: "bold",
+          },
+        }}
       />
       
     
