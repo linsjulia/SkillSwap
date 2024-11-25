@@ -27,7 +27,7 @@ export default function ProfileScreen() {
     if (!userId) return;
 
     try {
-      const docRef = doc(firestore, 'Usuário', );
+      const docRef = doc(firestore, 'Usuário', userId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
