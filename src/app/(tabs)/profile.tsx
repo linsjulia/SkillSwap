@@ -107,7 +107,7 @@ export default function ProfileScreen() {
           onPress={() => {
             const userId = auth.currentUser?.uid;
             if (userId) {
-              // Corrigindo a navegação para passar o userId corretamente
+              
               router.push(`/(stack)/userCurriculum?userId=${userId}`);
             }
           }}
