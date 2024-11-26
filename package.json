@@ -62,6 +62,7 @@
     "react-dom": "18.3.1",
     "react-hook-form": "^7.53.2",
     "react-native": "0.76.3",
+    "react-native-app-auth": "^8.0.1",
     "react-native-gesture-handler": "~2.21.2",
     "react-native-get-random-values": "~1.11.0",
     "react-native-linear-gradient": "^2.8.3",
