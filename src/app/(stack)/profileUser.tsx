@@ -1,13 +1,10 @@
 import { auth } from '@/firebaseConfig';
-import { router, useLocalSearchParams } from 'expo-router';
+import { router } from 'expo-router';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Pressable } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import {  } from 'expo-router'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { User } from '@/src/components/enterprise/profile/User';
 
 export interface UserProfile {
   nome: string;
@@ -19,28 +16,25 @@ export interface UserProfile {
   area_atuacao: string;
 }
 
-export default function ProfileScreen() {
-  const [UserProfile, setUserProfile] = useState<UserProfile | null>(null);
+const ProfileScreen: React.FC = () => {
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [bannerImageUrl, setBannerImageUrl] = useState<string | null>(null);
-  // const { userId } = useLocalSearchParams() as { userId: string;} 
-  const [ userId, setUserId ] = useState('');
+  const [userId, setUserId] = useState<string>('');
 
   const firestore = getFirestore();
 
-  const getUserProfile = async (setUserProfile: React.Dispatch<React.SetStateAction<UserProfile | null>>) => {
-  
-    // const userId3 = auth.currentUser?.uid;
+  const getUserProfile = async () => {
     if (!userId) return;
 
     try {
       const docRef = doc(firestore, 'Usuário', userId);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        console.log(docSnap.data())
+        console.log(docSnap.data());
         setUserProfile(docSnap.data() as UserProfile);
       } else {
-        console.log("nenhum documento");
+        console.log("Nenhum documento encontrado");
       }
     } catch (error) {
       console.error("Erro ao buscar os dados do usuário", error);
@@ -48,38 +42,25 @@ export default function ProfileScreen() {
   };
 
   useEffect(() => {
-    getUserProfile(setUserProfile);
-  }, []);
+    const fetchUserID = async () => {
+      const storedUserId = await AsyncStorage.getItem('IdUsuario');
+      console.log('UserId recuperado do AsyncStorage:', storedUserId);
 
-  useEffect(() => {
-    const fetchUserProfileBannerImage = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const db = getFirestore();
-      const userDocRef = doc(db, 'Usuário', user.uid);
-      const userDoc = await getDoc(userDocRef);
-
-      if (userDoc.exists()) {
-        setProfileImageUrl(userDoc.data()?.profileImageUrl || null);
-        setBannerImageUrl(userDoc.data()?.bannerImageUrl || null);
+      if (storedUserId) {
+        setUserId(storedUserId);
+      } else {
+        console.log("Erro: UserID não encontrado");
       }
     };
 
-    fetchUserProfileBannerImage();
-    const fetchUserID = async () => {
-      const UserID =  await AsyncStorage.getItem('IdUsuario');
-      console.log(UserID)
-        if (UserID) {
-          setUserId(UserID);
-        } else {
-          console.log("Erro")
-        }
-    }
-    console.log(userId);
     fetchUserID();
-
   }, []);
+
+  useEffect(() => {
+    if (userId) {
+      getUserProfile();
+    }
+  }, [userId]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -92,15 +73,15 @@ export default function ProfileScreen() {
           source={profileImageUrl ? { uri: profileImageUrl } : require('../../assets/user.png')}
           style={styles.profileImage}
         />
-        <Text style={styles.name}>{UserProfile?.nome}</Text>
+        <Text style={styles.name}>{userProfile?.nome}</Text>
       </View>
 
       <View style={styles.infoContainer}>
         <Text style={styles.label}>Área de Atuação</Text>
-        <Text style={styles.value}>{UserProfile?.area_atuacao}</Text>
+        <Text style={styles.value}>{userProfile?.area_atuacao}</Text>
 
         <Text style={styles.label}>Contato</Text>
-        <Text style={[styles.value, styles.link]}>{UserProfile?.email}</Text>
+        <Text style={[styles.value, styles.link]}>{userProfile?.email}</Text>
 
         <Text style={styles.label}>Localização</Text>
         <Text style={styles.value}>São Paulo</Text>
@@ -110,16 +91,14 @@ export default function ProfileScreen() {
           Meu objetivo é criar soluções digitais que impressionem visualmente, funcionem
           perfeitamente e proporcionem a melhor experiência ao usuário. Estou sempre disposto a
           aprender, enfrentar desafios e evoluir como profissional...
-          <Text style={styles.link}> Ver mais</Text>
         </Text>
 
         <TouchableOpacity 
           style={styles.button}
-          onPress={function opa(){
-              const userId = auth.currentUser?.uid;
-              if (userId) {
-                router.push(`/(stack)/userCurriculum?userId=${userId}`);
-              }
+          onPress={() => {
+            if (userId) {
+              router.push(`/userCurriculum?userId=${userId}`);
+            }
           }}
         >
           <LinearGradient
@@ -132,79 +111,60 @@ export default function ProfileScreen() {
       </View>
     </ScrollView>
   );
-
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    backgroundColor: '#000', 
+    flex: 1,
+    backgroundColor: '#1e1e1e',
+    padding: 20,
   },
   header: {
-    bottom: 30,
-    paddingVertical: 0,
     alignItems: 'center',
-    marginBottom: 0,
-    position: 'relative', 
+    marginTop: 20,
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 55,
-    marginBottom: 18,
-    borderWidth: 1,
-    borderColor: "#00a2ff"
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 4,
+    borderColor: '#fff',
+    marginTop: -60,
   },
   name: {
-    fontSize: 18,
+    fontSize: 24,
+    color: '#fff',
+    marginTop: 10,
     fontWeight: 'bold',
-    color: '#FFF',
-  },
-  settingsIcon: {
-    position: 'absolute',
-    top: 10, 
-    right: 10, 
   },
   infoContainer: {
-    backgroundColor: '#12133f', 
-    padding: 30,
-    height: 500,
-    marginHorizontal: 24,
-    borderRadius: 10,
-    marginBottom: 50,
-    borderWidth: 1,
-    borderColor: '#5900ff'
+    marginTop: 20,
   },
   label: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FFF',
-    marginBottom: 5,
+    color: '#ddd',
+    fontSize: 14,
+    marginTop: 10,
   },
   value: {
     fontSize: 16,
-    color: '#BBB',
-    marginBottom: 15,
+    color: '#fff',
+    marginTop: 5,
   },
   link: {
-    color: '#8400ff',
-    textDecorationLine: 'underline',
+    color: '#3498db',
   },
   button: {
-    paddingVertical: 32,
-    alignItems: 'center',
+    marginTop: 20,
+  },
+  gradient: {
+    padding: 15,
     borderRadius: 8,
   },
   buttonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  gradient: {
-    paddingVertical: 15,
-    paddingHorizontal: 65,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
+    fontSize: 18,
+    color: '#fff',
+    textAlign: 'center',
   },
 });
+
+export default ProfileScreen;

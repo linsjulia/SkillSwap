@@ -4,18 +4,16 @@ import { getFirestore, collection, query, where, getDocs, doc, getDoc } from 'fi
 import { useLocalSearchParams, router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface users {
-  id:string,
-  nome: string,
+interface User {
+  id: string;
+  nome: string;
   email: string;
 }
 
 const CandidatosVaga: React.FC = () => {
   const { vagaId, titulo } = useLocalSearchParams() as { vagaId: string; titulo: string };
-
-  const [userDI, setUserDI] = useState('');
-  const [idCandidatura, setidCandidatura] = useState('');
-  const [candidatos, setCandidatos] = useState<any[]>([]);
+  
+  const [candidatos, setCandidatos] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,22 +30,19 @@ const CandidatosVaga: React.FC = () => {
       console.log('Consulta realizada com sucesso', querySnapshot);
 
       if (!querySnapshot.empty) {
-        const candidatosData: any[] = [];
+        const candidatosData: User[] = [];
         for (const docSnap of querySnapshot.docs) {
           const candidatura = docSnap.data();
           const userRef = doc(firestore, 'Usuário', candidatura.Id_Usuario);
-          setUserDI(candidatura.Id_Usuario)
           const userDoc = await getDoc(userRef);
 
           if (userDoc.exists()) {
             const userData = userDoc.data() || {};
             candidatosData.push({
-              id: docSnap.id,
+              id: candidatura.Id_Usuario, 
               nome: userData?.nome || "Nome não disponível",
               email: userData?.email || "Email não disponível",
             });
-
-            setidCandidatura(docSnap.id);
           }
         }
         setCandidatos(candidatosData);
@@ -67,10 +62,10 @@ const CandidatosVaga: React.FC = () => {
   }, [vagaId]);
 
   const handleCardPress = (userId: string) => {
-    AsyncStorage.setItem('IdUsuario', userDI)
+    AsyncStorage.setItem('IdUsuario', userId)
       .then(() => {
         console.log('IdUsuario armazenado:', userId);
-        router.push(`/profileUser?Id_Usuario=${userId}`);
+        router.push(`/profileUser?Id_Usuario=${userId}`);  
       })
       .catch((error) => {
         console.error('Erro ao salvar no AsyncStorage:', error);
@@ -87,17 +82,18 @@ const CandidatosVaga: React.FC = () => {
       ) : (
         <FlatList
           data={candidatos}
-          key={idCandidatura}
-          renderItem={( items : users ) => (
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }: { item: User }) => (
             <TouchableOpacity
               style={styles.card}
-              onPress={() => handleCardPress(userDI)}
+              onPress={() => handleCardPress(item.id)} 
             >
-              <Text style={styles.nome}>{items.nome}</Text>
-              <Text style={styles.email}>{items.email}</Text>
+              <Text style={styles.nome}>{item.nome}</Text>
+              <Text style={styles.email}>{item.email}</Text>
             </TouchableOpacity>
           )}
-          contentContainerStyle={styles.list}/>
+          contentContainerStyle={styles.list}
+        />
       )}
     </View>
   );
