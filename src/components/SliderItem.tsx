@@ -53,8 +53,8 @@ const SliderItem = ({ item }: Props) => {
                                 title2={item.title || "Título não disponível"}
                                 description2={item.description || "Descrição não disponível"}
                                 nameEnterprise2={item.nameEnterprise || "Empresa não disponível"}
-                                image2={item.image || "Imagem não disponível"}
-                            />
+                                image2={item.image || "Imagem não disponível"} userName={""} userEmail={""} userProfileImage={""}                            />
+                     
                         </Pressable>
                     </View>
                 </View>
