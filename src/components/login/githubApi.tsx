@@ -4,12 +4,10 @@ import { WebView } from "react-native-webview";
 import { useRouter } from "expo-router";
 import auth from "@react-native-firebase/auth";
 
-
 export interface TextButton {
   text: string;
   onPress: () => void;
 }
-
 
 const GitHubLogin = () => {
   const [showWebView, setShowWebView] = useState(false);
@@ -38,6 +36,7 @@ const GitHubLogin = () => {
         }
       } catch (error) {
         console.error("Erro ao autenticar:", error);
+        alert("Falha ao autenticar. Tente novamente.");
       } finally {
         setLoading(false);
       }
@@ -71,31 +70,18 @@ const GitHubLogin = () => {
   );
 };
 
-
 export function ButtonLogin({ text, onPress }: TextButton) {
   return (
     <Pressable
-      style={{ backgroundColor: "#6f00ff" }}
-      className="text-gray-300 border border-indigo-600 w-96 rounded-full h-14 mt-8 flex items-center justify-center"
+      style={{ backgroundColor: "#6f00ff", padding: 10, borderRadius: 20 }}
       onPress={onPress}
     >
-      <Text
-        className="text-white text-2xl"
-        style={{
-          fontWeight: "700",
-          letterSpacing: 1.5,
-          shadowColor: "cyan",
-          shadowOffset: { width: -2, height: 4 },
-          shadowOpacity: 0.4,
-          shadowRadius: 3,
-        }}
-      >
+      <Text style={{ color: "#fff", fontSize: 16, fontWeight: "700" }}>
         {text}
       </Text>
     </Pressable>
   );
 }
-
 
 export function ResetPassword() {
   const router = useRouter();
@@ -103,7 +89,6 @@ export function ResetPassword() {
   return (
     <Pressable onPress={() => router.push("/(stack)/resetPassword")}>
       <Text
-        className="text-gray-300 ml-48 mt-5"
         style={{
           fontWeight: "700",
           letterSpacing: 1.3,
@@ -117,10 +102,13 @@ export function ResetPassword() {
 
 export function OthersLogins() {
   return (
-    <Pressable className="mt-16">
+    <Pressable>
       <Text
-        className="text-gray-300 text-center"
-        style={{ fontWeight: "700", letterSpacing: 1.3 }}
+        style={{
+          fontWeight: "700",
+          letterSpacing: 1.3,
+          textAlign: "center",
+        }}
       >
         ou logue com
       </Text>
@@ -132,18 +120,18 @@ export function ImagesEnterprise() {
   const [showWebView, setShowWebView] = useState(false);
 
   return (
-    <View className="flex-row gap-10 items-center">
-      <Pressable className="mt-3 bg-neutral-800 py-3 px-8 rounded-xl">
-        <Image source={require("../../assets/google.png")} />
+    <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
+      <Pressable style={{ backgroundColor: "#555", padding: 10, borderRadius: 10 }}>
+        <Image source={require("../../assets/google.png")} style={{ width: 30, height: 30 }} />
       </Pressable>
-      <Pressable className="mt-3 bg-neutral-800 py-3 px-8 rounded-xl">
-        <Image source={require("../../assets/linkedin.png")} />
+      <Pressable style={{ backgroundColor: "#555", padding: 10, borderRadius: 10 }}>
+        <Image source={require("../../assets/linkedin.png")} style={{ width: 30, height: 30 }} />
       </Pressable>
       <Pressable
-        className="mt-3 bg-neutral-800 py-3 px-8 rounded-xl"
+        style={{ backgroundColor: "#555", padding: 10, borderRadius: 10 }}
         onPress={() => setShowWebView(true)}
       >
-        <Image source={require("../../assets/github.png")} />
+        <Image source={require("../../assets/github.png")} style={{ width: 30, height: 30 }} />
       </Pressable>
       {showWebView && (
         <WebView
@@ -161,26 +149,17 @@ export function CreateAccount() {
   const router = useRouter();
 
   return (
-    <View className="flex-row gap-10 items-center">
-      <Pressable
-        className="flex-grid"
-        onPress={() => router.replace("/register")}
-      >
-        <Text
-          style={{
-            fontWeight: "700",
-            letterSpacing: 1.3,
-          }}
-          className="text-gray-300 text-center mt-10"
-        >
+    <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
+      <Pressable onPress={() => router.replace("/register")}>
+        <Text style={{ textAlign: "center", fontWeight: "700", letterSpacing: 1.3 }}>
           Não possui conta?
         </Text>
         <Text
-          className="text-indigo-400 text-center mt-2"
           style={{
+            textAlign: "center",
             textDecorationLine: "underline",
             fontWeight: "700",
-            letterSpacing: 1.3,
+            color: "#6f00ff",
           }}
         >
           Crie aqui!
@@ -191,3 +170,4 @@ export function CreateAccount() {
 }
 
 export default GitHubLogin;
+  

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, FlatList, StyleSheet } from 'react-native';
-import { db } from '../../../firebaseConfig'; 
+import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { db } from '../../../firebaseConfig'; // Importe seu arquivo de configuração do Firestore
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { useRouter } from 'expo-router'; // Usando o hook useRouter
 
 interface Vaga {
   id: string;
@@ -13,6 +14,7 @@ interface Vaga {
 const JobSearchScreen = () => {
   const [searchText, setSearchText] = useState('');
   const [jobs, setJobs] = useState<Vaga[]>([]);
+  const router = useRouter(); // Usando o hook useRouter
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -28,50 +30,77 @@ const JobSearchScreen = () => {
         setJobs(jobList);
       });
 
-      return () => unsubscribe(); 
+      return () => unsubscribe();
     };
 
     fetchJobs();
   }, [searchText]);
 
+  const handleJobPress = (vagaId: string) => {
+    // Passando o vagaId para a URL para a página de descrição
+    router.push(`/(stack)/jobDescription?vagaId=${vagaId}`); // A URL agora inclui o vagaId
+  };
+
   return (
-    <View style={{ flex: 1, padding: 16, backgroundColor: '#111' }}>
+    <View style={styles.container}>
       <TextInput
         placeholder="Pesquisar vaga..."
         placeholderTextColor="white"
         value={searchText}
         onChangeText={setSearchText}
-        style={{
-          borderWidth: 1,
-          padding: 8,
-          borderRadius: 8,
-          marginBottom: 16,
-          color: 'white',
-          borderColor: 'white',
-        }}
+        style={styles.searchInput}
       />
       {jobs.length > 0 ? (
         <FlatList
-        style={{ }}
           data={jobs}
           keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-          
           renderItem={({ item }) => (
-            <View style={{ padding: 17, borderBottomWidth: 1, backgroundColor: '#7400ff', marginTop: 20, borderRadius: 10, height: 80, marginLeft: 10, marginRight: 10 }}>
-              <Text style={{ color: 'white', fontWeight: "bold" }}>{item.Titulo}</Text>
-              {/* <Text style={{ color: 'white' }}>{item.Categoria}</Text>
-              <Text style={{ color: 'white' }}>{item.Descricao}</Text> */}
-            </View>
+            <TouchableOpacity
+              style={styles.jobItem}
+              onPress={() => handleJobPress(item.id)} // Passando o vagaId para a navegação
+            >
+              <Text style={styles.jobTitle}>{item.Titulo}</Text>
+            </TouchableOpacity>
           )}
-         
         />
-        
       ) : (
-        <Text style={{ color: 'white' }}>Nenhuma vaga encontrada.</Text>
+        <Text style={styles.noJobs}>Nenhuma vaga encontrada.</Text>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#111',
+  },
+  searchInput: {
+    borderWidth: 1,
+    padding: 8,
+    borderRadius: 8,
+    marginBottom: 16,
+    color: 'white',
+    borderColor: 'white',
+  },
+  jobItem: {
+    padding: 17,
+    borderBottomWidth: 1,
+    backgroundColor: '#7400ff',
+    marginTop: 20,
+    borderRadius: 10,
+    height: 80,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  jobTitle: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  noJobs: {
+    color: 'white',
+  },
+});
 
 export default JobSearchScreen;
