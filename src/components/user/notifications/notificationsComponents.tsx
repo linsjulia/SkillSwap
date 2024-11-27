@@ -26,7 +26,7 @@ export function TitleNotifications() {
         letterSpacing: 1,
       }}
       >
-      Marcar todas como lida
+  
     </Text>
       </View>
   );
