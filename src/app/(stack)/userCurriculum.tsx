@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Alert, ScrollView, TouchableOpacity } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { db, doc, getDoc } from '../../../firebaseConfig';
 import { useLocalSearchParams } from 'expo-router';
@@ -49,52 +49,58 @@ const CurriculoScreen: React.FC = () => {
   }
 
   return (
-    <View style={styles.neonBorder}>
-      <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={styles.neonBorder}>
+      <Text style={styles.title}>Currículo do candidato:</Text>
+      <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>{curriculoData.Nome}</Text>
         </View>
 
         <View style={styles.infoContainer}>
           <View style={styles.infoRow}>
-            <FontAwesome name="map" size={24} color="#f2def7" />
+            <FontAwesome name="map" size={20} color="#f2def7" />
             <Text style={styles.infoText}><Text style={styles.boldText}>Endereço:</Text> {curriculoData.Endereco || "Não disponível"}</Text>
           </View>
 
           <View style={styles.infoRow}>
-            <FontAwesome name="calendar" size={24} color="#f2def7" />
+            <FontAwesome name="calendar" size={20} color="#f2def7" />
             <Text style={styles.infoText}><Text style={styles.boldText}>Data de Nascimento:</Text> {curriculoData.DataNascimento || "Não disponível"}</Text>
           </View>
 
           <View style={styles.infoRow}>
-            <FontAwesome name="heart" size={24} color="#f2def7" />
+            <FontAwesome name="heart" size={20} color="#f2def7" />
             <Text style={styles.infoText}><Text style={styles.boldText}>Estado Civil:</Text> {curriculoData.EstadoCivil || "Não disponível"}</Text>
           </View>
 
           <View style={styles.infoRow}>
-            <FontAwesome name="venus-mars" size={24} color="#f2def7" />
+            <FontAwesome name="venus-mars" size={20} color="#f2def7" />
             <Text style={styles.infoText}><Text style={styles.boldText}>Sexo:</Text> {curriculoData.Sexo || "Não disponível"}</Text>
           </View>
-
-          <View style={styles.infoRow}>
-            <FontAwesome name="briefcase" size={24} color="#f2def7" />
-            <Text style={styles.infoText}><Text style={styles.boldText}>Experiência:</Text> {curriculoData.Experiencia || "Não disponível"}</Text>
+          <View style={{ borderBottomWidth: 1, borderBottomColor: "#FFF", padding: 10, marginBottom: 30}}></View>
+          <View>
+          <Text style={styles.boldText}>Experiência:</Text>
+            {/* <FontAwesome name="briefcase" size={20} color="#f2def7" /> */}
+            <Text style={styles.infoText}> {curriculoData.Experiencia || "Não disponível"}</Text>
           </View>
 
           <View>
-              <Text style={styles.infoText}><Text style={styles.boldText}>Nível de Escolaridade:</Text> {curriculoData.NivelEscolaridade}</Text>
+              <Text style={styles.boldText}>Nível de Escolaridade:</Text> 
+              <Text style={styles.infoText}>{curriculoData.NivelEscolaridade || "Não disponível"}</Text>
           </View>
 
           <View>
-              <Text style={styles.infoText}><Text style={styles.boldText}>Instituição:</Text> {curriculoData.Instituicao || "Não disponível"}</Text>
+            <Text style={styles.boldText}>Instituição:</Text> 
+              <Text style={styles.infoText}>{curriculoData.Instituicao || "Não disponível"}</Text>
           </View>
 
           <View>
-              <Text style={styles.infoText}><Text style={styles.boldText}>Curso:</Text> {curriculoData.Curso || "Não disponível"}</Text>
+              <Text style={styles.boldText}>Curso:</Text> 
+              <Text style={styles.infoText}>{curriculoData.Curso || "Não disponível"}</Text>
           </View>
 
           <View>
-              <Text style={styles.infoText}><Text style={styles.boldText}>Início e Término:</Text> {curriculoData.inicioTermino || "Não disponível"}</Text>
+             <Text style={styles.boldText}>Início e Término:</Text>
+              <Text style={styles.infoText}> {curriculoData.inicioTermino || "Não disponível"}</Text>
           </View>
 
           {curriculoData.NivelEscolaridade && (
@@ -112,44 +118,56 @@ const CurriculoScreen: React.FC = () => {
             </Text>
           )}
         </View>
-      </ScrollView>
-    </View>
+       
+      </View>
+      <View style={{display: "flex", flexDirection: "row", gap: 80, marginBottom: 40, marginTop: 20,}}>
+          <TouchableOpacity style={{  borderWidth: 1, borderColor: "#ff0000", padding: 13, borderRadius: 15, width: 100}}>
+            <Text style={[{color: "#ff0000", fontWeight: "bold", textAlign: "center"}]}>Descartar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{ backgroundColor: "#4bde9b", padding: 13, borderRadius: 15, width: 110,}}>
+            <Text style={{color: "#fff", fontWeight: "bold", textAlign: "center"}}>Aceitar</Text>
+          </TouchableOpacity>
+        </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   neonBorder: {
     backgroundColor: '#000', 
-    padding: 20,
-    marginHorizontal: 5,
-    borderRadius: 10,
+    // padding: 20,
     marginBottom: 5,
-    borderWidth: 5,
-    borderColor: '#5900ff',
     flexGrow: 1,
     justifyContent: 'center',
-    flex: 1,
     alignItems: 'center',
   },
   container: {
     padding: 20,
+    backgroundColor: "#1a0b48",
+    borderWidth: 1,
+    borderColor: '#5900ff',
+    borderRadius: 10,
+    marginTop: 50
   },
   header: {
     marginBottom: 20,
   },
   title: {
     color: '#fff',
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 20,
+    textAlign: "center",
+    marginTop: 40,
+    marginBottom: 0,
     textShadowColor: '#6a00ff',
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 20,
   },
   infoContainer: {
     marginBottom: 20,
+    padding: 10,
+    
   },
   infoRow: {
     flexDirection: 'row',
@@ -157,18 +175,25 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   infoText: {
-    color: '#fff',
+    color: '#ffffff',
     marginLeft: 10,
     fontSize: 16,
+    padding: 12,
+    
+    
   },
   subtitle: {
     fontSize: 20,
-    color: '#f2def7',
+    color: '#ffffff',
     marginTop: 20,
     marginBottom: 10,
+   
   },
   boldText: {
     fontWeight: 'bold',
+    color: "white",
+    margin: 7,
+    fontSize: 15
   },
 });
 

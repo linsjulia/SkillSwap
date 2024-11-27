@@ -49,6 +49,20 @@ export default function CompanyTabsLayout() {
         
         }} />
 
+      <Tabs.Screen name="editVacancy" options={{ 
+        title: '', 
+        headerShown: false,
+        tabBarStyle :{
+          backgroundColor: 'black',
+          borderTopWidth: 0,
+          borderTopColor: 'transparent',
+          shadowColor: "transparent"
+     
+        },
+        tabBarIcon: ({ color }) => <FontAwesome size={28} name='wpforms' color='white'/>
+        
+        }} />
+
     </Tabs>
   );
 }

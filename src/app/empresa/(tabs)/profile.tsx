@@ -82,10 +82,10 @@ export default function ProfileScreen() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
      
-     
+        
         <Image 
         source={bannerImageUrl ? {uri: bannerImageUrl} : require('../../../assets/banner.png')}
-        style={{ height: 100, padding: 0}}
+        style={{ height: 120, padding: 0}}
         ></Image>
         <View style={styles.header}>
         <Image
@@ -127,7 +127,7 @@ export default function ProfileScreen() {
         <LinearGradient
         colors={['#9900ff', '#5900ff', '#0084ff']}
         style={styles.gradient}>
-        <Text style={styles.buttonText}>Visite nosso site!</Text>
+        <Text style={styles.buttonText}>Visite nosso site</Text>
         </LinearGradient>
         </TouchableOpacity>
 
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     backgroundColor: '#12133f', 
     padding: 30,
-    height: 350,
+  
     marginHorizontal: 24,
     borderRadius: 10,
     marginBottom: 50,
@@ -192,6 +192,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#BBB',
     marginBottom: 15,
+    marginTop: 0,
+
+    
   },
   link: {
     color: '#8400ff',
@@ -199,7 +202,8 @@ const styles = StyleSheet.create({
   },
   button: {
     
-    paddingVertical: 32,
+    paddingVertical: 42,
+    bottom: 55,
     alignItems: 'center',
     borderRadius: 8,
   },

@@ -10,10 +10,11 @@ export interface UserProfile {
   nome: string;
   email: string;
   data_nascimento: string;
-  ProfileImageUrl?: string; 
+  profileImageUrl?: string; 
   site: string;
   portfolio?: { url: string; description: string };
   area_atuacao: string;
+  resumo: string;
 }
 
 const ProfileScreen: React.FC = () => {
@@ -88,9 +89,7 @@ const ProfileScreen: React.FC = () => {
 
         <Text style={styles.label}>Resumo</Text>
         <Text style={styles.value}>
-          Meu objetivo é criar soluções digitais que impressionem visualmente, funcionem
-          perfeitamente e proporcionem a melhor experiência ao usuário. Estou sempre disposto a
-          aprender, enfrentar desafios e evoluir como profissional...
+          {userProfile?.resumo || "Não disponível"}
         </Text>
 
         <TouchableOpacity 
@@ -115,50 +114,63 @@ const ProfileScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    
     backgroundColor: '#1e1e1e',
     padding: 20,
+    flexGrow: 1,
   },
   header: {
     alignItems: 'center',
     marginTop: 20,
   },
   profileImage: {
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 100,
     borderRadius: 60,
-    borderWidth: 4,
+    borderWidth: 1,
     borderColor: '#fff',
     marginTop: -60,
   },
   name: {
-    fontSize: 24,
+    fontSize: 19,
     color: '#fff',
-    marginTop: 10,
+    marginTop: 15,
     fontWeight: 'bold',
   },
   infoContainer: {
-    marginTop: 20,
+    marginTop: 30,
+    borderWidth: 1,
+    borderColor: "#5900ff",
+    borderRadius: 16,
+    padding: 20,
+    backgroundColor: "#12133f",
+    marginHorizontal: 10,
+    marginBottom: 50,
+    
   },
   label: {
     color: '#ddd',
     fontSize: 14,
     marginTop: 10,
+    padding: 5
   },
   value: {
     fontSize: 16,
     color: '#fff',
     marginTop: 5,
+    padding: 5,
   },
   link: {
-    color: '#3498db',
+    color: '#8f3fff',
+    textDecorationLine: "underline"
   },
   button: {
-    marginTop: 20,
+    marginTop: 40,
   },
   gradient: {
     padding: 15,
     borderRadius: 8,
+    marginBottom: 20,
   },
   buttonText: {
     fontSize: 18,

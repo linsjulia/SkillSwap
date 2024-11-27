@@ -8,6 +8,8 @@ interface User {
   id: string;
   nome: string;
   email: string;
+  profileImageUrl: string;
+  resumo: string;
 }
 
 const CandidatosVaga: React.FC = () => {
@@ -42,6 +44,8 @@ const CandidatosVaga: React.FC = () => {
               id: candidatura.Id_Usuario, 
               nome: userData?.nome || "Nome não disponível",
               email: userData?.email || "Email não disponível",
+              profileImageUrl: userData?.profileImageUrl || "nao sei",
+              resumo: userData?.resumo || "Resumo indisponível"
             });
           }
         }
@@ -113,7 +117,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   card: {
-    backgroundColor: '#6500c4',
+    backgroundColor: '#8400ff',
     padding: 15,
     marginBottom: 10,
     borderRadius: 8,
