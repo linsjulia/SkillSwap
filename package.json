@@ -15,6 +15,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@babel/runtime": "^7.26.0",
     "@expo/vector-icons": "^14.0.2",
     "@fortawesome/fontawesome-svg-core": "^6.7.1",
     "@fortawesome/free-brands-svg-icons": "^6.7.1",
@@ -46,7 +47,7 @@
     "expo-image-picker": "~16.0.3",
     "expo-linear-gradient": "~14.0.1",
     "expo-linking": "~7.0.3",
-    "expo-random": "undefined",
+    "expo-random": "^13.6.0",
     "expo-router": "~4.0.9",
     "expo-splash-screen": "~0.29.13",
     "expo-status-bar": "~2.0.0",
@@ -58,6 +59,7 @@
     "nativewind": "^4.1.23",
     "pdf-lib": "^1.17.1",
     "postcss": "^8.4.49",
+    "punycode": "^2.3.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-hook-form": "^7.53.2",
@@ -75,12 +77,13 @@
     "react-native-screens": "~4.1.0",
     "react-native-version-check": "^3.4.7",
     "react-native-web": "~0.19.13",
-    "react-native-webview": "13.12.4",
+    "react-native-webview": "^13.12.4",
     "tailwind-merge": "^2.5.5",
     "yup": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
+    "@react-native-community/cli": "latest",
     "@types/jest": "^29.5.14",
     "@types/react": "~18.3.12",
     "@types/react-native-pdf-lib": "^0.2.3",
