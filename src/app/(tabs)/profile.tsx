@@ -99,7 +99,7 @@ export default function ProfileScreen() {
         <Text style={styles.label}>Resumo</Text>
         <Text style={styles.value}>
           {UserProfile?.resumo || "Resumo não disponível"}
-          <Text style={styles.link}> Ver mais</Text>
+   
         </Text>
 
         <TouchableOpacity 
@@ -156,11 +156,10 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     backgroundColor: '#12133f', 
-    padding: 30,
-    height: 500,
+    padding: 34,
     marginHorizontal: 24,
     borderRadius: 10,
-    marginBottom: 50,
+    marginBottom: 40,
     borderWidth: 1,
     borderColor: '#5900ff'
   },

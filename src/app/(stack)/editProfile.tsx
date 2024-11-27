@@ -20,13 +20,14 @@ export interface UserProfile {
   portfolio?: { url: string; description: string };
   area_atuacao: string;
   telefone: string;
+  resumo: string;
 }
 
 interface LoadingOverlayProps {
   visible: boolean;
 }
 
-export default function Profile({ nome, email, data_nascimento, portfolio, area_atuacao, telefone, curriculo }: UserProfile) {
+export default function Profile({ nome, email, data_nascimento, portfolio, area_atuacao, telefone, curriculo, resumo }: UserProfile) {
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [bannerImageUrl, setBannerImageUrl] = useState<string | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -38,6 +39,7 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
   const [newPortfolioDescription, setNewPortfolioDescription] = useState(portfolio?.description || "");
   const [newCurriculoUrl, setNewCurriculoUrl] = useState(curriculo || "");
   const [newAreaAtuacao, setNewAreaAtuacao] = useState(area_atuacao || "");
+  const [newResumo, setNewResumo] = useState(resumo || "");
   const [loading, setLoading] = useState(false);
   const firestore = getFirestore();
   const [loadingData, setLoadingData] = useState(true);
@@ -61,6 +63,7 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
       portfolioDescription: portfolio?.description || "",
       curriculo: curriculo || "",
       area_atuacao: area_atuacao || "",
+      resumo: resumo || "",
     },
   });
 
@@ -149,6 +152,7 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
     newPortfolioDescription?.trim(),
     newCurriculoUrl?.trim(),
     newAreaAtuacao?.trim(),
+    newResumo?.trim(),
   ].some((field) => field && field !== "");
 
   if (!isAnyFieldFilled) {
@@ -174,6 +178,7 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
     }
     if (newCurriculoUrl?.trim()) updatedFields.curriculo = newCurriculoUrl.trim();
     if (newAreaAtuacao?.trim()) updatedFields.area_atuacao = newAreaAtuacao.trim();
+    if(newResumo?.trim()) updatedFields.resumo = newResumo.trim();
 
     await updateDoc(userDocRef, updatedFields);
 
@@ -213,13 +218,14 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
     <ScrollView style={styles.container}>
       <LoadingOverlay visible={loadingData || loadingBanner || loadingProfileImage} />
 
+
+      <Pressable onPress={handleBannerUpdate}>
       <Image
         source={bannerImageUrl ? { uri: bannerImageUrl } : require('../../assets/banner.png')}
         style={{ height: 130, padding: 0 }}
       />
-      <Pressable style={styles.overlay} onPress={handleBannerUpdate}>
-        <Icon name="pencil" size={30} color="#fff" />
       </Pressable>
+  
 
       <View style={{ display: 'flex', flexDirection: 'row', gap: 270, left: 30, top: 50 }}>
         <Pressable onPress={handleProfileImageUpdate}>
@@ -317,6 +323,20 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
           <Picker.Item label=" Engenharia de Machine Learning" value="Engenharia de Machine Learning " color="#000000" />
           </Picker>
           </View>
+          
+
+          <Text style={styles.label}>Sobre você</Text>
+          <View style={styles.inputContainer}>
+          <Icon name="pencil" size={20} color="#ffffff" style={styles.icon}/>
+          <TextInput
+            style={styles.input}
+            value={newResumo}
+            onChangeText={setNewResumo}
+            placeholderTextColor="white"
+            placeholder={userProfile?.resumo || 'Digite uma descrição sobre você'}
+            multiline={true} 
+          />
+          </View>
 
         <Text style={styles.label}>Link do Currículo</Text>
         <View style={styles.inputContainer}>
@@ -366,7 +386,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 20,
     color: '#ffffff', 
-    height: 37,
+    
   },
 
   container: {

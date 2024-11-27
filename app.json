@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/logoSkillSwap.png",
       "resizeMode": "contain",
-      "Width ": 30,
+      "Width ": 50,
       "backgroundColor": "black"
     },
     "ios": {

@@ -352,7 +352,7 @@ export default function RootLayout() {
         options={{
           title: "Skill Swap",
           headerStyle: {
-            backgroundColor: "#212121",
+            backgroundColor: "black",
           },
           headerTintColor: "white",
           headerTitleStyle: {
@@ -367,7 +367,7 @@ export default function RootLayout() {
         options={{
           title: "Skill Swap",
           headerStyle: {
-            backgroundColor: "#212121",
+            backgroundColor: "black",
           },
           headerTintColor: "white",
           headerTitleStyle: {
@@ -382,7 +382,7 @@ export default function RootLayout() {
         options={{
           title: "Skill Swap",
           headerStyle: {
-            backgroundColor: "#212121",
+            backgroundColor: "",
           },
           headerTintColor: "white",
           headerTitleStyle: {
@@ -397,7 +397,7 @@ export default function RootLayout() {
         options={{
           title: "Skill Swap",
           headerStyle: {
-            backgroundColor: "#212121",
+            backgroundColor: "black",
           },
           headerTintColor: "white",
           headerTitleStyle: {
