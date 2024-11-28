@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, FlatList, StyleSheet } from 'react-native';
-import { db } from '../../../firebaseConfig'; 
+import { View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { db } from '../../../firebaseConfig';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { useRouter } from 'expo-router';
 
 interface Vaga {
+  empresa_ID: string | number | (string | number)[] | null | undefined;
   id: string;
   Titulo: string;
   Categoria?: string;
   Descricao?: string;
+  Salario?: string;
+  Forma_Trabalho?: string;
+  Localizacao?: string;
+  nomeEmpresa?: string;
+  benefits?: string[];
+  requirements?: string[];
 }
 
 const JobSearchScreen = () => {
   const [searchText, setSearchText] = useState('');
   const [jobs, setJobs] = useState<Vaga[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -28,11 +37,30 @@ const JobSearchScreen = () => {
         setJobs(jobList);
       });
 
-      return () => unsubscribe(); 
+      return () => unsubscribe();
     };
 
     fetchJobs();
   }, [searchText]);
+
+  const handleJobPress = (job: Vaga) => {
+    // Navegar para a tela de detalhes da vaga passando os dados como parâmetros
+    router.push({
+      pathname: '/(stack)/jobDescription',
+      params: {
+        vagaId: job.id,
+        title: job.Titulo,
+        description: job.Descricao,
+        category: job.Categoria,
+        salary: job.Salario,
+        workForm: job.Forma_Trabalho,
+        location: job.Localizacao,
+        nameEnterprise: job.empresa_ID,
+        requirements: JSON.stringify(job.requirements),
+        benefits: JSON.stringify(job.benefits)
+      },
+    });
+  };
 
   return (
     <View style={{ flex: 1, padding: 16, backgroundColor: '#111' }}>
@@ -52,21 +80,27 @@ const JobSearchScreen = () => {
       />
       {jobs.length > 0 ? (
         <FlatList
-        style={{ }}
           data={jobs}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
-          
           renderItem={({ item }) => (
-            <View style={{ padding: 17, borderBottomWidth: 1, backgroundColor: '#7400ff', marginTop: 20, borderRadius: 10, height: 80, marginLeft: 10, marginRight: 10 }}>
-              <Text style={{ color: 'white', fontWeight: "bold" }}>{item.Titulo}</Text>
-              {/* <Text style={{ color: 'white' }}>{item.Categoria}</Text>
-              <Text style={{ color: 'white' }}>{item.Descricao}</Text> */}
-            </View>
+            <TouchableOpacity
+              onPress={() => handleJobPress(item)}
+              style={{
+                padding: 17,
+                borderBottomWidth: 1,
+                backgroundColor: '#7400ff',
+                marginTop: 20,
+                borderRadius: 10,
+                height: 80,
+                marginLeft: 10,
+                marginRight: 10,
+              }}
+            >
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>{item.Titulo}</Text>
+            </TouchableOpacity>
           )}
-         
         />
-        
       ) : (
         <Text style={{ color: 'white' }}>Nenhuma vaga encontrada.</Text>
       )}

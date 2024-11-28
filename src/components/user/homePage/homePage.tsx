@@ -44,61 +44,25 @@ export function CardWork({
   userName,
   userEmail,
   userProfileImage,
-}: Work) {
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const menuSlide = useState(new Animated.Value(-250))[0]; 
-  const toggleMenu = () => {
-    setIsMenuVisible(!isMenuVisible);
-    Animated.timing(menuSlide, {
-      toValue: isMenuVisible ? -250 : 0, 
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
+ }: Work) {
+//   const [isMenuVisible, setIsMenuVisible] = useState(false);
+//   const menuSlide = useState(new Animated.Value(-250))[0]; 
+//   const toggleMenu = () => {
+//     setIsMenuVisible(!isMenuVisible);
+//     Animated.timing(menuSlide, {
+//       toValue: isMenuVisible ? -250 : 0, 
+//       duration: 300,
+//       useNativeDriver: true,
+//     }).start();
+//   };
 
-  const handleNavigation = (route: string) => {
-    alert(`Navegando para: ${route}`);
-  };
+//   const handleNavigation = (route: string) => {
+//     alert(`Navegando para: ${route}`);
+//   };
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={toggleMenu} style={styles.menuButton}>
-        <FontAwesome name="bars" size={24} color="white" />
-      </Pressable>
-
-      <Animated.View
-        style={[styles.menu, { transform: [{ translateX: menuSlide }] }]}>
-        <View style={styles.profileContainer}>
-          <Image
-            source={{ uri: userProfileImage }} 
-            style={styles.profileImage}
-          />
-          <View>
-            <Text style={styles.userName}>{userName}</Text>
-            <Text style={styles.userEmail}>{userEmail}</Text>
-          </View>
-        </View>
-
-        <Pressable style={styles.menuItemContainer} onPress={() => handleNavigation('Perfil')}>
-          <FontAwesome name="user" size={24} color="#6f00ff" />
-          <Text style={styles.menuItem}>Perfil</Text>
-        </Pressable>
-
-        <Pressable style={styles.menuItemContainer} onPress={() => handleNavigation('Configurações')}>
-          <FontAwesome name="cogs" size={24} color="#6f00ff" />
-          <Text style={styles.menuItem}>Configurações</Text>
-        </Pressable>
-
-        <Pressable style={styles.menuItemContainer} onPress={() => handleNavigation('Suporte')}>
-          <FontAwesome name="question-circle" size={24} color="#6f00ff" />
-          <Text style={styles.menuItem}>Suporte</Text>
-        </Pressable>
-
-        <Pressable style={styles.menuItemContainer} onPress={() => handleNavigation('Deslogar')}>
-          <FontAwesome name="sign-out" size={24} color="#6f00ff" />
-          <Text style={styles.menuItem}>Deslogar</Text>
-        </Pressable>
-      </Animated.View>
+    
 
       <View style={styles.card}>
         <Text style={styles.cardTitle}>{title2}</Text>
@@ -194,7 +158,7 @@ const styles = StyleSheet.create({
     left: 0,
     borderRadius: 15,
     padding: 20,
-    top: -40,
+    top: -45
   },
   cardTitle: {
     fontWeight: '700',

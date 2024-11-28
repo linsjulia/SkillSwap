@@ -10,7 +10,7 @@ export default function CompanyTabsLayout() {
         headerShown: false,
         title: '',
         tabBarStyle: {
-            backgroundColor: "#111", // Definindo a cor de fundo da barra de abas
+            backgroundColor: "black", // Definindo a cor de fundo da barra de abas
             borderTopWidth: 0, // Removendo a borda superior
             
             borderTopColor: 'transparent', // Tornando a cor da borda superior transparente
@@ -35,19 +35,6 @@ export default function CompanyTabsLayout() {
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="pencil" color="white" />, // Definindo o ícone da aba como "home" com a cor especificada
 
        }} />
-      <Tabs.Screen name="profile" options={{ 
-        title: '', 
-        headerShown: false,
-        tabBarStyle :{
-          backgroundColor: 'black',
-          borderTopWidth: 0,
-          borderTopColor: 'transparent',
-          shadowColor: "transparent"
-     
-        },
-        tabBarIcon: ({ color }) => <FontAwesome size={28} name='user' color='white'/>
-        
-        }} />
 
       <Tabs.Screen name="editVacancy" options={{ 
         title: '', 
@@ -62,6 +49,22 @@ export default function CompanyTabsLayout() {
         tabBarIcon: ({ color }) => <FontAwesome size={28} name='wpforms' color='white'/>
         
         }} />
+
+      <Tabs.Screen name="profile" options={{ 
+        title: '', 
+        headerShown: false,
+        tabBarStyle :{
+          backgroundColor: 'black',
+          borderTopWidth: 0,
+          borderTopColor: 'transparent',
+          shadowColor: "transparent"
+     
+        },
+        tabBarIcon: ({ color }) => <FontAwesome size={28} name='user' color='white'/>
+        
+        }} />
+
+      
 
     </Tabs>
   );

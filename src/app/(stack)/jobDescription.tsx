@@ -1,23 +1,10 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { auth } from '@/firebaseConfig';
-
-interface JobDetailsScreenParams {
-  vagaId?: string;
-  title?: string;
-  image?: string;
-  description?: string;
-  nameEnterprise?: string;
-  salary?: string;
-  requirements?: string | string[];
-  benefits?: string | string[];
-  location?: string;
-  workForm?: string;
-  publicationDate?: string;
-}
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function JobDetailsScreen() {
   const [isLoading, setIsLoading] = useState(false);
@@ -49,12 +36,12 @@ export default function JobDetailsScreen() {
     : [];
 
   const handleApply = async () => {
-    setIsLoading(true);  
+    setIsLoading(true);
     const userId = auth.currentUser ? auth.currentUser.uid : null;
 
     if (!userId) {
       alert('Você precisa estar logado para se candidatar!');
-      setIsLoading(false); 
+      setIsLoading(false);
       return;
     }
 
@@ -62,21 +49,36 @@ export default function JobDetailsScreen() {
 
     if (!vagaIdString) {
       alert('ID da vaga inválido!');
-      setIsLoading(false);  
+      setIsLoading(false);
       return;
     }
 
     router.push(`/curriculum?vagaId=${vagaIdString}&userId=${userId}`);
-    setIsLoading(false); 
+    setIsLoading(false);
   };
 
+  const handleCardPress = (empresaId: string) => {
+    AsyncStorage.setItem('IdEmpresa', empresaId)
+      .then(() => {
+        console.log('IdEmpresa armazenado:', empresaId);
+        router.push(`/profileUserPJ?Id_Usuario=${empresaId}`);
+      })
+      .catch((error) => {
+        console.error('Erro ao salvar no AsyncStorage:', error);
+      });
+  };
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.containerBorder}>
         <View style={styles.header}>
           <View style={styles.headerText}>
             <Text style={styles.title}>{title || 'Título da vaga'}</Text>
-            <Text style={styles.subtitle}>{nameEnterprise || 'Nome da empresa'}</Text>
+            <Text
+              style={[styles.subtitle, { textDecorationLine: 'underline', color: '#8f3fff' }]}
+              onPress={() => handleCardPress(Array.isArray(vagaId) ? vagaId[0] : vagaId || '')}
+            >
+              {nameEnterprise || 'Nome da empresa'}
+            </Text>
             <Text style={styles.location}>{location || 'Localização'}</Text>
           </View>
         </View>
@@ -85,11 +87,11 @@ export default function JobDetailsScreen() {
           <View style={styles.infoContainer}>
             <Icon name="briefcase" size={18} color="white" style={{ top: 10, right: 5 }} />
             <Text style={styles.infoText}>{workForm}</Text>
-            <Icon name="cash" size={18} color="white" style={{top: 1, right: 5}} />
+            <Icon name="cash" size={18} color="white" style={{ top: 1, right: 5 }} />
             <Text style={styles.salary}>{salary}</Text>
           </View>
         </View>
-        
+
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Benefícios:</Text>
           <View>
@@ -135,7 +137,6 @@ export default function JobDetailsScreen() {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   loadingContainer: {
     marginTop: 20,
@@ -164,6 +165,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 50,
     shadowOffset: { width: 0, height: 0 },
+    width: 340,
   },
   header: {
     flexDirection: 'row',

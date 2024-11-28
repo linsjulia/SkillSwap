@@ -87,7 +87,7 @@ export default function RootLayout() {
         options={{
           title: "Skill Swap",
           headerStyle: {
-            backgroundColor: "#212121",
+            backgroundColor: "black",
           },
           headerTintColor: "white",
           headerTitleStyle: {
@@ -102,7 +102,7 @@ export default function RootLayout() {
         options={{
           title: "Skill Swap",
           headerStyle: {
-            backgroundColor: "#212121",
+            backgroundColor: "black",
           },
           headerTintColor: "white",
           headerTitleStyle: {
@@ -132,7 +132,7 @@ export default function RootLayout() {
         options={{
           title: "Skill Swap",
           headerStyle: {
-            backgroundColor: "#6f00ff",
+            backgroundColor: "black",
           },
           headerTintColor: "white",
           headerTitleStyle: {
@@ -413,6 +413,21 @@ export default function RootLayout() {
           title: "Skill Swap",
           headerStyle: {
             backgroundColor: "#212121",
+          },
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontFamily: "Inter",
+            fontWeight: "bold",
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name="(stack)/profileUserPJ"
+        options={{
+          title: "Skill Swap",
+          headerStyle: {
+            backgroundColor: "black",
           },
           headerTintColor: "white",
           headerTitleStyle: {

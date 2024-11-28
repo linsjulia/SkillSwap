@@ -86,8 +86,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     padding: 20,
-    borderWidth: 1,
-    borderColor: "#6200ff"
+    // borderWidth: 1,
+    // borderColor: "#6200ff"
   },
   list: {
     marginTop: 10,

@@ -63,7 +63,7 @@ const VagasEmpresa: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{ color: "white", marginBottom: 30, textAlign: 'center', fontSize: 19,}}>Feed de Currículos</Text>
+      <Text style={{ color: "white", marginBottom: 30, textAlign: 'center', fontSize: 19,}}>Edição de Vagas</Text>
       {isLoading ? (
         <ActivityIndicator size="large" color="#fff" />
       ) : error ? (
@@ -85,17 +85,27 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     padding: 20,
-    borderWidth: 1,
+   
     borderColor: "#6200ff"
   },
   list: {
     marginTop: 10,
+    
+    padding: 20,
+    borderWidth: 1,
+    borderColor: "#6200ff",
+    alignItems: "center",
+    borderRadius: 15,
+    justifyContent: "center",
+    
+    
   },
   card: {
     backgroundColor: '#7600fd',
     padding: 15,
-    marginBottom: 10,
+    marginBottom: 0,
     borderRadius: 8,
+    width: 300,
   },
   titulo: {
     fontSize: 17,
