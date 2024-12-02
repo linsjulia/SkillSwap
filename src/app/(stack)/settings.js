@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   
   },
   profileCard: {
-    backgroundColor: '#8c00ff', 
+    backgroundColor: '#7700ff', 
     borderRadius: 15,
     padding: 15,
     flexDirection: 'row',

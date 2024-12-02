@@ -62,7 +62,7 @@ export default function Home({userName, userEmail, userProfileImage }: Work) {
           <Text style={styles.menuItem}>Configurações</Text>
         </Pressable>
 
-        <Pressable style={styles.menuItemContainer} onPress={() => router.replace('..')}>
+        <Pressable style={styles.menuItemContainer} onPress={() => router.replace('/(stack)/suport')}>
           <FontAwesome name="question-circle" size={24} color="#6f00ff" />
           <Text style={styles.menuItem}>Suporte</Text>
         </Pressable>

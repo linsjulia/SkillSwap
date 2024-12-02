@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable, ScrollView, Platform } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable, ScrollView, Platform, Alert } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { db, setDoc, addDoc, collection, doc, getDoc } from '../../../firebaseConfig';
 import { getAuth } from 'firebase/auth';
@@ -55,6 +55,7 @@ export default function CurriculumScreen() {
     }
 
     const loadCurriculum = async () => {
+      setIsLoading(true)
       try {
         const userCurriculumRef = doc(db, 'Curriculo', userId as string);
         const userCurriculumSnapshot = await getDoc(userCurriculumRef);
@@ -75,9 +76,12 @@ export default function CurriculumScreen() {
             experiencia: data.Experiencia || '',
             portfolio: data.PdfLink || ''
           });
+       
         }
       } catch (error) {
         console.error('Erro ao carregar currículo:', error);
+      } finally {
+        setIsLoading(false)
       }
     };
 
@@ -182,7 +186,7 @@ export default function CurriculumScreen() {
           onChangeText={(text) => handleChange('endereco', text)}
         />
         <Pressable onPress={openDatePicker}>
-          <Text style={[styles.input, { color: formacao.dataNascimento ? '#000' : '#888' }]}>
+          <Text style={[styles.input, { color: formacao.dataNascimento ? '#ffffff' : '#ffffff' }]}>
             {formacao.dataNascimento || 'Selecionar Data de Nascimento'}
           </Text>
         </Pressable>
@@ -305,7 +309,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 20,
   },
   input: { 
-    backgroundColor: '#333',
+    backgroundColor: '#1d103f',
     color: '#fff',
     padding: 10,
     borderRadius: 10,

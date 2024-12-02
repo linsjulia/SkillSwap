@@ -5,10 +5,17 @@ import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { useRouter } from 'expo-router'; // Usando o hook useRouter
 
 interface Vaga {
+  empresa_ID: string | number | (string | number)[] | null | undefined;
   id: string;
   Titulo: string;
   Categoria?: string;
   Descricao?: string;
+  Salario?: string;
+  Forma_Trabalho?: string;
+  Localizacao?: string;
+  nomeEmpresa?: string;
+  benefits?: string[];
+  requirements?: string[];
 }
 
 const JobSearchScreen = () => {

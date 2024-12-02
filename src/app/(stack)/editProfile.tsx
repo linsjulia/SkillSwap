@@ -10,6 +10,7 @@ import { selectAndUploadBannerImage } from "@/src/services/updateBannerImage";
 import { Picker } from "@react-native-picker/picker";
 import { useForm } from "react-hook-form";
 import React from "react";
+import { selectAndUploadPortfolioImage } from "@/src/services/uploadPortfolioImage";
 
 
 export interface UserProfile {
@@ -21,15 +22,17 @@ export interface UserProfile {
   area_atuacao: string;
   telefone: string;
   resumo: string;
+  cpf: string;
 }
 
 interface LoadingOverlayProps {
   visible: boolean;
 }
 
-export default function Profile({ nome, email, data_nascimento, portfolio, area_atuacao, telefone, curriculo, resumo }: UserProfile) {
+export default function Profile({ nome, email, data_nascimento, portfolio, area_atuacao, telefone, curriculo, resumo, cpf }: UserProfile) {
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [bannerImageUrl, setBannerImageUrl] = useState<string | null>(null);
+  const [PortfolioImageUrl, setPortfolioImageUrl] = useState<string | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [newNome, setNewNome] = useState(nome || ""); // Inicializar como string vazia
   const [newEmail, setNewEmail] = useState(email || "");
@@ -40,11 +43,13 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
   const [newCurriculoUrl, setNewCurriculoUrl] = useState(curriculo || "");
   const [newAreaAtuacao, setNewAreaAtuacao] = useState(area_atuacao || "");
   const [newResumo, setNewResumo] = useState(resumo || "");
+  const [newCpf, setNewCpf] = useState(cpf || "");
   const [loading, setLoading] = useState(false);
   const firestore = getFirestore();
   const [loadingData, setLoadingData] = useState(true);
   const [loadingBanner, setLoadingBanner] = useState(false);
   const [loadingProfileImage, setLoadingProfileImage] = useState(false);
+  const [loadingPortfolio, setLoadingPortfolio] = useState(false);
   
 
   const {
@@ -64,12 +69,13 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
       curriculo: curriculo || "",
       area_atuacao: area_atuacao || "",
       resumo: resumo || "",
+      cpf: cpf || "",
     },
   });
 
 
   useEffect(() => {
-    const fetchUserProfileBannerImage = async () => {
+    const fetchUserProfileBannerPortfolioImage = async () => {
       setLoadingData(true);
       const auth = getAuth();
       const user = auth.currentUser;
@@ -82,11 +88,12 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
       if (userDoc.exists()) {
         setProfileImageUrl(userDoc.data()?.profileImageUrl || null);
         setBannerImageUrl(userDoc.data()?.bannerImageUrl || null);
+        setNewPortfolioUrl(userDoc.data()?.portfolioImageUrl || null);
       }
       setLoadingData(false);
     };
 
-    fetchUserProfileBannerImage();
+    fetchUserProfileBannerPortfolioImage();
   }, []);
 
   const handleProfileImageUpdate = async () => {
@@ -105,6 +112,16 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
       setBannerImageUrl(newBannerUrl);
     }
     setLoadingBanner(false);
+  };
+
+  
+  const handlePortfolioUpdate = async () => {
+    setLoadingPortfolio(true);
+    const newPortfolioUrl = await selectAndUploadPortfolioImage();
+    if (newPortfolioUrl) {
+      setPortfolioImageUrl(newPortfolioUrl);
+    }
+    setLoadingPortfolio(false);
   };
 
 
@@ -153,6 +170,7 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
     newCurriculoUrl?.trim(),
     newAreaAtuacao?.trim(),
     newResumo?.trim(),
+    newCpf?.trim(),
   ].some((field) => field && field !== "");
 
   if (!isAnyFieldFilled) {
@@ -179,6 +197,7 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
     if (newCurriculoUrl?.trim()) updatedFields.curriculo = newCurriculoUrl.trim();
     if (newAreaAtuacao?.trim()) updatedFields.area_atuacao = newAreaAtuacao.trim();
     if(newResumo?.trim()) updatedFields.resumo = newResumo.trim();
+    if(newCpf?.trim()) updatedFields.cpf = newCpf.trim();
 
     await updateDoc(userDocRef, updatedFields);
 
@@ -216,7 +235,7 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
 
   return (
     <ScrollView style={styles.container}>
-      <LoadingOverlay visible={loadingData || loadingBanner || loadingProfileImage} />
+      <LoadingOverlay visible={loadingData || loadingBanner || loadingProfileImage || loadingPortfolio } />
 
 
       <Pressable onPress={handleBannerUpdate}>
@@ -273,6 +292,19 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
           onChangeText={setNewEmail}
           placeholderTextColor="white"
           placeholder={userProfile?.email || 'Digite seu email'} 
+        />
+        </View>
+
+       
+        <Text style={styles.label}>CPF</Text>
+        <View style={styles.inputContainer}>
+        <Icon name="mail-outline" size={20} color="#ffffff" style={styles.icon}/>
+        <TextInput
+          style={styles.input}
+          value={newDataNascimento}
+          onChangeText={setNewDataNascimento}
+          placeholderTextColor="white"
+          placeholder={userProfile?.cpf || 'Digite seu CPF'} 
         />
         </View>
 
@@ -338,17 +370,6 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
           />
           </View>
 
-        <Text style={styles.label}>Link do Currículo</Text>
-        <View style={styles.inputContainer}>
-        <Icon name="link-outline" size={20} color="#ffffff" style={styles.icon}/>
-        <TextInput
-          style={styles.input}
-          // value={newCurriculoUrl}
-          onChangeText={setNewCurriculoUrl}
-          placeholderTextColor="white"
-          placeholder={userProfile?.curriculo || 'Digite o link do seu currículo'} 
-        />
-        </View>
 
 
         {/* Link do Portfólio */}
@@ -366,8 +387,16 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
 
         {/* Link do Currículo */}
         <View>
-        <Text style={styles.sectionTitle}>Imagem de seu Portfólio</Text>
-        <View style={styles.portfolioBox} />
+        {/* <Text style={styles.sectionTitle}>Imagem de seu Portfólio</Text>
+        
+        <Pressable onPress={handlePortfolioUpdate}>
+        <Image
+        
+        style={styles.portfolioBox}
+        source={PortfolioImageUrl ? { uri: PortfolioImageUrl } : require('../../assets/banner.png')}
+        />
+        {/* <View style={styles.portfolioBox} /> */}
+        
       </View>
 
         {/* Save Button */}
@@ -539,11 +568,12 @@ const styles = StyleSheet.create({
   },
   portfolioBox: {
     backgroundColor: '#12133f', 
-    height: 180,
+    height: 200,
     margin: 0,
     borderRadius: 10,
     marginBottom: 30,
     borderWidth: 1,
-    borderColor: "#0004ff"
+    borderColor: "#0004ff",
+    width: 300,
   },
 });
