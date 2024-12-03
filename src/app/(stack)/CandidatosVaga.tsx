@@ -69,7 +69,7 @@ const CandidatosVaga: React.FC = () => {
     AsyncStorage.setItem('IdUsuario', userId)
       .then(() => {
         console.log('IdUsuario armazenado:', userId);
-        router.push(`/profileUser?Id_Usuario=${userId}`);  
+        router.push(`/profileUser?userId=${userId}`);  
       })
       .catch((error) => {
         console.error('Erro ao salvar no AsyncStorage:', error);

@@ -108,7 +108,7 @@ export default function ProfileScreen() {
             const userId = auth.currentUser?.uid;
             if (userId) {
               
-              router.push(`/(stack)/userCurriculum?userId=${userId}`);
+              router.push(`/(stack)/meuCurriculo?userId=${userId}`);
             }
           }}
         >

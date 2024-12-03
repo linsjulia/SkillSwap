@@ -451,6 +451,22 @@ export default function RootLayout() {
           },
         }}
       />
+
+      <Stack.Screen
+        name="(stack)/meuCurriculo"
+        options={{
+        title: "Skill Swap",
+        headerStyle: {
+          backgroundColor: "black",
+        },
+        headerTintColor: "white",
+        headerTitleStyle: {
+          fontFamily: "Inter",
+          fontWeight: "bold",
+        },
+      }}
+      />
+      
     
     </Stack>
 

@@ -1,28 +1,27 @@
-import { auth } from '@/firebaseConfig';
-import { router } from 'expo-router';
-import { doc, getDoc, getFirestore } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useLocalSearchParams, router } from 'expo-router';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from 'react';
 
 export interface UserProfile {
   nome: string;
   email: string;
   data_nascimento: string;
-  profileImageUrl?: string; 
+  profileImageUrl?: string;
   site: string;
   portfolio?: { url: string; description: string };
   area_atuacao: string;
   resumo: string;
 }
 
-const ProfileScreen: React.FC = () => {
+const ProfileUser: React.FC = () => {
+  const { userId } = useLocalSearchParams() as { userId: string }; 
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [bannerImageUrl, setBannerImageUrl] = useState<string | null>(null);
-  const [userId, setUserId] = useState<string>('');
-
   const firestore = getFirestore();
 
   const getUserProfile = async () => {
@@ -31,79 +30,78 @@ const ProfileScreen: React.FC = () => {
     try {
       const docRef = doc(firestore, 'Usuário', userId);
       const docSnap = await getDoc(docRef);
+
       if (docSnap.exists()) {
-        console.log(docSnap.data());
-        setUserProfile(docSnap.data() as UserProfile);
+        const userData = docSnap.data() as UserProfile;
+        console.log(userData);
+
+        setUserProfile(userData);
+        if (userData.profileImageUrl) {
+          setProfileImageUrl(userData.profileImageUrl);
+        }
+        if (userData.portfolio && userData.portfolio.url) {
+          setBannerImageUrl(userData.portfolio.url); 
+        }
       } else {
-        console.log("Nenhum documento encontrado");
+        console.log('Nenhum documento encontrado');
       }
     } catch (error) {
-      console.error("Erro ao buscar os dados do usuário", error);
+      console.error('Erro ao buscar os dados do usuário', error);
     }
   };
 
   useEffect(() => {
-    const fetchUserID = async () => {
-      const storedUserId = await AsyncStorage.getItem('IdUsuario');
-      console.log('UserId recuperado do AsyncStorage:', storedUserId);
-
-      if (storedUserId) {
-        setUserId(storedUserId);
-      } else {
-        console.log("Erro: UserID não encontrado");
-      }
-    };
-
-    fetchUserID();
-  }, []);
-
-  useEffect(() => {
     if (userId) {
       getUserProfile();
+    } else {
+      const fetchUserID = async () => {
+        const storedUserId = await AsyncStorage.getItem('IdUsuario');
+        if (storedUserId) {
+          getUserProfile();
+        }
+      };
+      fetchUserID();
     }
   }, [userId]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image 
+      <Image
         source={bannerImageUrl ? { uri: bannerImageUrl } : require('../../assets/banner.png')}
-        style={{ height: 100, padding: 0 }}
+        style={styles.bannerImage}
       />
       <View style={styles.header}>
         <Image
           source={profileImageUrl ? { uri: profileImageUrl } : require('../../assets/user.png')}
           style={styles.profileImage}
         />
-        <Text style={styles.name}>{userProfile?.nome}</Text>
+        <Text style={styles.name}>{userProfile?.nome || 'Nome não disponível'}</Text>
       </View>
 
       <View style={styles.infoContainer}>
         <Text style={styles.label}>Área de Atuação</Text>
-        <Text style={styles.value}>{userProfile?.area_atuacao}</Text>
+        <Text style={styles.value}>{userProfile?.area_atuacao || 'Não disponível'}</Text>
 
         <Text style={styles.label}>Contato</Text>
-        <Text style={[styles.value, styles.link]}>{userProfile?.email}</Text>
+        <Text style={[styles.value, styles.link]}>{userProfile?.email || 'Não disponível'}</Text>
 
         <Text style={styles.label}>Localização</Text>
         <Text style={styles.value}>São Paulo</Text>
 
         <Text style={styles.label}>Resumo</Text>
         <Text style={styles.value}>
-          {userProfile?.resumo || "Não disponível"}
+          {userProfile?.resumo || 'Não disponível'}
         </Text>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.button}
           onPress={() => {
             if (userId) {
-              router.push(`/userCurriculum?userId=${userId}`);
+              router.push(`/(stack)/userCurriculum?userId=${userId}`);
             }
           }}
         >
-          <LinearGradient
-            colors={['#9900ff', '#5900ff', '#0084ff']}
-            style={styles.gradient}
-          >
+          <LinearGradient colors={['#9900ff', '#5900ff', '#0084ff']} style={styles.gradient}>
             <Text style={styles.buttonText}>Currículo</Text>
           </LinearGradient>
         </TouchableOpacity>
@@ -114,10 +112,14 @@ const ProfileScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    
     backgroundColor: '#1e1e1e',
     padding: 20,
     flexGrow: 1,
+  },
+  bannerImage: {
+    height: 100,
+    width: '100%',
+    borderRadius: 8,
   },
   header: {
     alignItems: 'center',
@@ -140,19 +142,18 @@ const styles = StyleSheet.create({
   infoContainer: {
     marginTop: 30,
     borderWidth: 1,
-    borderColor: "#5900ff",
+    borderColor: '#5900ff',
     borderRadius: 16,
     padding: 20,
-    backgroundColor: "#12133f",
+    backgroundColor: '#12133f',
     marginHorizontal: 10,
     marginBottom: 50,
-    
   },
   label: {
     color: '#ddd',
     fontSize: 14,
     marginTop: 10,
-    padding: 5
+    padding: 5,
   },
   value: {
     fontSize: 16,
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
   },
   link: {
     color: '#8f3fff',
-    textDecorationLine: "underline"
+    textDecorationLine: 'underline',
   },
   button: {
     marginTop: 40,
@@ -179,4 +180,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default ProfileUser;
