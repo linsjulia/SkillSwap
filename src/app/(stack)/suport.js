@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native'; // Certifique-se de que o StyleSheet está importado aqui
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native'; 
 
 const ChatApp = ({ navigation }) => {
   const [messages, setMessages] = useState([]);
@@ -14,9 +14,9 @@ const ChatApp = ({ navigation }) => {
       setTimeout(() => {
         addMessageToChat(botResponse.message, 'received');
         if (botResponse.options) {
-          showOptions(botResponse.options); // Mostrar opções de perguntas
+          showOptions(botResponse.options); 
         }
-      }, 500); // Delay para simular resposta
+      }, 500); 
     }
   };
 
@@ -78,7 +78,7 @@ const ChatApp = ({ navigation }) => {
   };
 
   const handleExitChat = () => {
-    navigation.goBack(); // Retorna para a página anterior
+    navigation.goBack();
   };
 
   return (
@@ -106,9 +106,9 @@ const ChatApp = ({ navigation }) => {
                       style={styles.optionButton}
                       onPress={() => {
                         if (opt.text === 'Encerrar chat') {
-                          handleExitChat(); // Se o usuário clicar em "Encerrar chat", vai voltar à página anterior
+                          handleExitChat(); 
                         } else {
-                          handleOptionClick(opt.text); // Caso contrário, continua o fluxo normal
+                          handleOptionClick(opt.text);
                         }
                       }}
                     >
@@ -175,14 +175,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
     flexDirection: 'column',
-    paddingBottom: 10, // Ajustar o padding para melhorar a rolagem
+    paddingBottom: 10,
   },
   message: {
     marginBottom: 15,
     flexDirection: 'row',
-    flexWrap: 'wrap', // Permite que o texto quebre em várias linhas
+    flexWrap: 'wrap', 
     alignItems: 'flex-start',
-    maxWidth: '80%', // Limita a largura da mensagem para 80% da tela
+    maxWidth: '80%', 
   },
   sent: {
     justifyContent: 'flex-end',
@@ -199,11 +199,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#636363',
     borderRadius: 15,
     marginBottom: 5,
-    maxWidth: '100%', // Limita a largura para que o texto não ultrapasse
+    maxWidth: '100%',
     lineHeight: 1.5,
-    flexWrap: 'wrap', // Quebra o texto para várias linhas
-    flexShrink: 1, // Garante que a mensagem não extrapole o espaço
-    minHeight: 40, // Garante uma altura mínima para o balão de mensagem
+    flexWrap: 'wrap', 
+    flexShrink: 1, 
+    minHeight: 40,
   },
   sentText: {
     backgroundColor: '#a65de2',
