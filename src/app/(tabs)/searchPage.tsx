@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-import { db } from '../../../firebaseConfig'; // Importe seu arquivo de configuração do Firestore
+import { db } from '../../../firebaseConfig'; 
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { useRouter } from 'expo-router'; // Usando o hook useRouter
+import { useRouter } from 'expo-router'; 
 
 interface Vaga {
-  empresa_ID: string | number | (string | number)[] | null | undefined;
-  id: string;
+  image: string | number | (string | number)[] | null | undefined;
+  Empresa_ID: string | number | (string | number)[] | null | undefined;
+  vagaId: string;
   Titulo: string;
   Categoria?: string;
   Descricao?: string;
   Salario?: string;
   Forma_Trabalho?: string;
   Localizacao?: string;
-  nomeEmpresa?: string;
+  nameEnterprise?: string;
   benefits?: string[];
   requirements?: string[];
 }
@@ -21,18 +22,18 @@ interface Vaga {
 const JobSearchScreen = () => {
   const [searchText, setSearchText] = useState('');
   const [jobs, setJobs] = useState<Vaga[]>([]);
-  const router = useRouter(); // Usando o hook useRouter
+  const router = useRouter();
 
   useEffect(() => {
     const fetchJobs = async () => {
       const q = searchText
         ? query(collection(db, 'Vagas'), where('Titulo', '>=', searchText))
-        : collection(db, 'Vagas'); // Se não houver pesquisa, pega todas as vagas
+        : collection(db, 'Vagas');
 
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const jobList: Vaga[] = [];
         querySnapshot.forEach((doc) => {
-          jobList.push({ id: doc.id, ...doc.data() } as Vaga);
+          jobList.push({ vagaId: doc.id, ...doc.data() } as Vaga);
         });
         setJobs(jobList);
       });
@@ -43,9 +44,22 @@ const JobSearchScreen = () => {
     fetchJobs();
   }, [searchText]);
 
-  const handleJobPress = (vagaId: string) => {
-    // Passando o vagaId para a URL para a página de descrição
-    router.push(`/(stack)/jobDescription?vagaId=${vagaId}`); // A URL agora inclui o vagaId
+  const handleJobPress = (item: Vaga) => {
+    router.push({
+      pathname: '/(stack)/jobDescription',
+      params: {
+        vagaId: item.vagaId,
+        title: item.Titulo,
+        image: item.image,
+        description: item.Descricao,
+        nome: item.nameEnterprise,
+        salary: item.Salario,
+        workForm: item.Forma_Trabalho,
+        location: item.Localizacao,
+        requirements: JSON.stringify(item.requirements),
+        benefits: JSON.stringify(item.benefits)
+      },
+    });
   };
 
   return (
@@ -60,11 +74,11 @@ const JobSearchScreen = () => {
       {jobs.length > 0 ? (
         <FlatList
           data={jobs}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.vagaId}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.jobItem}
-              onPress={() => handleJobPress(item.id)} // Passando o vagaId para a navegação
+              onPress={() => handleJobPress(item)} 
             >
               <Text style={styles.jobTitle}>{item.Titulo}</Text>
             </TouchableOpacity>
