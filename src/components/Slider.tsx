@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, FlatList, RefreshControl, StyleSheet, Dimensions, ImageSourcePropType, ActivityIndicator, Pressable } from 'react-native';
-import { getDocs, getDoc, collection, query, limit, startAfter, QueryDocumentSnapshot, DocumentData } from 'firebase/firestore';
+import { View, Text, FlatList, RefreshControl, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
+import { getDocs, getDoc, collection, query, limit, startAfter, QueryDocumentSnapshot, DocumentData, doc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
-import SliderItem from '../components/SliderItem'; // Importe o SliderItem aqui
+import SliderItem from '../components/SliderItem';
 import { router } from 'expo-router';
 
 interface Job {
@@ -24,15 +24,12 @@ interface LoadingOverlayProps {
 
 const { width } = Dimensions.get('screen');
 
-
-
 const Home = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [lastVisible, setLastVisible] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [allJobsLoaded, setAllJobsLoaded] = useState(false);
-  
 
   const fetchJobs = async (loadMore = false) => {
     setLoading(true);
@@ -58,42 +55,41 @@ const Home = () => {
 
       const docs = jobSnapshots.docs;
 
-      const jobData: Job[] = await Promise.all(docs.map(async doc => {
-        const data = doc.data();
+      const jobData: Job[] = await Promise.all(docs.map(async (docSnapshot) => {
+        const data = docSnapshot.data();
         let companyName = 'Sem nome de empresa';
         let companyImage = '';
-    
-
-        if (data.empresa_ID && typeof data.empresa_ID === 'object' && 'path' in data.empresa_ID) {
+        
+        if (data.EmpresaID) {
           try {
-     
-            const companyDoc = await getDoc(data.empresa_ID); 
+            const companyDocRef = doc(db, 'Empresa', data.EmpresaID); 
+            const companyDoc = await getDoc(companyDocRef); 
+            
             if (companyDoc.exists()) {
               console.log('Empresa encontrada:', companyDoc.data());
               const companyData = companyDoc.data() as { nome?: string; profileImageUrl?: string };
               companyName = companyData?.nome ?? 'Sem nome de empresa';
               companyImage = companyData?.profileImageUrl ?? ''; 
             } else {
-              console.warn('Documento de empresa não encontrado para referência:', data.empresa_ID.path);
+              console.warn('Documento de empresa não encontrado para ID:', data.EmpresaID);
             }
           } catch (error) {
-            console.error(`Erro ao buscar empresa com referência ${data.empresa_ID.path}:`, error);
+            console.error(`Erro ao buscar empresa com ID ${data.EmpresaID}:`, error);
           }
         }
-        
-        const requirementsArray = Array.isArray(data.Exigencias) ? data.Exigencias : [];
 
+        const requirementsArray = Array.isArray(data.Exigencias) ? data.Exigencias : [];
         const benefitsArray = Array.isArray(data.Beneficios) ? data.Beneficios : [];
 
         return {
-          id: doc.id,
+          id: docSnapshot.id,
           title: data.Titulo ?? 'Sem título',
           image: companyImage,
           nameEnterprise: companyName,
           description: data.Descricao ?? 'Sem descrição',
           salary: data.Salario ?? 'Não informado',
-          workForm: data.Forma_Trabalho ?? "nao informado" ,
-          location: data.Localizacao ?? "nao informado",
+          workForm: data.Forma_Trabalho ?? "Não informado",
+          location: data.Localizacao ?? "Não informado",
           requirements: requirementsArray,
           benefits: benefitsArray,
         };
@@ -130,22 +126,19 @@ const Home = () => {
     fetchJobs();
   }, []);
 
-  
   const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ visible }) => {
-    if (!visible) return null; // Retorna null se não for visível
-  
+    if (!visible) return null;
+    
     return (
       <View style={styles.overlayLoading}>
-        <ActivityIndicator size="large" color="#fff">
-       
-        </ActivityIndicator>
+        <ActivityIndicator size="large" color="#fff" />
       </View>
     );
   };
 
   return (
     <View>
-      <LoadingOverlay visible={loading}/> 
+      <LoadingOverlay visible={loading} /> 
       
       <FlatList
         data={jobs}
@@ -173,7 +166,6 @@ const Home = () => {
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-           
             onRefresh={onRefresh}
             tintColor="#6f00ff"
           />
@@ -188,15 +180,12 @@ const Home = () => {
           loading ? <Text style={{ textAlign: 'center', margin: 16 }}>Carregando...</Text> : null
         }
       />
-    
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   overlayLoading: {
-    // marginTop: 20,
-    // alignItems: 'center',
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
     alignItems: 'center',
@@ -208,6 +197,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
-})
+});
 
 export default Home;

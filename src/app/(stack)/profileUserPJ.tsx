@@ -1,16 +1,16 @@
-import { auth } from '@/firebaseConfig';
-import { router } from 'expo-router';
-import { doc, getDoc, getFirestore } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router'; // Importando hook
+import { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import React from 'react';
 
 export interface UserProfile {
   nome: string;
   email: string;
   data_nascimento: string;
-  profileImageUrl?: string; 
+  profileImageUrl?: string;
   site: string;
   portfolio?: { url: string; description: string };
   area_atuacao: string;
@@ -18,6 +18,9 @@ export interface UserProfile {
 }
 
 const ProfileScreen: React.FC = () => {
+  // Usando useLocalSearchParams para pegar parâmetros da URL
+  const { userId, vagaId } = useLocalSearchParams() as { userId: string; vagaId: string };
+
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [bannerImageUrl, setBannerImageUrl] = useState<string | null>(null);
@@ -25,6 +28,7 @@ const ProfileScreen: React.FC = () => {
 
   const firestore = getFirestore();
 
+  // Função para buscar o perfil do usuário
   const getUserProfile = async () => {
     if (!empresaId) return;
 
@@ -32,7 +36,6 @@ const ProfileScreen: React.FC = () => {
       const docRef = doc(firestore, 'Empresa', empresaId);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        console.log(docSnap.data());
         setUserProfile(docSnap.data() as UserProfile);
       } else {
         console.log("Nenhum documento encontrado");
@@ -45,8 +48,6 @@ const ProfileScreen: React.FC = () => {
   useEffect(() => {
     const fetchUserID = async () => {
       const storedEmpresaId = await AsyncStorage.getItem('IdEmpresa');
-      console.log('EmpresaId recuperado do AsyncStorage:', storedEmpresaId);
-
       if (storedEmpresaId) {
         setEmpresaId(storedEmpresaId);
       } else {
@@ -65,7 +66,7 @@ const ProfileScreen: React.FC = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image 
+      <Image
         source={bannerImageUrl ? { uri: bannerImageUrl } : require('../../assets/banner.png')}
         style={{ height: 100, padding: 0 }}
       />
@@ -92,18 +93,15 @@ const ProfileScreen: React.FC = () => {
           {userProfile?.resumo || "Não disponível"}
         </Text>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            if (empresaId) {
-              router.push(`/userCurriculum?userId=${empresaId}`);
+            if (empresaId && vagaId) {
+              router.push(`/userCurriculum?userId=${empresaId}&vagaId=${vagaId}`);
             }
           }}
         >
-          <LinearGradient
-            colors={['#9900ff', '#5900ff', '#0084ff']}
-            style={styles.gradient}
-          >
+          <LinearGradient colors={['#9900ff', '#5900ff', '#0084ff']} style={styles.gradient}>
             <Text style={styles.buttonText}>Visite nosso website</Text>
           </LinearGradient>
         </TouchableOpacity>
@@ -114,7 +112,6 @@ const ProfileScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    
     backgroundColor: '#1e1e1e',
     padding: 20,
     flexGrow: 1,
@@ -140,19 +137,18 @@ const styles = StyleSheet.create({
   infoContainer: {
     marginTop: 30,
     borderWidth: 1,
-    borderColor: "#5900ff",
+    borderColor: '#5900ff',
     borderRadius: 16,
     padding: 20,
-    backgroundColor: "#12133f",
+    backgroundColor: '#12133f',
     marginHorizontal: 10,
     marginBottom: 50,
-    
   },
   label: {
     color: '#ddd',
     fontSize: 14,
     marginTop: 10,
-    padding: 5
+    padding: 5,
   },
   value: {
     fontSize: 16,
@@ -162,7 +158,7 @@ const styles = StyleSheet.create({
   },
   link: {
     color: '#8f3fff',
-    textDecorationLine: "underline"
+    textDecorationLine: 'underline',
   },
   button: {
     marginTop: 40,
@@ -180,3 +176,4 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileScreen;
+

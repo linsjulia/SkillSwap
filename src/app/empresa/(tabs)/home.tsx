@@ -10,7 +10,6 @@ const VagasEmpresa: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-
   const fetchVagas = async () => {
     setIsLoading(true);
     const firestore = getFirestore();
@@ -42,7 +41,7 @@ const VagasEmpresa: React.FC = () => {
       setIsLoading(false);
     }
   };
-  
+
   useEffect(() => {
     fetchVagas();
   }, []);
@@ -50,12 +49,15 @@ const VagasEmpresa: React.FC = () => {
   const renderItem = ({ item }: { item: any }) => (
     <TouchableOpacity
       style={styles.card}
-      onPress={() =>
+      onPress={() => {
+        // Logando o vagaId para verificação
+        console.log('Vaga ID passando para CandidatosVaga:', item.id);
+
         router.push({
           pathname: '/(stack)/CandidatosVaga',
           params: { vagaId: item.id, titulo: item.Titulo },
-        })
-      }
+        });
+      }}
     >
       <Text style={styles.titulo}>{item.Titulo}</Text>
       <Text style={styles.descricao}></Text>
@@ -86,8 +88,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     padding: 20,
-    // borderWidth: 1,
-    // borderColor: "#6200ff"
   },
   list: {
     marginTop: 10,
