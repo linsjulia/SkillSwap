@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { auth } from '@/firebaseConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 export default function JobDetailsScreen() {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,16 +58,17 @@ export default function JobDetailsScreen() {
     setIsLoading(false);
   };
 
-  const handleCardPress = (empresaId: string) => {
-    AsyncStorage.setItem('IdEmpresa', empresaId)
-      .then(() => {
-        console.log('IdEmpresa armazenado:', empresaId);
-        router.push(`/profileUserPJ?Id_Usuario=${empresaId}`);
-      })
-      .catch((error) => {
-        console.error('Erro ao salvar no AsyncStorage:', error);
+
+  
+    const handleJobPress = () => {
+      router.push({
+        pathname: '/(stack)/profileUserPJ',
+        params: {
+          vagaIdT: vagaId,
+        },
       });
-  };
+    };
+  
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.containerBorder}>
@@ -75,7 +77,7 @@ export default function JobDetailsScreen() {
             <Text style={styles.title}>{title || 'Título da vaga'}</Text>
             <Text
               style={[styles.subtitle, { textDecorationLine: 'underline', color: '#8f3fff' }]}
-              onPress={() => handleCardPress(Array.isArray(vagaId) ? vagaId[0] : vagaId || '')}
+              onPress={() => handleJobPress()}
             >
               {nameEnterprise || 'Nome da empresa'}
             </Text>

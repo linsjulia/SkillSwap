@@ -18,9 +18,14 @@ export interface UserProfile {
 }
 
 const ProfileScreen: React.FC = () => {
+
+  const {
+    vagaIdT,
+  } = useLocalSearchParams()
+
+
   // Usando useLocalSearchParams para pegar parâmetros da URL
   const { userId, vagaId } = useLocalSearchParams() as { userId: string; vagaId: string };
-
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [bannerImageUrl, setBannerImageUrl] = useState<string | null>(null);

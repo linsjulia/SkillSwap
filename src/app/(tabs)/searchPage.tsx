@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-import { db } from '../../../firebaseConfig'; 
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { useRouter } from 'expo-router'; 
+import { db } from '../../../firebaseConfig';
+import { collection, query, where, onSnapshot, getDoc, doc } from 'firebase/firestore';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
 interface Vaga {
   image: string | number | (string | number)[] | null | undefined;
-  Empresa_ID: string | number | (string | number)[] | null | undefined;
   vagaId: string;
   Titulo: string;
   Categoria?: string;
@@ -22,7 +21,11 @@ interface Vaga {
 const JobSearchScreen = () => {
   const [searchText, setSearchText] = useState('');
   const [jobs, setJobs] = useState<Vaga[]>([]);
+  const [loading, setLoading] = useState(true); 
   const router = useRouter();
+
+
+
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -30,12 +33,25 @@ const JobSearchScreen = () => {
         ? query(collection(db, 'Vagas'), where('Titulo', '>=', searchText))
         : collection(db, 'Vagas');
 
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const unsubscribe = onSnapshot(q, async (querySnapshot) => {
         const jobList: Vaga[] = [];
-        querySnapshot.forEach((doc) => {
-          jobList.push({ vagaId: doc.id, ...doc.data() } as Vaga);
-        });
+
+        for (const docSnapshot of querySnapshot.docs) {
+          let jobData = { vagaId: docSnapshot.id, ...docSnapshot.data() } as Vaga;
+          
+   
+          if (jobData.EmpresaID) {
+            const empresaDoc = await getDoc(doc(db, 'Empresa', jobData.EmpresaID as string)); 
+            if (empresaDoc.exists()) {
+              jobData = { ...jobData, EmpresaID: empresaDoc.data().nome };
+            }
+          }
+
+          jobList.push(jobData);
+        }
+
         setJobs(jobList);
+        setLoading(false); 
       });
 
       return () => unsubscribe();
@@ -43,9 +59,6 @@ const JobSearchScreen = () => {
 
     fetchJobs();
   }, [searchText]);
-
-
-
 
   const handleJobPress = (item: Vaga) => {
     router.push({
@@ -60,7 +73,7 @@ const JobSearchScreen = () => {
         workForm: item.Forma_Trabalho,
         location: item.Localizacao,
         requirements: JSON.stringify(item.Exigencias),
-        benefits: JSON.stringify(item.Beneficios)
+        benefits: JSON.stringify(item.Beneficios),
       },
     });
   };
@@ -74,16 +87,19 @@ const JobSearchScreen = () => {
         onChangeText={setSearchText}
         style={styles.searchInput}
       />
-      {jobs.length > 0 ? (
+      {loading ? (
+        <Text style={styles.noJobs}>Carregando vagas...</Text>
+      ) : jobs.length > 0 ? (
         <FlatList
           data={jobs}
           keyExtractor={(item) => item.vagaId}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.jobItem}
-              onPress={() => handleJobPress(item)} 
+              onPress={() => handleJobPress(item)}
             >
               <Text style={styles.jobTitle}>{item.Titulo}</Text>
+              <Text style={styles.jobSubtitle}>{item.EmpresaID}</Text> {/* Nome da empresa */}
             </TouchableOpacity>
           )}
         />
@@ -121,6 +137,10 @@ const styles = StyleSheet.create({
   jobTitle: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  jobSubtitle: {
+    color: 'white',
+    fontSize: 12,
   },
   noJobs: {
     color: 'white',
