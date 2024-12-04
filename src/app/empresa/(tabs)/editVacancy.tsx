@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator }
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 import { auth } from '@/firebaseConfig';
 import { useRouter } from 'expo-router';
+import Icon from "react-native-vector-icons/Ionicons";
 
 const VagasEmpresa: React.FC = () => {
   const router = useRouter(); 
@@ -56,14 +57,19 @@ const VagasEmpresa: React.FC = () => {
         })
       }
     >
+
+      <View style={{  }}>
+     
       <Text style={styles.titulo}>{item.Titulo}</Text>
+      <Icon style={{ left: 300,}} name='pencil' size={20} color="white"></Icon>
+      </View>
       <Text style={styles.descricao}></Text>
     </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={{ color: "white", marginBottom: 30, textAlign: 'center', fontSize: 19,}}>Edição de Vagas</Text>
+      <Text style={{ color: "white", marginBottom: 40, marginTop: 20, textAlign: 'center', fontSize: 19, fontWeight: "bold"}}>Edição de Vagas</Text>
       {isLoading ? (
         <ActivityIndicator size="large" color="#fff" />
       ) : error ? (
@@ -84,31 +90,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
-    padding: 20,
-   
+    padding: 10,
     borderColor: "#6200ff"
   },
   list: {
     marginTop: 10,
-    
-    padding: 10,
-    borderWidth: 1,
+    gap: 20,
+    padding: 0,
     borderColor: "#6200ff",
     alignItems: "center",
     borderRadius: 15,
     justifyContent: "center",
     
-    
   },
   card: {
     backgroundColor: '#7600fd',
-    padding: 15,
+    padding: 10,
     marginBottom: 0,
     borderRadius: 8,
-    width: 300,
+    width: 350,
   },
   titulo: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#fff',
   },

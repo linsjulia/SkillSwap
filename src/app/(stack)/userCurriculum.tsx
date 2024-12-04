@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Alert, ScrollView, TouchableOpacity } from 'rea
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { db, doc, getDoc, deleteDoc, collection, addDoc, Timestamp } from '../../../firebaseConfig';
 import { useLocalSearchParams } from 'expo-router';
+import LinearGradient from 'react-native-linear-gradient';
 
 interface CurriculoData {
   Nome?: string;
@@ -154,6 +155,7 @@ const CurriculoScreen: React.FC = () => {
             <Text style={styles.infoText}>
               <Text style={styles.boldText}>Portfólio:</Text>
             </Text>
+    
           )}
         </View>
       </View>
@@ -173,7 +175,7 @@ const CurriculoScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   neonBorder: {
-    backgroundColor: '#000',
+    backgroundColor: '#000000',
     marginBottom: 5,
     flexGrow: 1,
     justifyContent: 'center',

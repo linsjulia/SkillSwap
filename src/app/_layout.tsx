@@ -467,7 +467,11 @@ export default function RootLayout() {
       }}
       />
       
-    
+  
+      <Stack.Screen 
+      name="(stack)/favoriteCandidatos"
+      />
+
     </Stack>
 
     

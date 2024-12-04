@@ -121,8 +121,6 @@ export default function ProfileScreen() {
           {UserProfile?.resumo || "Resumo não disponível"}
           
         </Text>
-      </View>
-
         <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
         <LinearGradient
         colors={['#9900ff', '#5900ff', '#0084ff']}
@@ -130,6 +128,9 @@ export default function ProfileScreen() {
         <Text style={styles.buttonText}>Visite nosso site</Text>
         </LinearGradient>
         </TouchableOpacity>
+      </View>
+
+    
 
 
       {/* Resumo */}
@@ -234,7 +235,7 @@ const styles = StyleSheet.create({
   },
   portfolioBox: {
     backgroundColor: '#12133f', 
-    height: 180,
+    height: 150,
     margin: 10,
     borderRadius: 10,
     marginBottom: 30
@@ -243,6 +244,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 65,
     borderRadius: 12,
+    top: 50,
     justifyContent: 'center',
     alignItems: 'center',
   },

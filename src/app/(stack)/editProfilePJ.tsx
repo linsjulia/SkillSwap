@@ -19,6 +19,8 @@ export interface UserProfile {
   area_atuacao: string;
   website: string;
   localizacao: string;
+  resumo: string;
+  cnpj: string;
  
 }
 
@@ -26,7 +28,7 @@ interface LoadingOverlayProps {
   visible: boolean;
 }
 
-export default function ProfileEmpresa({ nome, email, area_atuacao, website, localizacao }: UserProfile) {
+export default function ProfileEmpresa({ nome, email, area_atuacao, website, localizacao, resumo, cnpj }: UserProfile) {
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [bannerImageUrl, setBannerImageUrl] = useState<string | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -35,6 +37,8 @@ export default function ProfileEmpresa({ nome, email, area_atuacao, website, loc
   const [newAreaAtuacao, setNewAreaAtuacao] = useState(area_atuacao || "");
   const [newWebsite, setNewWebsite] = useState(website || "");
   const [newLocalizacao, setNewLocalizacao] = useState(localizacao || "");
+  const [newResumo, setNewResumo] = useState(resumo || "");
+  const [newCnpj, setNewCnpj] = useState(cnpj || "");
   const [loading, setLoading] = useState(false);
   const firestore = getFirestore();
   const [loadingData, setLoadingData] = useState(true);
@@ -51,6 +55,8 @@ export default function ProfileEmpresa({ nome, email, area_atuacao, website, loc
       website: website || "",  
       area_atuacao: area_atuacao || "",
       localizacao: localizacao || "",
+      resumo: resumo || "",
+      cnpj: cnpj || "",
     },
   });
 
@@ -127,7 +133,9 @@ export default function ProfileEmpresa({ nome, email, area_atuacao, website, loc
       newEmail?.trim(),
       newWebsite.trim(),
       newAreaAtuacao?.trim(),
-      newLocalizacao?.trim()
+      newLocalizacao?.trim(),
+      newResumo?.trim(),
+      newCnpj?.trim(),
     ].some((field) => field && field !== "");
   
     if (!isAnyFieldFilled) {
@@ -146,7 +154,8 @@ export default function ProfileEmpresa({ nome, email, area_atuacao, website, loc
       if (newWebsite?.trim()) updatedFields.website = newWebsite.trim();
       if (newAreaAtuacao?.trim()) updatedFields.area_atuacao = newAreaAtuacao.trim();
       if (newLocalizacao?.trim()) updatedFields.localizacao = newLocalizacao.trim();
-  
+      if (newResumo?.trim()) updatedFields.resumo = newResumo.trim();
+      if (newCnpj?.trim()) updatedFields.cnpj = newCnpj.trim();  
       await updateDoc(userDocRef, updatedFields);
   
       // Atualizar o estado local do perfil
@@ -169,7 +178,9 @@ export default function ProfileEmpresa({ nome, email, area_atuacao, website, loc
         email: "",
         website: "",
         area_atuacao: "",
-        localizacao: ""
+        localizacao: "",
+        resumo: "",
+        cnpj: ""
       });
     } catch (error) {
       setLoading(false);
@@ -254,6 +265,22 @@ export default function ProfileEmpresa({ nome, email, area_atuacao, website, loc
         />
         </View>
 
+
+           
+        <Text style={styles.label}>CNPJ</Text>
+        <View style={styles.inputContainer}>
+        <Icon name="mail-outline" size={20} color="#ffffff" style={styles.icon}/>
+        <TextInput
+          style={styles.input}
+          value={newCnpj}
+          onChangeText={setNewCnpj}
+          placeholderTextColor="#c2c0c0"
+          placeholder={userProfile?.cnpj || 'Digite seu CPF'} 
+        />
+        </View>
+
+
+
         <Text style={styles.label}>Localização</Text>
         <View style={styles.inputContainer}>
         <Icon name="location-outline" size={20} color="#ffffff" style={styles.icon}/>
@@ -290,6 +317,22 @@ export default function ProfileEmpresa({ nome, email, area_atuacao, website, loc
           </Picker>
           </View>
 
+          <Text style={styles.label}>Sobre você</Text>
+          <View style={styles.inputContainer}>
+          <Icon name="pencil" size={20} color="#ffffff" style={styles.icon}/>
+          <TextInput
+            style={styles.input}
+            value={newResumo}
+            onChangeText={setNewResumo}
+            placeholderTextColor="#c2c0c0"
+            placeholder={userProfile?.resumo || 'Digite uma descrição sobre sua empresa'}
+            multiline={true} 
+          />
+          </View>
+
+
+
+
         <Text style={styles.label}>Link do website</Text>
         <View style={styles.inputContainer}>
         <Icon name="link-outline" size={20} color="#ffffff" style={styles.icon}/>
@@ -298,7 +341,7 @@ export default function ProfileEmpresa({ nome, email, area_atuacao, website, loc
           value={newWebsite}
           onChangeText={setNewWebsite}
           placeholderTextColor="#c2c0c0"
-          placeholder={userProfile?.website || 'Digite o link do seu currículo'} 
+          placeholder={userProfile?.website || 'Digite o link do seu website'} 
         />
         </View>
 
@@ -319,7 +362,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 20,
     color: "#c2c0c0",
-    height: 37,
+    height: 55,
   },
 
   container: {
@@ -372,7 +415,7 @@ const styles = StyleSheet.create({
     bottom: 40,
   },
   formContainer: {
-    backgroundColor: '#7700ff',
+    backgroundColor: '#271653',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     borderBottomLeftRadius: 24,
@@ -380,6 +423,7 @@ const styles = StyleSheet.create({
     padding: 32,
     borderRadius: 0,
     
+    borderColor: "#6200ff",
     bottom: 20,
     margin: 10
     
@@ -393,10 +437,10 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#380077',
+    backgroundColor: '#32157a',
+    borderWidth: 1,
+    borderColor: "#6200ff",
     borderRadius: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#464646',
     marginBottom: 20,
     paddingBottom: 0,
     color: 'white',
@@ -422,12 +466,12 @@ const styles = StyleSheet.create({
   },
 
   saveButton: {
-    backgroundColor: "#00a2ff",
+    backgroundColor: "#00c3ff",
     padding: 15,
     borderRadius: 10,
     marginTop: 20,
     alignItems: "center",
-    shadowColor: '#024053', 
+    shadowColor: '#00bcf5', 
     shadowOffset: { width: 0, height: 4 }, 
     shadowOpacity: 0.5, 
     shadowRadius: 4, 

@@ -17,6 +17,7 @@ interface CurriculoData {
   horario?: string;
   Experiencia?: string;
   PdfLink?: string;
+  
 }
 
 const CurriculoScreen: React.FC = () => {
@@ -126,7 +127,7 @@ const CurriculoScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   neonBorder: {
-    backgroundColor: '#000', 
+    backgroundColor: '#000000', 
     // padding: 20,
     marginBottom: 5,
     flexGrow: 1,

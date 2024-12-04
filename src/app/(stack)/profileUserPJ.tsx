@@ -68,22 +68,22 @@ const ProfileScreen: React.FC = () => {
     <ScrollView contentContainerStyle={styles.container}>
       <Image
         source={bannerImageUrl ? { uri: bannerImageUrl } : require('../../assets/banner.png')}
-        style={{ height: 100, padding: 0 }}
+        style={{ height: 100, padding: 0, right: 30, bottom: 20  }}
       />
       <View style={styles.header}>
         <Image
           source={profileImageUrl ? { uri: profileImageUrl } : require('../../assets/user.png')}
           style={styles.profileImage}
         />
-        <Text style={styles.name}>{userProfile?.nome}</Text>
+        <Text style={styles.name}>{userProfile?.nome || "Erro"}</Text>
       </View>
 
       <View style={styles.infoContainer}>
         <Text style={styles.label}>Área de Atuação</Text>
-        <Text style={styles.value}>{userProfile?.area_atuacao}</Text>
+        <Text style={styles.value}>{userProfile?.area_atuacao || "Não Disponível"}</Text>
 
         <Text style={styles.label}>Contato</Text>
-        <Text style={[styles.value, styles.link]}>{userProfile?.email}</Text>
+        <Text style={[styles.value, styles.link]}>{userProfile?.email || "Erro"}</Text>
 
         <Text style={styles.label}>Localização</Text>
         <Text style={styles.value}>São Paulo</Text>
@@ -102,7 +102,7 @@ const ProfileScreen: React.FC = () => {
           }}
         >
           <LinearGradient colors={['#9900ff', '#5900ff', '#0084ff']} style={styles.gradient}>
-            <Text style={styles.buttonText}>Visite nosso website</Text>
+            <Text style={styles.buttonText}>Mais sobre nossa empresa</Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>
@@ -117,8 +117,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   header: {
+    top: 10,
+    paddingVertical: 0,
     alignItems: 'center',
-    marginTop: 20,
+    marginBottom: 0,
+    position: 'relative', 
   },
   profileImage: {
     width: 100,
@@ -169,7 +172,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#fff',
     textAlign: 'center',
   },

@@ -243,6 +243,7 @@ const styles = StyleSheet.create({
   applyButtonText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize: 16,
   },
   listItem: {
     color: '#fff',
@@ -269,6 +270,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 25,
     width: '100%',
-    padding: 12,
+    padding: 20,
   },
 });

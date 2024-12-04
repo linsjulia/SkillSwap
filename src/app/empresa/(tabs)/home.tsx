@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, Pressable } from 'react-native';
 import { getFirestore, collection, query, where, getDocs, doc } from 'firebase/firestore';
 import { auth } from '@/firebaseConfig';
 import { useRouter } from 'expo-router';
@@ -66,7 +66,7 @@ const VagasEmpresa: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{ color: "white", marginBottom: 30, textAlign: 'center', fontSize: 19,}}>Feed de Currículos</Text>
+      <Text style={{ color: "white", marginBottom: 30, textAlign: 'center', fontSize: 19, fontWeight: "bold"}}>Feed de Candidatos</Text>
       {isLoading ? (
         <ActivityIndicator size="large" color="#fff" />
       ) : error ? (
@@ -79,6 +79,7 @@ const VagasEmpresa: React.FC = () => {
           contentContainerStyle={styles.list}
         />
       )}
+
     </View>
   );
 };
@@ -90,11 +91,12 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   list: {
+    gap: 10,
     marginTop: 10,
   },
   card: {
     backgroundColor: '#7600fd',
-    padding: 15,
+    padding: 10,
     marginBottom: 10,
     borderRadius: 8,
   },

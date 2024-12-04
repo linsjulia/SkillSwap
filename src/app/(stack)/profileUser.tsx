@@ -15,6 +15,7 @@ export interface UserProfile {
   portfolio?: { url: string; description: string };
   area_atuacao: string;
   resumo: string;
+  bannerImageUrl?: string;
 }
 
 const ProfileUser: React.FC = () => {
@@ -36,12 +37,16 @@ const ProfileUser: React.FC = () => {
         console.log(userData);
 
         setUserProfile(userData);
+        
         if (userData.profileImageUrl) {
           setProfileImageUrl(userData.profileImageUrl);
         }
-        if (userData.portfolio && userData.portfolio.url) {
-          setBannerImageUrl(userData.portfolio.url); 
+
+        if (userData.bannerImageUrl) {
+          setBannerImageUrl(userData.bannerImageUrl)
         }
+
+       
       } else {
         console.log('Nenhum documento encontrado');
       }
@@ -64,10 +69,13 @@ const ProfileUser: React.FC = () => {
     }
   }, [userId]);
 
+
+  
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
-        source={bannerImageUrl ? { uri: bannerImageUrl } : require('../../assets/banner.png')}
+        source={bannerImageUrl ? {uri: bannerImageUrl }: require('../../assets/banner.png')}
         style={styles.bannerImage}
       />
       <View style={styles.header}>
@@ -117,9 +125,13 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   bannerImage: {
-    height: 100,
-    width: '100%',
+    height: 110,
     borderRadius: 8,
+    padding: 0,
+    right: 60, 
+    bottom: 20, 
+   
+    width: 450,
   },
   header: {
     alignItems: 'center',
@@ -130,7 +142,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 60,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: '#6200ff',
     marginTop: -60,
   },
   name: {

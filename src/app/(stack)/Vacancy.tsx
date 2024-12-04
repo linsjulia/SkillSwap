@@ -168,6 +168,7 @@ export default function EditJobFormScreen() {
           style={styles.input}
           placeholder="Descrição da vaga"
           placeholderTextColor="#888"
+          multiline={true}
           value={Descricao}
           onChangeText={setDescricao}
         />
@@ -194,11 +195,13 @@ const styles = StyleSheet.create({
   formContainer: {
     top: 0,
     width: 330,
-    paddingVertical: 20,
+    paddingVertical: 40,
     borderRadius: 15,
     borderColor: '#6f00ff',
     borderWidth: 2,
+    
     paddingHorizontal: 20,
+    
   },
   title: {
     fontSize: 20,
@@ -221,7 +224,7 @@ const styles = StyleSheet.create({
   },
   listItem: {
     color: '#FFF',
-    marginBottom: 5,
+    marginBottom: 15,
     marginLeft: 10,
   },
   submitButton: {

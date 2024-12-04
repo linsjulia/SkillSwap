@@ -21,13 +21,13 @@ export function InputsText({placaholder, style, ... rest}: RequisitosCampoDeText
             placeholderTextColor="white"
             placeholder={placaholder}
             {... rest}
-            className="border bg-indigo-950 border-indigo-600 text-white color w-96 rounded-2xl h-14 text-left px-6 my-4"
+            className=" bg-indigo-950  text-white color w-96 rounded-2xl h-14 text-left px-6 my-4"
             style={[{ 
-              
+              borderWidth: 1,
               borderColor: "#6f00ff",
               fontWeight: "700",
               letterSpacing: 1.3,
-              shadowColor: "cyan",
+              shadowColor: "#6f00ff",
               shadowOffset: { width: -2, height: 4 },
               shadowOpacity: 0.4,
               shadowRadius: 3,},  style]} 
