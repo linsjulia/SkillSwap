@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; 
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { getFirestore, collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { useLocalSearchParams, router } from 'expo-router';
@@ -66,10 +66,12 @@ const CandidatosVaga: React.FC = () => {
   }, [vagaId]);
 
   const handleCardPress = (userId: string) => {
+    // Salvando o userId no AsyncStorage
     AsyncStorage.setItem('IdUsuario', userId)
       .then(() => {
         console.log('IdUsuario armazenado:', userId);
-        router.push(`/profileUser?Id_Usuario=${userId}`);  
+        // Navegando para o perfil do usuário com o userId e vagaId
+        router.push(`/profileUser?userId=${userId}&vagaId=${vagaId}`);  
       })
       .catch((error) => {
         console.error('Erro ao salvar no AsyncStorage:', error);
