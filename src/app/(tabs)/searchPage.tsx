@@ -14,9 +14,9 @@ interface Vaga {
   Salario?: string;
   Forma_Trabalho?: string;
   Localizacao?: string;
-  nameEnterprise?: string;
-  benefits?: string[];
-  requirements?: string[];
+  EmpresaID?: string;
+  Beneficios?: string[];
+  Exigencias?: string[];
 }
 
 const JobSearchScreen = () => {
@@ -44,6 +44,9 @@ const JobSearchScreen = () => {
     fetchJobs();
   }, [searchText]);
 
+
+
+
   const handleJobPress = (item: Vaga) => {
     router.push({
       pathname: '/(stack)/jobDescription',
@@ -52,12 +55,12 @@ const JobSearchScreen = () => {
         title: item.Titulo,
         image: item.image,
         description: item.Descricao,
-        nome: item.nameEnterprise,
+        nameEnterprise: item.EmpresaID,
         salary: item.Salario,
         workForm: item.Forma_Trabalho,
         location: item.Localizacao,
-        requirements: JSON.stringify(item.requirements),
-        benefits: JSON.stringify(item.benefits)
+        requirements: JSON.stringify(item.Exigencias),
+        benefits: JSON.stringify(item.Beneficios)
       },
     });
   };
