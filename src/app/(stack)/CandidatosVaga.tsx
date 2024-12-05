@@ -85,8 +85,9 @@ const CandidatosVaga: React.FC = () => {
       ) : error ? (
         <View style={{ alignItems: "center"}}>
 
-        <Image style={{ width: 70, height: 70, }} source={require("../../assets/neutral2.png")}/>
+       
         <Text style={styles.errorText}>{error}</Text>
+        <Image style={{ width: 70, height: 70,  top: 40 }} source={require("../../assets/neutral2.png")}/>
         
         </View>
       ) : (
