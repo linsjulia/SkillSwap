@@ -393,7 +393,6 @@ export default function Register() {
 const styles = StyleSheet.create({
 
   overlay: {
-    
     position: 'absolute',
     zIndex: 10, 
     top: 0, 

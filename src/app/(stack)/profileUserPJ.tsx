@@ -1,8 +1,7 @@
-import { router, useLocalSearchParams } from 'expo-router'; // Importando hook
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator, Modal, Linking } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import React from 'react';
 
@@ -11,113 +10,125 @@ export interface UserProfile {
   email: string;
   data_nascimento: string;
   profileImageUrl?: string;
-  site: string;
-  portfolio?: { url: string; description: string };
+  bannerImageUrl?: string;
+  website: string | undefined;
   area_atuacao: string;
   resumo: string;
 }
 
-const ProfileScreen: React.FC = () => {
-
-  const {
-    vagaIdT,
-  } = useLocalSearchParams()
-
-
-  // Usando useLocalSearchParams para pegar parâmetros da URL
-  const { userId, vagaId } = useLocalSearchParams() as { userId: string; vagaId: string };
+export default function ProfileScreen() {
+  const { vagaIdT } = useLocalSearchParams() as { vagaIdT: string };
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [bannerImageUrl, setBannerImageUrl] = useState<string | null>(null);
-  const [empresaId, setEmpresaId] = useState<string>('');
+  const [website2, setWebsite] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const firestore = getFirestore();
 
-  // Função para buscar o perfil do usuário
   const getUserProfile = async () => {
-    if (!empresaId) return;
+    if (!vagaIdT) return;
 
     try {
-      const docRef = doc(firestore, 'Empresa', empresaId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setUserProfile(docSnap.data() as UserProfile);
+      setLoading(true); // Ativa o loading
+
+      const vagaRef = doc(firestore, 'Vagas', vagaIdT);
+      const vagaSnap = await getDoc(vagaRef);
+
+      if (vagaSnap.exists()) {
+        const empresaId = vagaSnap.data().EmpresaID;
+
+        if (empresaId) {
+          const empresaRef = doc(firestore, 'Empresa', empresaId);
+          const empresaSnap = await getDoc(empresaRef);
+
+          if (empresaSnap.exists()) {
+            const userData = empresaSnap.data() as UserProfile;
+
+            setUserProfile(userData);
+            setProfileImageUrl(userData.profileImageUrl || null);
+            setBannerImageUrl(userData.bannerImageUrl || null);
+            setWebsite(userData.website || null)
+          } else {
+            console.log("Documento da empresa não encontrado.");
+          }
+        } else {
+          console.log("EmpresaID não encontrado na vaga.");
+        }
       } else {
-        console.log("Nenhum documento encontrado");
+        console.log("Documento da vaga não encontrado.");
       }
     } catch (error) {
-      console.error("Erro ao buscar os dados do usuário", error);
+      console.error("Erro ao buscar os dados da vaga/empresa", error);
+    } finally {
+      setLoading(false); // Desativa o loading
     }
   };
 
   useEffect(() => {
-    const fetchUserID = async () => {
-      const storedEmpresaId = await AsyncStorage.getItem('IdEmpresa');
-      if (storedEmpresaId) {
-        setEmpresaId(storedEmpresaId);
-      } else {
-        console.log("Erro: EmpresaID não encontrado");
-      }
-    };
+    getUserProfile();
+  }, [vagaIdT]);
 
-    fetchUserID();
-  }, []);
 
-  useEffect(() => {
-    if (empresaId) {
-      getUserProfile();
+  const handleButtonPress = () => {
+    if (website2) {
+      Linking.openURL(website2); // Abre o link no navegador
+    } else {
+      alert("O link do site não está disponível.");
     }
-  }, [empresaId]);
+  };
+  
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image
-        source={bannerImageUrl ? { uri: bannerImageUrl } : require('../../assets/banner.png')}
-        style={{ height: 100, padding: 0, right: 30, bottom: 20  }}
-      />
-      <View style={styles.header}>
+    <View style={styles.container}>
+      <Modal visible={loading} transparent animationType="fade">
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#fff" />
+        </View>
+      </Modal>
+
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Image
-          source={profileImageUrl ? { uri: profileImageUrl } : require('../../assets/user.png')}
-          style={styles.profileImage}
+          source={bannerImageUrl ? { uri: bannerImageUrl } : require('../../assets/banner.png')}
+          style={{ height: 110, padding: 0, right: 20, bottom: 20, width: 390 }}
         />
-        <Text style={styles.name}>{userProfile?.nome || "Erro"}</Text>
-      </View>
+        <View style={styles.header}>
+          <Image
+            source={profileImageUrl ? { uri: profileImageUrl } : require('../../assets/user.png')}
+            style={styles.profileImage}
+          />
+          <Text style={styles.name}>{userProfile?.nome}</Text>
+        </View>
 
-      <View style={styles.infoContainer}>
-        <Text style={styles.label}>Área de Atuação</Text>
-        <Text style={styles.value}>{userProfile?.area_atuacao || "Não Disponível"}</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.label}>Área de Atuação</Text>
+          <Text style={styles.value}>{userProfile?.area_atuacao || "Não Disponível"}</Text>
 
-        <Text style={styles.label}>Contato</Text>
-        <Text style={[styles.value, styles.link]}>{userProfile?.email || "Erro"}</Text>
+          <Text style={styles.label}>Contato</Text>
+          <Text style={[styles.value, styles.link]}>{userProfile?.email || "Erro"}</Text>
 
-        <Text style={styles.label}>Localização</Text>
-        <Text style={styles.value}>São Paulo</Text>
+          <Text style={styles.label}>Resumo</Text>
+          <Text style={styles.value}>{userProfile?.resumo || "Não disponível"}</Text>
 
-        <Text style={styles.label}>Resumo</Text>
-        <Text style={styles.value}>
-          {userProfile?.resumo || "Não disponível"}
-        </Text>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            if (empresaId && vagaId) {
-              router.push(`/userCurriculum?userId=${empresaId}&vagaId=${vagaId}`);
-            }
-          }}
-        >
-          <LinearGradient colors={['#9900ff', '#5900ff', '#0084ff']} style={styles.gradient}>
-            <Text style={styles.buttonText}>Mais sobre nossa empresa</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+          <TouchableOpacity style={styles.button}
+          onPress={handleButtonPress}
+          >
+            <LinearGradient colors={['#9900ff', '#5900ff', '#0084ff']} style={styles.gradient}>
+              <Text style={styles.buttonText}>Mais sobre nossa empresa</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: '#1e1e1e',
+  },
+  scrollContainer: {
     padding: 20,
     flexGrow: 1,
   },
@@ -126,11 +137,11 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     alignItems: 'center',
     marginBottom: 0,
-    position: 'relative', 
+    position: 'relative',
   },
   profileImage: {
-    width: 100,
-    height: 100,
+    width: 94,
+    height: 94,
     borderRadius: 60,
     borderWidth: 1,
     borderColor: '#fff',
@@ -139,15 +150,15 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 19,
     color: '#fff',
-    marginTop: 15,
+    marginTop: 20,
     fontWeight: 'bold',
   },
   infoContainer: {
-    marginTop: 30,
+    marginTop: 60,
     borderWidth: 1,
     borderColor: '#5900ff',
     borderRadius: 16,
-    padding: 20,
+    padding: 25,
     backgroundColor: '#12133f',
     marginHorizontal: 10,
     marginBottom: 50,
@@ -165,14 +176,14 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   link: {
-    color: '#8f3fff',
+    color: '#7931ff',
     textDecorationLine: 'underline',
   },
   button: {
     marginTop: 40,
   },
   gradient: {
-    padding: 15,
+    padding: 17,
     borderRadius: 8,
     marginBottom: 20,
   },
@@ -180,8 +191,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
     textAlign: 'center',
+    fontWeight: "bold"
+  },
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
-
-export default ProfileScreen;
 

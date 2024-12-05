@@ -52,8 +52,6 @@ export default function ProfileScreen() {
 
   useEffect(() => {
     const fetchUserProfileBannerImage = async () => {
-   
-     
       const user = auth.currentUser;
       if (!user) return;
 
@@ -125,7 +123,7 @@ export default function ProfileScreen() {
         <LinearGradient
         colors={['#9900ff', '#5900ff', '#0084ff']}
         style={styles.gradient}>
-        <Text style={styles.buttonText}>Visite nosso site</Text>
+        <Text style={styles.buttonText}>Mais sobre nossa empresa</Text>
         </LinearGradient>
         </TouchableOpacity>
       </View>
@@ -202,16 +200,13 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   button: {
-    
-    paddingVertical: 42,
-    bottom: 55,
-    alignItems: 'center',
-    borderRadius: 8,
+    marginTop: 40,
   },
   buttonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
     fontSize: 16,
+    color: '#fff',
+    textAlign: 'center',
+    fontWeight: "bold"
   },
   section: {
     marginHorizontal: 20,
@@ -241,11 +236,8 @@ const styles = StyleSheet.create({
     marginBottom: 30
   },
   gradient: {
-    paddingVertical: 15,
-    paddingHorizontal: 65,
-    borderRadius: 12,
-    top: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 17,
+    borderRadius: 8,
+    marginBottom: 20,
   },
 });

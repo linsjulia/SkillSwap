@@ -321,7 +321,7 @@ export default function ProfileEmpresa({ nome, email, area_atuacao, website, loc
           <View style={styles.inputContainer}>
           <Icon name="pencil" size={20} color="#ffffff" style={styles.icon}/>
           <TextInput
-            style={styles.input}
+            style={styles.inputResumo}
             value={newResumo}
             onChangeText={setNewResumo}
             placeholderTextColor="#c2c0c0"
@@ -415,14 +415,13 @@ const styles = StyleSheet.create({
     bottom: 40,
   },
   formContainer: {
-    backgroundColor: '#271653',
+    backgroundColor: '#32157a',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
     padding: 32,
     borderRadius: 0,
-    
     borderColor: "#6200ff",
     bottom: 20,
     margin: 10
@@ -437,7 +436,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#32157a',
+    backgroundColor: '#4720ac',
     borderWidth: 1,
     borderColor: "#6200ff",
     borderRadius: 10,
@@ -455,6 +454,17 @@ const styles = StyleSheet.create({
     padding: 0,
     height: 37,
     bottom: 3,   
+  },
+
+  inputResumo: {
+    flex: 1,
+    marginLeft: 30,
+    fontSize: 14,
+    color: '#ffffff',
+    padding: 0,
+    height: 37,
+    bottom: 3,   
+
   },
 
   overlayLoading: {

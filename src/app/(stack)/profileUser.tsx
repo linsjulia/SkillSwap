@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Modal, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, router } from 'expo-router';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
@@ -23,12 +23,16 @@ const ProfileUser: React.FC = () => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [bannerImageUrl, setBannerImageUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  
   const firestore = getFirestore();
 
   const getUserProfile = async () => {
     if (!userId) return;
 
     try {
+      setLoading(true);
+
       const docRef = doc(firestore, 'Usuário', userId);
       const docSnap = await getDoc(docRef);
 
@@ -52,6 +56,8 @@ const ProfileUser: React.FC = () => {
       }
     } catch (error) {
       console.error('Erro ao buscar os dados do usuário', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -73,7 +79,15 @@ const ProfileUser: React.FC = () => {
   
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+
+    <View style={styles.container}>
+      <Modal visible={loading} transparent animationType="fade">
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#fff" />
+        </View>
+      </Modal>
+
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
       <Image
         source={bannerImageUrl ? {uri: bannerImageUrl }: require('../../assets/banner.png')}
         style={styles.bannerImage}
@@ -115,15 +129,22 @@ const ProfileUser: React.FC = () => {
         </TouchableOpacity>
       </View>
     </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1e1e1e',
+    backgroundColor: '#000000',
+    padding: 0,
+    flexGrow: 1,
+  },
+
+  scrollContainer: {
     padding: 20,
     flexGrow: 1,
   },
+
   bannerImage: {
     height: 110,
     borderRadius: 8,
@@ -143,7 +164,7 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     borderWidth: 1,
     borderColor: '#6200ff',
-    marginTop: -60,
+    marginTop: -70,
   },
   name: {
     fontSize: 19,
@@ -189,6 +210,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#fff',
     textAlign: 'center',
+  },
+
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

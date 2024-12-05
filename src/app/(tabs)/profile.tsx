@@ -2,17 +2,18 @@ import { auth } from '@/firebaseConfig';
 import { router } from 'expo-router';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Pressable } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Pressable, Button, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export interface UserProfile {
   nome: string;
   email: string;
+  localizacao: string;
   data_nascimento: string;
   profileImageUrl?: string; 
   site: string;
-  portfolio?: { url: string; description: string };
+  portfolio?: string;
   area_atuacao: string;
   resumo?: string;
 }
@@ -63,6 +64,15 @@ export default function ProfileScreen() {
     fetchUserProfileBannerImage();
   }, []);
 
+  
+  const handleButtonPress = () => {
+    if (UserProfile?.portfolio) {
+      Linking.openURL(UserProfile.portfolio); // Abre o link no navegador
+    } else {
+      alert("O link do site não está disponível.");
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image 
@@ -94,7 +104,14 @@ export default function ProfileScreen() {
         <Text style={[styles.value, styles.link]}>{UserProfile?.email}</Text>
 
         <Text style={styles.label}>Localização</Text>
-        <Text style={styles.value}>São Paulo</Text>
+        <Text style={styles.value}>{UserProfile?.localizacao}</Text>
+
+        <Text style={styles.label}>Portfólio</Text>
+        <Pressable
+        onPress={handleButtonPress}
+        >
+        <Text style={[styles.value, styles.link]}>{UserProfile?.portfolio}</Text>
+        </Pressable>
 
         <Text style={styles.label}>Resumo</Text>
         <Text style={styles.value}>
@@ -175,7 +192,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   link: {
-    color: '#8400ff',
+    color: '#7949ff',
     textDecorationLine: 'underline',
   },
   button: {

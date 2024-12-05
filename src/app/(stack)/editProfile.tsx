@@ -18,7 +18,7 @@ export interface UserProfile {
   nome: string;
   email: string;
   data_nascimento: string;
-  portfolio?: { url: string; description: string };
+  portfolio?: string;
   area_atuacao: string;
   telefone: string;
   resumo: string;
@@ -38,8 +38,7 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
   const [newEmail, setNewEmail] = useState(email || "");
   const [newTelefone, setNewTelefone] = useState(telefone || "");
   const [newDataNascimento, setNewDataNascimento] = useState(data_nascimento || "");
-  const [newPortfolioUrl, setNewPortfolioUrl] = useState(portfolio?.url || "");
-  const [newPortfolioDescription, setNewPortfolioDescription] = useState(portfolio?.description || "");
+  const [newPortfolio, setNewPortfolio] = useState(portfolio || "");
   const [newCurriculoUrl, setNewCurriculoUrl] = useState(curriculo || "");
   const [newAreaAtuacao, setNewAreaAtuacao] = useState(area_atuacao || "");
   const [newResumo, setNewResumo] = useState(resumo || "");
@@ -64,8 +63,7 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
       email: email || "",
       telefone: telefone || "",
       data_nascimento: data_nascimento || "",
-      portfolioUrl: portfolio?.url || "",
-      portfolioDescription: portfolio?.description || "",
+      portfolio: portfolio || "",
       curriculo: curriculo || "",
       area_atuacao: area_atuacao || "",
       resumo: resumo || "",
@@ -88,7 +86,7 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
       if (userDoc.exists()) {
         setProfileImageUrl(userDoc.data()?.profileImageUrl || null);
         setBannerImageUrl(userDoc.data()?.bannerImageUrl || null);
-        setNewPortfolioUrl(userDoc.data()?.portfolioImageUrl || null);
+        
       }
       setLoadingData(false);
     };
@@ -115,15 +113,6 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
   };
 
   
-  const handlePortfolioUpdate = async () => {
-    setLoadingPortfolio(true);
-    const newPortfolioUrl = await selectAndUploadPortfolioImage();
-    if (newPortfolioUrl) {
-      setPortfolioImageUrl(newPortfolioUrl);
-    }
-    setLoadingPortfolio(false);
-  };
-
 
   useEffect(() => {
     const getUserProfile = async () => {
@@ -139,8 +128,8 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
           setUserProfile(data);
 
           if (data.portfolio) {
-            setNewPortfolioUrl(data.portfolio.url || "");
-            setNewPortfolioDescription(data.portfolio.description || "");
+            setNewPortfolio(data.portfolio || "");
+    
           }
           if (data.curriculo) {
             setNewCurriculoUrl(data.curriculo || "");
@@ -165,8 +154,7 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
     newEmail?.trim(),
     newTelefone?.trim(),
     newDataNascimento?.trim(),
-    newPortfolioUrl?.trim(),
-    newPortfolioDescription?.trim(),
+    newPortfolio?.trim(),
     newCurriculoUrl?.trim(),
     newAreaAtuacao?.trim(),
     newResumo?.trim(),
@@ -188,12 +176,7 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
     if (newEmail?.trim()) updatedFields.email = newEmail.trim();
     if (newTelefone?.trim()) updatedFields.telefone = newTelefone.trim();
     if (newDataNascimento?.trim()) updatedFields.data_nascimento = newDataNascimento.trim();
-    if (newPortfolioUrl?.trim() || newPortfolioDescription?.trim()) {
-      updatedFields.portfolio = {
-        url: newPortfolioUrl.trim() || "",
-        description: newPortfolioDescription.trim() || "",
-      };
-    }
+    if (newPortfolio?.trim()) updatedFields.portfolio = newPortfolio.trim();
     if (newCurriculoUrl?.trim()) updatedFields.curriculo = newCurriculoUrl.trim();
     if (newAreaAtuacao?.trim()) updatedFields.area_atuacao = newAreaAtuacao.trim();
     if(newResumo?.trim()) updatedFields.resumo = newResumo.trim();
@@ -378,10 +361,10 @@ export default function Profile({ nome, email, data_nascimento, portfolio, area_
         <Icon name="link-outline" size={20} color="#ffffff" style={styles.icon}/>
         <TextInput
           style={styles.input}
-          value={newPortfolioUrl}
-          onChangeText={setNewPortfolioUrl}
+          value={newPortfolio}
+          onChangeText={setNewPortfolio}
           placeholderTextColor="white"
-          placeholder={userProfile?.portfolio?.url || 'Digite o link do seu portfólio'}
+          placeholder={userProfile?.portfolio || 'Digite o link do seu portfólio'}
         />
         </View>
 
@@ -456,6 +439,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#111',
     borderWidth: 1,
     borderColor: '#00a2ff',
+    shadowColor: '#00bcf5', 
+    shadowOffset: { width: 0, height: 4 }, 
+    shadowOpacity: 0.5, 
+    shadowRadius: 4, 
+    elevation: 3, 
   },
   nameText: {
     fontSize: 20,
@@ -469,14 +457,14 @@ const styles = StyleSheet.create({
     bottom: 40,
   },
   formContainer: {
-    backgroundColor: '#7700ff',
+    backgroundColor: '#32157a',
+    borderColor: "#6200ff",
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
     padding: 32,
     borderRadius: 0,
-    
     bottom: 20,
     margin: 10
     
@@ -490,10 +478,10 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#380077',
+    backgroundColor: '#4720ac',
+    borderWidth: 1,
+    borderColor: "#6200ff",
     borderRadius: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#464646',
     marginBottom: 20,
     paddingBottom: 0,
     color: 'white',
@@ -510,6 +498,8 @@ const styles = StyleSheet.create({
     bottom: 3,   
   },
 
+  
+
   overlayLoading: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
@@ -519,12 +509,12 @@ const styles = StyleSheet.create({
   },
 
   saveButton: {
-    backgroundColor: "#00a2ff",
+    backgroundColor: "#00c3ff",
     padding: 15,
     marginTop: 20,
     borderRadius: 10,
     alignItems: "center",
-    shadowColor: '#000', 
+    shadowColor: '#00bcf5', 
     shadowOffset: { width: 0, height: 4 }, 
     shadowOpacity: 0.5, 
     shadowRadius: 4, 

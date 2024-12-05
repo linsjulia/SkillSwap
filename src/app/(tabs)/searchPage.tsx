@@ -26,7 +26,6 @@ const JobSearchScreen = () => {
 
 
 
-
   useEffect(() => {
     const fetchJobs = async () => {
       const q = searchText
@@ -43,7 +42,7 @@ const JobSearchScreen = () => {
           if (jobData.EmpresaID) {
             const empresaDoc = await getDoc(doc(db, 'Empresa', jobData.EmpresaID as string)); 
             if (empresaDoc.exists()) {
-              jobData = { ...jobData, EmpresaID: empresaDoc.data().nome };
+              jobData = { ...jobData, EmpresaID: empresaDoc.data().nome};
             }
           }
 
@@ -87,6 +86,7 @@ const JobSearchScreen = () => {
         onChangeText={setSearchText}
         style={styles.searchInput}
       />
+
       {loading ? (
         <Text style={styles.noJobs}>Carregando vagas...</Text>
       ) : jobs.length > 0 ? (
@@ -99,7 +99,7 @@ const JobSearchScreen = () => {
               onPress={() => handleJobPress(item)}
             >
               <Text style={styles.jobTitle}>{item.Titulo}</Text>
-              <Text style={styles.jobSubtitle}>{item.EmpresaID}</Text> {/* Nome da empresa */}
+              <Text style={styles.jobSubtitle}>{item.EmpresaID}</Text>
             </TouchableOpacity>
           )}
         />
@@ -137,10 +137,12 @@ const styles = StyleSheet.create({
   jobTitle: {
     color: 'white',
     fontWeight: 'bold',
+    
   },
   jobSubtitle: {
     color: 'white',
     fontSize: 12,
+    
   },
   noJobs: {
     color: 'white',

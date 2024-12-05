@@ -45,7 +45,6 @@ export default function CurriculumScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
 
-  const auth = getAuth();
 
   useEffect(() => {
     if (!userId || !vagaId) {
