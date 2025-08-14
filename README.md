@@ -1,4 +1,4 @@
-# 📱💜 SkillSwap App 💜📱
+<h1 align="center">📱💜 SkillSwap App 💜📱</h1>
 
 <p align="center">
   <em>Bem-vindo ao <strong>SkillSwap App</strong>, a versão mobile da nossa agência de freelancers, feita para <strong>programadores</strong> encontrarem oportunidades e empresas conectarem-se com talentos!</em>
