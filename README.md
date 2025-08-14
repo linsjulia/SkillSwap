@@ -1,50 +1,80 @@
-# Welcome to your Expo app 👋
+# 📱💜 SkillSwap App 💜📱
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<p align="center">
+  <em>Bem-vindo ao <strong>SkillSwap App</strong>, a versão mobile da nossa agência de freelancers, feita para <strong>programadores</strong> encontrarem oportunidades e empresas conectarem-se com talentos!</em>
+</p>
 
-## Get started
+<hr>
 
-1. Install dependencies
+## 🌟 Sobre o Projeto
+O SkillSwap App nasceu com o objetivo de:  
+**facilitar a conexão entre empresas e freelancers/programadores** diretamente pelo celular, oferecendo uma experiência prática, intuitiva e funcional.  
 
+Cada detalhe foi pensado para que **buscar ou preencher vagas seja rápido e eficiente** 🚀
+
+<hr>
+
+## 🛠️ Tecnologias Usadas
+- TypeScript 💜  
+- React Native 📱  
+- JavaScript 💜  
+- Firebase 🔥 (Autenticação, Firestore e Realtime Database)  
+- Expo 🧩 (para rodar o app no celular)
+
+<hr>
+
+## 💼 Funcionalidades
+
+### 🏢 Para Empresas:
+- 📝 Criar e gerenciar vagas  
+- 📄 Visualizar currículos de candidatos  
+- 🛠️ Editar perfil da empresa  
+- 👀 Visualizar perfil dos candidatos  
+- 📌 Detalhes completos da vaga  
+
+### 👨‍💻 Para Freelancers/Usuários:
+- ✏️ Criar e editar currículos  
+- 🔍 Visualizar vagas disponíveis  
+- 🔔 Receber notificações de novas oportunidades  
+- 👤 Visualizar perfil próprio e de outros usuários  
+- 💡 Pesquisar vagas e empresas com facilidade  
+
+<hr>
+
+<h2>👩‍💻 Desenvolvedoras</h2>
+<ul>
+  <li>💜<a href="https://github.com/NicoleOG12" target="_blank" rel="noopener noreferrer">Nicole Oliveira Gonçalves</a></li>
+  <li>💜<a href="https://github.com/linsjulia" target="_blank" rel="noopener noreferrer">Júlia Lins Pereira da Silva</a></li>
+</ul>
+
+<hr>
+
+## ✨ Como Rodar o App
+Siga os passos abaixo para rodar o SkillSwap App no seu dispositivo:
+
+1. 📥 Clone o repositório:  
    ```bash
-   npm install
-   ```
+   git clone https://github.com/SkilllSwap/SkillSwap-APP.git
 
-2. Start the app
+2. 📂 Entre na pasta do projeto: 
+    ```bash
+    cd skillswap-app
+   
+3. ⚡ Instale as dependências:
+    ```bash
+    npm install
 
+4. 📱 Rode o app com Expo:
    ```bash
-    npx expo start
-   ```
+   npx expo start
 
-In the output, you'll find options to open the app in a
+5. Abra no celular pelo Expo Go ou emulador.
+   
+<hr>
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+<p>📚 Este projeto foi desenvolvido como <strong>TCC</strong> para o curso de <strong>Desenvolvimento de Sistemas</strong> em <strong>2024</strong> 🎓</p>
+<p>Obrigada por apoiar esse projeto!<br>
+Com carinho,<br>
+<strong>Equipe SkillSwap</strong> 📱💜</p>
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
